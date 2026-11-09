@@ -87,7 +87,6 @@
     .hero-box p { color: #bbf7d0; font-size: 0.85rem; margin-top: 0.3rem; }
     .mascot-svg { width: 75px; height: 75px; flex-shrink: 0; }
 
-    /* Barra de navegación de 3 pestañas (Inicio, Historial, Ajustes) */
     .nav-links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; background: var(--card-bg); padding: 0.6rem 0.5rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); border: 1px solid #f1f5f9; }
     .nav-tab { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; background: none; border: none; color: var(--text-muted); font-size: 0.75rem; font-weight: 700; cursor: pointer; padding: 0.5rem 0.2rem; border-radius: var(--radius-md); }
     .nav-tab svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; }
@@ -139,7 +138,7 @@
       </div>
 
       <div id="baseline-notice" class="notice-banner baseline" style="display:none;">
-        <span id="baseline-notice-text">Día de diagnóstico: hoy solo observa y registra sin apagar.</span>
+        <span id="baseline-notice-text">Primer uso (Diagnóstico): Hoy solo observa y registra sin apagar.</span>
       </div>
 
       <button class="btn btn-primary" style="font-size: 1.05rem; min-height: 56px;" onclick="startRonda()">
@@ -189,7 +188,7 @@
 
       <div class="card">
         <div id="observation-mode-badge" style="font-size: 0.8rem; background: var(--baseline-light); color: var(--baseline-color); padding: 0.35rem 0.6rem; border-radius: 8px; display: none; font-weight: 700;">
-          👁️ Modo Observación: Hoy no apagues nada todavía
+          👁️ Modo Observación (Primer Uso): Hoy no apagues nada todavía
         </div>
 
         <div id="assigned-person-badge" style="font-size: 0.85rem; background: var(--primary-light); color: var(--primary-dark); padding: 0.4rem 0.7rem; border-radius: 8px; font-weight: 700; display: none;">
@@ -282,10 +281,10 @@
 
       <div class="card" style="border-color: var(--baseline-color); background-color: var(--baseline-light);">
         <label style="color: var(--baseline-color);">🧪 Panel de Pruebas / Demostración</label>
-        <p style="font-size:0.8rem; color:var(--text-muted);">Fuerza el modo de la ronda al instante:</p>
+        <p style="font-size:0.8rem; color:var(--text-muted);">Fuerza el estado del historial al instante:</p>
         <div style="display: flex; gap: 0.5rem;">
-          <button class="btn btn-secondary" style="font-size:0.8rem; flex:1;" onclick="setDemoMode(1)">Modo Observación (Día 1)</button>
-          <button class="btn btn-primary" style="font-size:0.8rem; flex:1;" onclick="setDemoMode(2)">Modo Acción (Día 2+)</button>
+          <button class="btn btn-secondary" style="font-size:0.8rem; flex:1;" onclick="setDemoMode(1)">Modo Observación (0 rondas)</button>
+          <button class="btn btn-primary" style="font-size:0.8rem; flex:1;" onclick="setDemoMode(2)">Modo Acción (1+ rondas)</button>
         </div>
       </div>
 
@@ -301,7 +300,7 @@
     <section id="screen-ajustes-personas" class="screen">
       <h2>👥 Integrantes del hogar</h2>
       <div class="card">
-        <p style="font-size: 0.875rem;">Agrega a todos los participantes. Las 10 preguntas se intercalarán y distribuirán entre ellos:</p>
+        <p style="font-size: 0.875rem;">Agrega a todos los participantes. Las preguntas se repartirán equitativamente entre ellos:</p>
         <div class="form-group">
           <label for="input-nuevo-integrante">Nombre del integrante</label>
           <div style="display: flex; gap: 0.5rem;">
@@ -468,13 +467,9 @@
       if (screenId === 'ajustes-habitaciones') renderHabitacionesAjustes();
     }
 
-    // El ciclo de observación dura exactamente 1 día (si no hay rondas previas o la primera fue hoy)
+    // El modo observación se quita estrictamente después del primer uso (si ya existe al menos 1 ronda registrada)
     function isObservationMode() {
-      if (state.rondas.length === 0) return true;
-      const firstDate = new Date(state.rondas[0].fecha + 'T00:00:00');
-      const todayDate = new Date(getLocalTodayString() + 'T00:00:00');
-      const daysElapsed = (todayDate - firstDate) / (1000 * 60 * 60 * 24);
-      return daysElapsed < 1;
+      return state.rondas.length === 0;
     }
 
     function calculateStreak() {
@@ -535,14 +530,13 @@
 
       const baselineNotice = document.getElementById('baseline-notice');
       if (isObservationMode()) {
-        document.getElementById('baseline-notice-text').innerText = state.rondas.length === 0 ? "Día 1: Ronda de diagnóstico (solo observa)." : "Estás en el primer día de observación.";
+        document.getElementById('baseline-notice-text').innerText = "Primer uso (Diagnóstico): Hoy solo observa y registra sin apagar.";
         baselineNotice.style.display = 'flex';
       } else {
         baselineNotice.style.display = 'none';
       }
     }
 
-    // Intercala y divide las preguntas equitativamente entre los integrantes registrados
     function startRonda() {
       let rawQuestions = [];
       const isObs = isObservationMode();
@@ -576,16 +570,11 @@
         return;
       }
 
-      // Asignación equitativa e intercalada entre personas
       if (state.personas && state.personas.length > 0) {
         const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
         const personIndex = dayOfYear % state.personas.length;
         assignedPersonName = state.personas[personIndex];
-
-        // Filtrar preguntas que le tocan a esta persona en específico (intercaladas)
         activeQuestions = rawQuestions.filter((q, idx) => idx % state.personas.length === personIndex);
-        
-        // Si por alguna razón el filtro da vacío, asignamos todas
         if (activeQuestions.length === 0) activeQuestions = rawQuestions;
       } else {
         assignedPersonName = '';
@@ -768,17 +757,12 @@
     }
 
     function setDemoMode(mode) {
-      const today = new Date();
       if (mode === 1) {
         state.rondas = [];
-        alert("Modo cambiado a: OBSERVACIÓN (Día 1)");
+        alert("Modo cambiado a: OBSERVACIÓN (0 rondas guardadas)");
       } else {
-        const pastDate = new Date(today);
-        pastDate.setDate(pastDate.getDate() - 2);
-        const pastDateStr = `${pastDate.getFullYear()}-${String(pastDate.getMonth()+1).padStart(2,'0')}-${String(pastDate.getDate()).padStart(2,'0')}`;
-        
-        state.rondas = [{ fecha: pastDateStr, apagados: 3, practica: true }];
-        alert("Modo cambiado a: ACCIÓN (Día 2+, fuera de observación)");
+        state.rondas = [{ fecha: getLocalTodayString(), apagados: 2, practica: true }];
+        alert("Modo cambiado a: ACCIÓN (1+ rondas guardadas)");
       }
       saveState();
       navTo('inicio');
