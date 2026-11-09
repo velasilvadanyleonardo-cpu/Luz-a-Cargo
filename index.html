@@ -309,7 +309,6 @@
 </head>
 <body>
   <div id="app">
-    <!-- Alertas independientes para Almacenamiento Bloqueado y Datos Dañados -->
     <div id="storage-lock-alert" class="alert-banner" style="display:none;">
       Almacenamiento bloqueado: No se pudo guardar la información en el navegador (modo privado o sin espacio).
     </div>
@@ -343,7 +342,7 @@
 
       <div class="nav-links">
         <button onclick="navTo('lectura')">Lectura semanal</button>
-        <button onclick="navTo('historial')">Historial</button>
+        <button onclick="navTest('historial')">Historial</button>
         <button onclick="navTo('ajustes')">Ajustes</button>
         <button onclick="navTo('info')">Acerca del proyecto</button>
       </div>
@@ -510,9 +509,10 @@
   </div>
 
   <script>
+    // Preguntas con lenguaje cotidiano, general y cercano para cualquier hogar, aula u oficina
     const QUESTIONS_DEF = [
       { id: 'sala_luces', room: 'Sala', q: '¿Hay luces encendidas sin nadie?', cat: 'luces' },
-      { id: 'sala_tv', room: 'Sala', q: '¿El televisor, decodificador o equipo de sonido siguen encendidos sin uso?', cat: 'tv_audio' },
+      { id: 'sala_tv', room: 'Sala', q: '¿El televisor o los equipos de entretenimiento siguen encendidos sin uso?', cat: 'tv_audio' },
       { id: 'sala_cargadores', room: 'Sala', q: '¿Hay cargadores enchufados sin usar?', cat: 'cargadores' },
       
       { id: 'cocina_luces', room: 'Cocina', q: '¿Hay luz encendida sin nadie?', cat: 'luces' },
@@ -520,11 +520,11 @@
       { id: 'cocina_refri', room: 'Cocina', q: '¿La puerta de la refrigeradora quedó mal cerrada o entreabierta?', cat: 'refrigeradora' },
 
       { id: 'dorm_luces', room: 'Dormitorio', q: '¿Hay luz encendida sin nadie?', cat: 'luces' },
-      { id: 'dorm_equipos', room: 'Dormitorio', q: '¿Hay televisor, ventilador o calefactor encendidos sin nadie?', cat: 'tv_audio' },
+      { id: 'dorm_equipos', room: 'Dormitorio', q: '¿Hay televisor, ventilador o estufa encendidos sin nadie?', cat: 'tv_audio' },
       { id: 'dorm_cargadores', room: 'Dormitorio', q: '¿Hay cargadores enchufados sin el celular?', cat: 'cargadores' },
 
       { id: 'bano_luces', room: 'Baño', q: '¿Hay luz encendida sin nadie?', cat: 'luces' },
-      { id: 'bano_terma', room: 'Baño', q: '¿La terma o la ducha eléctrica está encendida sin que nadie la vaya a usar pronto?', cat: 'terma', safety: true },
+      { id: 'bano_terma', room: 'Baño', q: '¿La ducha eléctrica o calentador de agua está encendido sin que nadie lo vaya a usar pronto?', cat: 'terma', safety: true },
 
       { id: 'patio_luces', room: 'Patio o pasillo', q: '¿Hay luces exteriores encendidas de día?', cat: 'exteriores' }
     ];
@@ -532,7 +532,7 @@
     const DEFAULT_STATE = {
       personas: [],
       habitaciones: ['Sala', 'Cocina', 'Dormitorio', 'Baño', 'Patio o pasillo'],
-      customQuestions: [], // [{id, room, q}]
+      customQuestions: [], 
       tarifa: null,
       hiddenQuestions: [],
       rondas: [],
@@ -548,7 +548,6 @@
     let countObservadosSession = 0;
     let answeredHistoryStack = [];
 
-    // Función de fecha local considerando corte a las 4:00 a.m. para rondas nocturnas (Ajuste 10)
     function getLocalTodayString() {
       const d = new Date();
       if (d.getHours() < 4) {
@@ -604,7 +603,6 @@
             lecturas: Array.isArray(parsed.lecturas) ? parsed.lecturas : []
           };
         } catch (e) {
-          // Resguardo de datos dañados con copia de seguridad y alerta específica
           try {
             localStorage.setItem('luz_a_cargo_backup', data);
           } catch (err) {}
@@ -642,7 +640,10 @@
       if (screenId === 'ajustes') renderAjustes();
     }
 
-    // --- CÁLCULO DE RACHA ESTRICTO CON FECHA LOCAL ---
+    function navTest(screenId) {
+      navTo(screenId);
+    }
+
     function calculateStreak() {
       if (state.rondas.length === 0) return 0;
       
@@ -711,7 +712,6 @@
         turnInfo.style.display = 'none';
       }
 
-      // Comparativa de comportamiento (Encontrados vs Apagados)
       const behaviorSummary = document.getElementById('behavior-summary');
       const observationRondas = state.rondas.filter(r => r.practica);
       const normalRondas = state.rondas.filter(r => !r.practica);
@@ -731,7 +731,6 @@
         baselineNotice.style.display = 'none';
         readingDueNotice.style.display = 'none';
       } else if (state.lecturas.length === 1) {
-        // Calcular fecha estimada para la segunda lectura (7 días después de la primera)
         const firstDate = new Date(state.lecturas[0].fecha + 'T00:00:00');
         firstDate.setDate(firstDate.getDate() + 7);
         const targetDateStr = firstDate.toISOString().split('T')[0];
@@ -751,7 +750,6 @@
       }
     }
 
-    // --- RONDA ---
     function startRonda() {
       activeQuestions = [];
       const isObservation = state.lecturas.length === 1;
@@ -808,14 +806,6 @@
       document.getElementById('ronda-progress').innerText = `Pregunta ${currentQIndex + 1} de ${activeQuestions.length}`;
       document.getElementById('ronda-question').innerText = q.q;
 
-      // Adaptar texto del botón de observación según la pregunta (Ajuste 8)
-      const btnObsFound = document.getElementById('btn-obs-found');
-      if (q.id.includes('refri') || q.q.toLowerCase().includes('puerta')) {
-        btnObsFound.innerText = 'Lo encontré así';
-      } else {
-        btnObsFound.innerText = 'Lo encontré así';
-      }
-
       document.getElementById('btn-back-q').style.display = currentQIndex > 0 ? 'inline-flex' : 'none';
 
       const safetyWarning = document.getElementById('safety-warning');
@@ -855,7 +845,6 @@
         if (lastAnswer.action === 'apagado') countApagadosSession--;
         if (lastAnswer.action === 'obs_encendido') countObservadosSession--;
         
-        // Deshacer "No tengo esto" al retroceder (Ajuste 2)
         if (lastAnswer.action === 'no_tengo') {
           const hIdx = state.hiddenQuestions.indexOf(lastAnswer.qId);
           if (hIdx >= 0) {
@@ -887,7 +876,6 @@
       const todayStr = getLocalTodayString();
       const isObservation = state.lecturas.length === 1;
 
-      // Impedir mezclar ronda de observación y normal el mismo día (Ajuste 4)
       const existingRonda = state.rondas.find(r => r.fecha === todayStr);
       if (existingRonda) {
         if (existingRonda.practica !== isObservation) {
@@ -926,7 +914,6 @@
       navTo('fin-ronda');
     }
 
-    // --- LECTURA SEMANAL ---
     function renderLectura() {
       const todayStr = getLocalTodayString();
       const dateInput = document.getElementById('input-fecha-lectura');
@@ -1001,7 +988,6 @@
         const daysBase = (new Date(baseEnd.fecha + 'T00:00:00') - new Date(baseStart.fecha + 'T00:00:00')) / (1000 * 60 * 60 * 24);
         const kwhDayBase = daysBase > 0 ? (baseEnd.kwh - baseStart.kwh) / daysBase : 0;
         
-        // Referencia visible al cerrar semana de partida (Ajuste 5)
         msgText.innerText = `Semana de partida completada. Tu semana de partida: ${kwhDayBase.toFixed(1)} kWh por día. A partir de ahora entras en semanas con cambios.`;
         renderChart();
       } else {
@@ -1028,7 +1014,6 @@
           let dineroTexto = '';
           let ahorroAcumuladoSoles = 0;
           
-          // Calcular ahorro acumulado en todas las semanas posteriores (Ajuste 7)
           if (state.tarifa && state.tarifa > 0) {
             for (let i = 2; i < state.lecturas.length; i++) {
               const dPrev = new Date(state.lecturas[i - 1].fecha + 'T00:00:00');
@@ -1100,7 +1085,6 @@
       });
     }
 
-    // --- HISTORIAL ---
     function renderHistorial() {
       const rondasContainer = document.getElementById('list-rondas');
       if (state.rondas.length === 0) {
@@ -1201,7 +1185,6 @@
       document.body.removeChild(link);
     }
 
-    // --- AJUSTES ---
     function renderAjustes() {
       document.getElementById('input-nombres').value = (state.personas || []).join(', ');
       document.getElementById('input-tarifa').value = state.tarifa || '';
