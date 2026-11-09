@@ -87,14 +87,15 @@
     .hero-box p { color: #bbf7d0; font-size: 0.85rem; margin-top: 0.3rem; }
     .mascot-svg { width: 75px; height: 75px; flex-shrink: 0; }
 
-    .nav-links { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; background: var(--card-bg); padding: 0.6rem 0.5rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); border: 1px solid #f1f5f9; }
+    /* Barra de navegación de 3 pestañas (Inicio, Historial, Ajustes) */
+    .nav-links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; background: var(--card-bg); padding: 0.6rem 0.5rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); border: 1px solid #f1f5f9; }
     .nav-tab { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; background: none; border: none; color: var(--text-muted); font-size: 0.75rem; font-weight: 700; cursor: pointer; padding: 0.5rem 0.2rem; border-radius: var(--radius-md); }
     .nav-tab svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; }
     .nav-tab:hover, .nav-tab.active-tab { color: var(--primary-dark); background-color: var(--primary-light); }
 
     .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
     label { font-weight: 700; font-size: 0.9rem; color: var(--primary-dark); }
-    input[type="number"], input[type="date"], input[type="text"], select { width: 100%; min-height: 50px; padding: 0.65rem 0.85rem; border: 1.5px solid #e2e8f0; border-radius: var(--radius-md); font-size: 1rem; background-color: #f8fafc; color: var(--text-main); }
+    input[type="text"], select { width: 100%; min-height: 50px; padding: 0.65rem 0.85rem; border: 1.5px solid #e2e8f0; border-radius: var(--radius-md); font-size: 1rem; background-color: #f8fafc; color: var(--text-main); }
 
     .progress-container { width: 100%; background-color: #e2e8f0; height: 10px; border-radius: var(--radius-full); overflow: hidden; }
     .progress-bar { height: 100%; background: linear-gradient(90deg, var(--primary) 0%, #22c55e 100%); width: 0%; transition: width 0.3s; }
@@ -104,12 +105,6 @@
     .room-icon-box svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 2; }
     .q-options { display: flex; flex-direction: column; gap: 0.75rem; }
     .safety-text { font-size: 0.85rem; background-color: var(--warning-bg); color: var(--warning-text); padding: 0.85rem; border-radius: var(--radius-md); display: flex; gap: 0.6rem; align-items: flex-start; border: 1px solid #fde047; }
-
-    .bar-chart { display: flex; align-items: flex-end; gap: 0.6rem; height: 180px; padding: 1.5rem 0.5rem 0.5rem 0.5rem; border-bottom: 2px solid #e2e8f0; overflow-x: auto; }
-    .bar-col { flex: 1; min-width: 48px; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; }
-    .bar { width: 100%; max-width: 32px; background-color: var(--primary); border-radius: 6px 6px 0 0; min-height: 4px; }
-    .bar.baseline-bar { background-color: var(--baseline-color); }
-    .bar-label { font-size: 0.725rem; color: var(--text-muted); margin-top: 0.4rem; font-weight: 700; text-align: center; }
 
     .data-list { display: flex; flex-direction: column; gap: 0.75rem; }
     .data-item { display: flex; justify-content: space-between; align-items: center; padding: 0.85rem 1rem; border: 1px solid #f1f5f9; border-radius: var(--radius-md); background-color: var(--card-bg); font-size: 0.9rem; box-shadow: var(--shadow-sm); }
@@ -123,7 +118,7 @@
       ⚠️ Almacenamiento bloqueado: No se pudieron guardar los cambios en el navegador.
     </div>
     <div id="storage-damage-alert" class="alert-banner" style="display:none;">
-      ⚠️ Datos dañados. Se guardó una copia en 'luz_a_cargo_backup' y se restauró la app.
+      ⚠️ Datos dañados. Se restauraron los valores iniciales.
     </div>
 
     <!-- PANTALLA 1: INICIO -->
@@ -143,15 +138,9 @@
         </svg>
       </div>
 
-      <button id="baseline-notice" class="notice-banner baseline" style="display:none;" onclick="navTo('lectura')">
-        <span id="baseline-notice-text">Semana de partida: solo observa. Próxima lectura el [fecha].</span>
-        <span>→</span>
-      </button>
-
-      <button id="reading-due-notice" class="notice-banner" style="display:none;" onclick="navTo('lectura')">
-        <span id="reading-due-text">⚡ Hoy toca tu lectura semanal del medidor.</span>
-        <span>→</span>
-      </button>
+      <div id="baseline-notice" class="notice-banner baseline" style="display:none;">
+        <span id="baseline-notice-text">Día de diagnóstico: hoy solo observa y registra sin apagar.</span>
+      </div>
 
       <button class="btn btn-primary" style="font-size: 1.05rem; min-height: 56px;" onclick="startRonda()">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
@@ -169,9 +158,9 @@
       </div>
 
       <nav class="nav-links">
-        <button class="nav-tab" id="tab-lectura" onclick="navTo('lectura')">
-          <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
-          Medidor
+        <button class="nav-tab active-tab" id="tab-inicio" onclick="navTo('inicio')">
+          <svg viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+          Inicio
         </button>
         <button class="nav-tab" id="tab-historial" onclick="navTo('historial')">
           <svg viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -181,23 +170,9 @@
           <svg viewBox="0 0 24 24"><path d="M12 6V4m0 16v-2m6-8h2M4 12H2m15.364 6.364l1.414 1.414M4.222 4.222l1.414 1.414m12.728 0l-1.414 1.414M5.636 18.364l-1.414 1.414M12 15a3 3 0 100-6 3 3 0 000 6z"></path></svg>
           Ajustes
         </button>
-        <button class="nav-tab" id="tab-info" onclick="navTo('info')">
-          <svg viewBox="0 0 24 24"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-          Info
-        </button>
       </nav>
 
       <div class="footer-ods">🌱 Apoya al ODS 7, ODS 12 y ODS 13.</div>
-    </section>
-
-    <!-- PANTALLA INFO -->
-    <section id="screen-info" class="screen">
-      <h2>Acerca del proyecto</h2>
-      <div class="card" style="gap: 0.85rem; font-size: 0.95rem;">
-        <p><strong>💡 Pregunta base:</strong> ¿Cómo podemos evitar el consumo de energía eléctrica de forma irresponsable?</p>
-        <p><strong>📊 Qué mide:</strong> Registra una sencilla ronda nocturna de verificación de 10 puntos clave y el consumo semanal en kWh.</p>
-      </div>
-      <button class="btn btn-outline" onclick="navTo('inicio')">Volver al inicio</button>
     </section>
 
     <!-- PANTALLA 2: RONDA NOCTURNA -->
@@ -214,7 +189,11 @@
 
       <div class="card">
         <div id="observation-mode-badge" style="font-size: 0.8rem; background: var(--baseline-light); color: var(--baseline-color); padding: 0.35rem 0.6rem; border-radius: 8px; display: none; font-weight: 700;">
-          👁️ Modo Observación: Esta semana no apagues nada todavía
+          👁️ Modo Observación: Hoy no apagues nada todavía
+        </div>
+
+        <div id="assigned-person-badge" style="font-size: 0.85rem; background: var(--primary-light); color: var(--primary-dark); padding: 0.4rem 0.7rem; border-radius: 8px; font-weight: 700; display: none;">
+          👤 Turno de: <span id="current-person-name"></span>
         </div>
 
         <div class="room-header">
@@ -258,62 +237,21 @@
       <button class="btn btn-primary" onclick="navTo('inicio')">Volver al inicio</button>
     </section>
 
-    <!-- PANTALLA 3: LECTURA SEMANAL -->
-    <section id="screen-lectura" class="screen">
-      <h2>Lectura semanal del medidor</h2>
-      
-      <div class="card">
-        <div class="form-group">
-          <label for="input-fecha-lectura">📅 Fecha de lectura</label>
-          <input type="date" id="input-fecha-lectura">
-        </div>
-        <div class="form-group">
-          <label for="input-kwh">⚡ Lectura del medidor (kWh)</label>
-          <input type="number" id="input-kwh" placeholder="Ej. 1245.5" step="0.1" inputmode="decimal">
-          <small style="color: var(--text-muted); font-size: 0.8rem;">Número grande visible en el medidor de luz.</small>
-        </div>
-        <div class="form-group">
-          <label for="input-tarifa-lectura">💰 Tarifa por kWh en soles (opcional)</label>
-          <input type="number" id="input-tarifa-lectura" placeholder="Ej. 0.85" step="0.01" inputmode="decimal">
-        </div>
-        <button class="btn btn-primary" onclick="saveLectura()">Guardar lectura</button>
-      </div>
-
-      <div id="lectura-msg" class="card" style="display: none;">
-        <p id="lectura-msg-text" style="font-weight: 700; color: var(--primary-dark);"></p>
-      </div>
-
-      <div id="chart-card" class="card" style="display: none;">
-        <label>📊 Consumo promedio diario (kWh/día)</label>
-        <div id="bar-chart" class="bar-chart"></div>
-      </div>
-
-      <button class="btn btn-outline" onclick="navTo('inicio')">Volver al inicio</button>
-    </section>
-
-    <!-- PANTALLA 4: HISTORIAL (CON OPCIÓN DE BORRAR TODO) -->
+    <!-- PANTALLA 3: HISTORIAL -->
     <section id="screen-historial" class="screen">
-      <h2>Historial de Registros</h2>
+      <h2>Historial de Rondas</h2>
       
       <div class="card">
         <label>🌙 Rondas nocturnas realizadas</label>
         <div id="list-rondas" class="data-list"><p style="font-size: 0.875rem;">No hay rondas registradas.</p></div>
       </div>
 
-      <div class="card">
-        <label>⚡ Lecturas del medidor (kWh)</label>
-        <div id="list-lecturas" class="data-list"><p style="font-size: 0.875rem;">No hay lecturas registradas.</p></div>
-        <button id="btn-delete-lectura" class="btn btn-outline" style="color: var(--danger); border-color: rgba(239, 68, 68, 0.3); display: none; margin-top: 0.5rem;" onclick="deleteLastLectura()">Borrar última lectura</button>
-      </div>
-
       <button class="btn btn-secondary" onclick="exportCSV()">📥 Exportar datos (CSV)</button>
-      
-      <!-- Opción para borrar todo el historial -->
-      <button class="btn btn-danger" style="margin-top: 0.2rem;" onclick="clearAllHistory()">🗑️ Borrar todo el historial</button>
+      <button class="btn btn-danger" onclick="clearAllHistory()">🗑️ Borrar historial</button>
       <button class="btn btn-outline" onclick="navTo('inicio')">Volver al inicio</button>
     </section>
 
-    <!-- PANTALLA 5: AJUSTES -->
+    <!-- PANTALLA 4: AJUSTES -->
     <section id="screen-ajustes" class="screen">
       <h2>Ajustes del sistema</h2>
       <p>Selecciona una categoría para configurar:</p>
@@ -324,7 +262,7 @@
             <div class="settings-icon-box">👥</div>
             <div>
               <strong>Integrantes del hogar</strong>
-              <p style="font-size: 0.8rem; margin: 0;">Gestiona quiénes rotan cada noche</p>
+              <p style="font-size: 0.8rem; margin: 0;">Reparten las preguntas equitativamente</p>
             </div>
           </div>
           <span style="color: var(--text-muted); font-weight: bold;">›</span>
@@ -340,25 +278,14 @@
           </div>
           <span style="color: var(--text-muted); font-weight: bold;">›</span>
         </div>
-
-        <div class="settings-menu-item" onclick="navTo('ajustes-tarifa')">
-          <div class="settings-menu-left">
-            <div class="settings-icon-box">💰</div>
-            <div>
-              <strong>Tarifa de luz</strong>
-              <p style="font-size: 0.8rem; margin: 0;">Actualiza el costo por kWh en soles</p>
-            </div>
-          </div>
-          <span style="color: var(--text-muted); font-weight: bold;">›</span>
-        </div>
       </div>
 
       <div class="card" style="border-color: var(--baseline-color); background-color: var(--baseline-light);">
         <label style="color: var(--baseline-color);">🧪 Panel de Pruebas / Demostración</label>
-        <p style="font-size:0.8rem; color:var(--text-muted);">Fuerza el modo de la ronda al instante para probarlo:</p>
+        <p style="font-size:0.8rem; color:var(--text-muted);">Fuerza el modo de la ronda al instante:</p>
         <div style="display: flex; gap: 0.5rem;">
-          <button class="btn btn-secondary" style="font-size:0.8rem; flex:1;" onclick="setDemoMode(1)">Modo Observación</button>
-          <button class="btn btn-primary" style="font-size:0.8rem; flex:1;" onclick="setDemoMode(2)">Modo Normal</button>
+          <button class="btn btn-secondary" style="font-size:0.8rem; flex:1;" onclick="setDemoMode(1)">Modo Observación (Día 1)</button>
+          <button class="btn btn-primary" style="font-size:0.8rem; flex:1;" onclick="setDemoMode(2)">Modo Acción (Día 2+)</button>
         </div>
       </div>
 
@@ -367,17 +294,14 @@
         <button class="btn btn-secondary" onclick="restoreHiddenQuestions()">Volver a mostrar todas las preguntas</button>
       </div>
 
-      <div style="display: flex; gap: 0.5rem; margin-top: 0.2rem;">
-        <button class="btn btn-danger" style="flex: 1;" onclick="resetAll()">Reiniciar todo</button>
-        <button class="btn btn-outline" style="flex: 1;" onclick="navTo('inicio')">Volver al inicio</button>
-      </div>
+      <button class="btn btn-outline" onclick="navTo('inicio')">Volver al inicio</button>
     </section>
 
     <!-- SUBPANTALLAS DE AJUSTES -->
     <section id="screen-ajustes-personas" class="screen">
       <h2>👥 Integrantes del hogar</h2>
       <div class="card">
-        <p style="font-size: 0.875rem;">Agrega los nombres de quienes participan en la rotación:</p>
+        <p style="font-size: 0.875rem;">Agrega a todos los participantes. Las 10 preguntas se intercalarán y distribuirán entre ellos:</p>
         <div class="form-group">
           <label for="input-nuevo-integrante">Nombre del integrante</label>
           <div style="display: flex; gap: 0.5rem;">
@@ -414,19 +338,6 @@
       <button class="btn btn-primary" onclick="saveHabitacionesAjustes()">Guardar cambios</button>
       <button class="btn btn-outline" onclick="navTo('ajustes')">← Volver a ajustes</button>
     </section>
-
-    <section id="screen-ajustes-tarifa" class="screen">
-      <h2>💰 Tarifa de luz</h2>
-      <div class="card">
-        <div class="form-group">
-          <label for="input-tarifa">Precio por kWh en soles</label>
-          <input type="number" id="input-tarifa" placeholder="Ej. 0.85" step="0.01" inputmode="decimal">
-          <small style="color: var(--text-muted); font-size: 0.8rem;">Permite calcular el ahorro acumulado en soles en el registro semanal.</small>
-        </div>
-      </div>
-      <button class="btn btn-primary" onclick="saveTarifaAjustes()">Guardar tarifa</button>
-      <button class="btn btn-outline" onclick="navTo('ajustes')">← Volver a ajustes</button>
-    </section>
   </div>
 
   <script>
@@ -459,10 +370,8 @@
       personas: [],
       habitaciones: ['Sala', 'Cocina', 'Dormitorio', 'Baño', 'Patio o pasillo'],
       customQuestions: [], 
-      tarifa: null,
       hiddenQuestions: [],
-      rondas: [],
-      lecturas: []
+      rondas: []
     };
 
     let state = JSON.parse(JSON.stringify(DEFAULT_STATE));
@@ -474,6 +383,7 @@
     let countApagadosSession = 0;
     let countObservadosSession = 0;
     let answeredHistoryStack = [];
+    let assignedPersonName = '';
 
     function getLocalTodayString() {
       const d = new Date();
@@ -515,13 +425,10 @@
             personas: Array.isArray(parsed.personas) ? parsed.personas : [],
             habitaciones: Array.isArray(parsed.habitaciones) && parsed.habitaciones.length > 0 ? parsed.habitaciones : [...DEFAULT_STATE.habitaciones],
             customQuestions: Array.isArray(parsed.customQuestions) ? parsed.customQuestions : [],
-            tarifa: typeof parsed.tarifa === 'number' && parsed.tarifa > 0 ? parsed.tarifa : null,
             hiddenQuestions: Array.isArray(parsed.hiddenQuestions) ? parsed.hiddenQuestions : [],
-            rondas: Array.isArray(parsed.rondas) ? parsed.rondas : [],
-            lecturas: Array.isArray(parsed.lecturas) ? parsed.lecturas : []
+            rondas: Array.isArray(parsed.rondas) ? parsed.rondas : []
           };
         } catch (e) {
-          try { localStorage.setItem('luz_a_cargo_backup', data); } catch (err) {}
           document.getElementById('storage-damage-alert').style.display = 'flex';
           state = JSON.parse(JSON.stringify(DEFAULT_STATE));
         }
@@ -555,20 +462,19 @@
       if (activeTab) activeTab.classList.add('active-tab');
 
       if (screenId === 'inicio') renderInicio();
-      if (screenId === 'lectura') renderLectura();
       if (screenId === 'historial') renderHistorial();
       if (screenId === 'ajustes') renderAjustesMenu();
       if (screenId === 'ajustes-personas') renderPersonasAjustes();
       if (screenId === 'ajustes-habitaciones') renderHabitacionesAjustes();
-      if (screenId === 'ajustes-tarifa') renderTarifaAjustes();
     }
 
+    // El ciclo de observación dura exactamente 1 día (si no hay rondas previas o la primera fue hoy)
     function isObservationMode() {
-      if (state.lecturas.length === 0) return true;
-      const firstDate = new Date(state.lecturas[0].fecha + 'T00:00:00');
+      if (state.rondas.length === 0) return true;
+      const firstDate = new Date(state.rondas[0].fecha + 'T00:00:00');
       const todayDate = new Date(getLocalTodayString() + 'T00:00:00');
       const daysElapsed = (todayDate - firstDate) / (1000 * 60 * 60 * 24);
-      return daysElapsed <= 7;
+      return daysElapsed < 1;
     }
 
     function calculateStreak() {
@@ -621,59 +527,41 @@
       if (state.personas && state.personas.length > 0) {
         const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
         const personIndex = dayOfYear % state.personas.length;
-        turnInfo.innerText = `👤 Le toca a ${state.personas[personIndex]}`;
+        turnInfo.innerText = `👤 Le toca coordinar a ${state.personas[personIndex]}`;
         turnInfo.style.display = 'block';
       } else {
         turnInfo.style.display = 'none';
       }
 
       const baselineNotice = document.getElementById('baseline-notice');
-      const readingDueNotice = document.getElementById('reading-due-notice');
-
-      if (state.lecturas.length === 0) {
-        baselineNotice.style.display = 'none';
-        document.getElementById('reading-due-text').innerText = "⚡ Registra tu primera lectura para iniciar tu línea base.";
-        readingDueNotice.style.display = 'flex';
-      } else if (isObservationMode()) {
-        const firstDate = new Date(state.lecturas[0].fecha + 'T00:00:00');
-        firstDate.setDate(firstDate.getDate() + 7);
-        const targetDateStr = `${firstDate.getFullYear()}-${String(firstDate.getMonth()+1).padStart(2,'0')}-${String(firstDate.getDate()).padStart(2,'0')}`;
-        document.getElementById('baseline-notice-text').innerText = `Semana de partida: solo observa. Próxima lectura el ${targetDateStr}.`;
+      if (isObservationMode()) {
+        document.getElementById('baseline-notice-text').innerText = state.rondas.length === 0 ? "Día 1: Ronda de diagnóstico (solo observa)." : "Estás en el primer día de observación.";
         baselineNotice.style.display = 'flex';
-        readingDueNotice.style.display = 'none';
       } else {
         baselineNotice.style.display = 'none';
-        const lastLecturaDate = new Date(state.lecturas[state.lecturas.length - 1].fecha + 'T00:00:00');
-        const todayDate = new Date(getLocalTodayString() + 'T00:00:00');
-        const daysSinceLast = (todayDate - lastLecturaDate) / (1000 * 60 * 60 * 24);
-        if (daysSinceLast >= 7) {
-          document.getElementById('reading-due-text').innerText = "⚡ Hoy toca tu lectura semanal del medidor.";
-          readingDueNotice.style.display = 'flex';
-        } else {
-          readingDueNotice.style.display = 'none';
-        }
       }
     }
 
+    // Intercala y divide las preguntas equitativamente entre los integrantes registrados
     function startRonda() {
-      activeQuestions = [];
+      let rawQuestions = [];
       const isObs = isObservationMode();
 
       state.habitaciones.forEach(room => {
         const matchingDefs = QUESTIONS_DEF.filter(q => q.room.toLowerCase() === room.toLowerCase());
         matchingDefs.forEach(q => {
-          if (!state.hiddenQuestions.includes(q.id)) activeQuestions.push(q);
+          if (!state.hiddenQuestions.includes(q.id)) rawQuestions.push(q);
         });
 
         const matchingCustom = state.customQuestions.filter(q => q.room.toLowerCase() === room.toLowerCase());
         matchingCustom.forEach(q => {
-          if (!state.hiddenQuestions.includes(q.id)) activeQuestions.push(q);
+          if (!state.hiddenQuestions.includes(q.id)) rawQuestions.push(q);
         });
 
         if (matchingDefs.length === 0 && matchingCustom.length === 0) {
           const customId = `custom_gen_${room.toLowerCase().replace(/\s+/g, '_')}`;
           if (!state.hiddenQuestions.includes(customId)) {
-            activeQuestions.push({
+            rawQuestions.push({
               id: customId,
               room: room,
               q: `¿Hay luces o aparatos encendidos sin uso en ${room}?`,
@@ -683,9 +571,25 @@
         }
       });
 
-      if (activeQuestions.length === 0) {
+      if (rawQuestions.length === 0) {
         alert("No hay preguntas activas para la ronda. Revisa tus habitaciones en Ajustes.");
         return;
+      }
+
+      // Asignación equitativa e intercalada entre personas
+      if (state.personas && state.personas.length > 0) {
+        const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+        const personIndex = dayOfYear % state.personas.length;
+        assignedPersonName = state.personas[personIndex];
+
+        // Filtrar preguntas que le tocan a esta persona en específico (intercaladas)
+        activeQuestions = rawQuestions.filter((q, idx) => idx % state.personas.length === personIndex);
+        
+        // Si por alguna razón el filtro da vacío, asignamos todas
+        if (activeQuestions.length === 0) activeQuestions = rawQuestions;
+      } else {
+        assignedPersonName = '';
+        activeQuestions = rawQuestions;
       }
 
       currentQIndex = 0;
@@ -694,6 +598,15 @@
       answeredHistoryStack = [];
 
       document.getElementById('observation-mode-badge').style.display = isObs ? 'block' : 'none';
+      
+      const personBadge = document.getElementById('assigned-person-badge');
+      if (assignedPersonName) {
+        document.getElementById('current-person-name').innerText = assignedPersonName;
+        personBadge.style.display = 'block';
+      } else {
+        personBadge.style.display = 'none';
+      }
+
       document.getElementById('options-normal').style.display = isObs ? 'none' : 'flex';
       document.getElementById('options-observation').style.display = isObs ? 'flex' : 'none';
 
@@ -775,19 +688,13 @@
     }
 
     function finishRonda() {
-      let responsable = '';
-      if (state.personas && state.personas.length > 0) {
-        const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
-        responsable = state.personas[dayOfYear % state.personas.length];
-      }
-
       const todayStr = getLocalTodayString();
       const isObs = isObservationMode();
 
       state.rondas.push({
         fecha: todayStr,
         apagados: isObs ? countObservadosSession : countApagadosSession,
-        responsable: responsable,
+        responsable: assignedPersonName,
         practica: isObs
       });
       saveState();
@@ -796,156 +703,12 @@
       const totalCount = isObs ? countObservadosSession : countApagadosSession;
       
       if (isObs) {
-        finCountText.innerText = totalCount === 0 ? "Observación completada: Todo estaba en orden." : `Observación completada: Encontraste ${totalCount} cosa(s) encendida(s).`;
+        finCountText.innerText = totalCount === 0 ? "Diagnóstico completado: Todo estaba en orden." : `Diagnóstico completado: Encontraste ${totalCount} cosa(s) encendida(s).`;
       } else {
-        finCountText.innerText = totalCount === 0 ? "Todo estaba en orden. Así se ahorra." : `Hoy apagaste ${totalCount} equipo(s). ¡Bien hecho!`;
+        finCountText.innerText = totalCount === 0 ? "Todo estaba en orden. Así se ahorra." : `Hoy apagaste ${totalCount} equipo(s). ¡Buen trabajo!`;
       }
 
       navTo('fin-ronda');
-    }
-
-    function renderLectura() {
-      const todayStr = getLocalTodayString();
-      const dateInput = document.getElementById('input-fecha-lectura');
-      dateInput.value = todayStr;
-      dateInput.max = todayStr;
-      document.getElementById('input-kwh').value = '';
-      document.getElementById('input-tarifa-lectura').value = state.tarifa || '';
-      updateLecturaMsg();
-    }
-
-    function saveLectura() {
-      const fechaVal = document.getElementById('input-fecha-lectura').value;
-      const kwhVal = parseFloat(document.getElementById('input-kwh').value);
-      const tarifaVal = parseFloat(document.getElementById('input-tarifa-lectura').value);
-      const todayStr = getLocalTodayString();
-
-      if (!fechaVal || fechaVal > todayStr) {
-        alert("Por favor ingresa una fecha válida no posterior al día de hoy.");
-        return;
-      }
-      if (isNaN(kwhVal) || kwhVal < 0) {
-        alert("Por favor ingresa una lectura correcta en kWh.");
-        return;
-      }
-      if (!isNaN(tarifaVal) && tarifaVal > 0) {
-        state.tarifa = tarifaVal;
-      }
-
-      if (state.lecturas.length > 0) {
-        const last = state.lecturas[state.lecturas.length - 1];
-        if (new Date(fechaVal + 'T00:00:00') <= new Date(last.fecha + 'T00:00:00')) {
-          alert("La fecha debe ser estrictamente posterior a la última lectura registrada.");
-          return;
-        }
-        if (kwhVal < last.kwh) {
-          alert("La lectura actual no puede ser menor que la lectura anterior.");
-          return;
-        }
-        const diffDays = (new Date(fechaVal + 'T00:00:00') - new Date(last.fecha + 'T00:00:00')) / (1000 * 60 * 60 * 24);
-        if (diffDays < 5) {
-          if (!confirm(`Han transcurrido solo ${diffDays.toFixed(1)} días desde la última lectura (menos de 5 días recomendados). ¿Deseas guardarla de todas formas?`)) {
-            return;
-          }
-        }
-      }
-
-      state.lecturas.push({ fecha: fechaVal, kwh: kwhVal });
-      saveState();
-      document.getElementById('input-kwh').value = '';
-      updateLecturaMsg();
-    }
-
-    function updateLecturaMsg() {
-      const msgCard = document.getElementById('lectura-msg');
-      const msgText = document.getElementById('lectura-msg-text');
-      const chartCard = document.getElementById('chart-card');
-      const count = state.lecturas.length;
-
-      if (count === 0) {
-        msgCard.style.display = 'none';
-        chartCard.style.display = 'none';
-      } else if (isObservationMode()) {
-        msgCard.style.display = 'block';
-        msgText.innerText = "Punto de partida registrado. Estás en semana de partida: observa y anota sin cambiar hábitos.";
-        chartCard.style.display = 'none';
-      } else {
-        msgCard.style.display = 'block';
-        chartCard.style.display = 'block';
-
-        const last = state.lecturas[count - 1];
-        const prev = state.lecturas[count - 2];
-        const baseStart = state.lecturas[0];
-        const baseEnd = state.lecturas[1];
-
-        const daysCurrent = (new Date(last.fecha + 'T00:00:00') - new Date(prev.fecha + 'T00:00:00')) / (1000 * 60 * 60 * 24);
-        const kwhDayCurrent = daysCurrent > 0 ? (last.kwh - prev.kwh) / daysCurrent : 0;
-
-        const daysBase = (new Date(baseEnd.fecha + 'T00:00:00') - new Date(baseStart.fecha + 'T00:00:00')) / (1000 * 60 * 60 * 24);
-        const kwhDayBase = daysBase > 0 ? (baseEnd.kwh - baseStart.kwh) / daysBase : 0;
-
-        if (kwhDayBase === 0) {
-          msgText.innerText = "La semana de partida no registró consumos válidos.";
-        } else {
-          const diffPct = ((kwhDayCurrent - kwhDayBase) / kwhDayBase) * 100;
-          const absPct = Math.abs(diffPct).toFixed(1);
-
-          let dineroTexto = '';
-          let ahorroAcumuladoSoles = 0;
-          
-          if (state.tarifa && state.tarifa > 0) {
-            for (let i = 2; i < state.lecturas.length; i++) {
-              const dPrev = new Date(state.lecturas[i - 1].fecha + 'T00:00:00');
-              const dCurr = new Date(state.lecturas[i].fecha + 'T00:00:00');
-              const dDays = (dCurr - dPrev) / (1000 * 60 * 60 * 24);
-              const dRate = dDays > 0 ? (state.lecturas[i].kwh - state.lecturas[i - 1].kwh) / dDays : 0;
-              const kwhSaved = kwhDayBase - dRate;
-              if (kwhSaved > 0) ahorroAcumuladoSoles += kwhSaved * dDays * state.tarifa;
-            }
-            if (ahorroAcumuladoSoles > 0) dineroTexto = ` Ahorro acumulado total: S/ ${ahorroAcumuladoSoles.toFixed(2)}.`;
-          } else {
-            dineroTexto = " (Configura tu tarifa en Ajustes para ver tu ahorro en soles).";
-          }
-
-          if (diffPct < 0) {
-            msgText.innerText = `Esta semana gastaste ${kwhDayCurrent.toFixed(1)} kWh/día vs ${kwhDayBase.toFixed(1)} kWh/día en la partida. Bajaste ${absPct} %.${dineroTexto}`;
-          } else if (diffPct > 0) {
-            msgText.innerText = `Esta semana gastaste ${kwhDayCurrent.toFixed(1)} kWh/día vs ${kwhDayBase.toFixed(1)} kWh/día en la partida. Subió ${absPct} %.${dineroTexto}`;
-          } else {
-            msgText.innerText = `Esta semana gastaste ${kwhDayCurrent.toFixed(1)} kWh/día, igual que en la semana de partida.${dineroTexto}`;
-          }
-        }
-        renderChart();
-      }
-    }
-
-    function renderChart() {
-      const container = document.getElementById('bar-chart');
-      container.innerHTML = '';
-      if (state.lecturas.length < 2) return;
-
-      const rates = [];
-      for (let i = 1; i < state.lecturas.length; i++) {
-        const d1 = new Date(state.lecturas[i - 1].fecha + 'T00:00:00');
-        const d2 = new Date(state.lecturas[i].fecha + 'T00:00:00');
-        const days = (d2 - d1) / (1000 * 60 * 60 * 24);
-        const rate = days > 0 ? (state.lecturas[i].kwh - state.lecturas[i - 1].kwh) / days : 0;
-        rates.push({ label: i === 1 ? 'Partida' : `Sem ${i}`, rate: rate, isBaseline: (i === 1) });
-      }
-
-      const maxRate = Math.max(...rates.map(r => r.rate), 1);
-
-      rates.forEach(r => {
-        const col = document.createElement('div');
-        col.className = 'bar-col';
-        const pct = (r.rate / maxRate) * 100;
-        col.innerHTML = `
-          <span style="font-size:0.7rem; font-weight:700; color:var(--text-muted);">${r.rate.toFixed(1)}</span>
-          <div class="bar ${r.isBaseline ? 'baseline-bar' : ''}" style="height: ${Math.min(pct, 100)}%;"></div>
-          <span class="bar-label">${r.label}</span>
-        `;
-        container.appendChild(col);
-      });
     }
 
     function renderHistorial() {
@@ -955,37 +718,17 @@
       } else {
         rondasContainer.innerHTML = [...state.rondas].reverse().map((r, revIdx) => {
           const originalIdx = state.rondas.length - 1 - revIdx;
-          const practicaBadge = r.practica ? ' <span style="color:var(--baseline-color); font-size:0.8rem;">(observación)</span>' : '';
+          const practicaBadge = r.practica ? ' <span style="color:var(--baseline-color); font-size:0.8rem;">(diagnóstico)</span>' : '';
           return `
             <div class="data-item">
               <div>
                 <strong>📅 ${escapeHTML(r.fecha)}</strong>${practicaBadge}
-                ${r.responsable ? `<br><small>Le tocaba a: ${escapeHTML(r.responsable)}</small>` : ''}
+                ${r.responsable ? `<br><small>A cargo de: ${escapeHTML(r.responsable)}</small>` : ''}
               </div>
               <div style="display: flex; align-items: center; gap: 0.5rem;">
                 <span style="font-weight:700; color:var(--primary-dark);">${r.apagados} ${r.practica ? 'encontrados' : 'apagados'}</span>
                 <button class="btn btn-outline" style="padding: 0.2rem 0.5rem; font-size: 0.75rem; color: var(--danger); border-color: rgba(239, 68, 68, 0.3); min-height: auto;" onclick="deleteRonda(${originalIdx})">Borrar</button>
               </div>
-            </div>
-          `;
-        }).join('');
-      }
-
-      const lecturasContainer = document.getElementById('list-lecturas');
-      const delBtn = document.getElementById('btn-delete-lectura');
-
-      if (state.lecturas.length === 0) {
-        lecturasContainer.innerHTML = '<p style="font-size: 0.875rem;">No hay lecturas registradas.</p>';
-        delBtn.style.display = 'none';
-      } else {
-        delBtn.style.display = 'block';
-        lecturasContainer.innerHTML = [...state.lecturas].reverse().map((l, idx) => {
-          const originalIdx = state.lecturas.length - 1 - idx;
-          let labelLectura = originalIdx === 0 ? ' (Punto de partida)' : (originalIdx === 1 ? ' (Fin semana partida)' : ` (Semana ${originalIdx})`);
-          return `
-            <div class="data-item">
-              <div><strong>⚡ ${escapeHTML(l.fecha)}</strong><small>${labelLectura}</small></div>
-              <span style="font-weight:700; color:var(--primary-dark);">${l.kwh} kWh</span>
             </div>
           `;
         }).join('');
@@ -1000,48 +743,21 @@
       }
     }
 
-    function deleteLastLectura() {
-      if (state.lecturas.length === 0) return;
-      if (confirm("¿Estás seguro de que deseas borrar la última lectura?")) {
-        state.lecturas.pop();
-        saveState();
-        renderHistorial();
-        updateLecturaMsg();
-      }
-    }
-
-    // Limpia únicamente las rondas y lecturas registradas sin afectar integrantes ni habitaciones
     function clearAllHistory() {
-      if (confirm("¿Estás seguro de que deseas borrar todo el historial de rondas y lecturas? Tus configuraciones de integrantes y habitaciones se mantendrán.")) {
+      if (confirm("¿Estás seguro de que deseas borrar todo el historial de rondas? Tus integrantes y habitaciones se mantendrán.")) {
         state.rondas = [];
-        state.lecturas = [];
         saveState();
         renderHistorial();
-        alert("Historial limpiado correctamente. La app ha vuelto al Modo Observación para iniciar una nueva línea base.");
+        alert("Historial limpiado correctamente.");
       }
     }
 
     function exportCSV() {
-      let csv = "\ufeffTipo;Fecha;Detalle/kWh;Consumo diario (kWh/día);Responsable/Nota\n";
-      
+      let csv = "\ufeffTipo;Fecha;Detalle;Responsable/Nota\n";
       state.rondas.forEach(r => {
-        const nota = r.practica ? 'Ronda de observación' : (r.responsable ? `Le tocaba a ${r.responsable}` : '');
-        csv += `"Ronda";"${r.fecha}";"${r.apagados} ${r.practica ? 'encontrados' : 'apagados'}";"";"${nota}"\n`;
+        const nota = r.practica ? 'Ronda de diagnóstico' : (r.responsable ? `A cargo de ${r.responsable}` : '');
+        csv += `"Ronda";"${r.fecha}";"${r.apagados} ${r.practica ? 'encontrados' : 'apagados'}";"${nota}"\n`;
       });
-
-      for (let i = 0; i < state.lecturas.length; i++) {
-        const l = state.lecturas[i];
-        let consumoDiarioStr = '';
-        let tipoLecturaTxt = i === 0 ? 'Punto de partida' : (i === 1 ? 'Fin semana de partida' : `Semana ${i}`);
-        if (i > 0) {
-          const prev = state.lecturas[i - 1];
-          const days = (new Date(l.fecha + 'T00:00:00') - new Date(prev.fecha + 'T00:00:00')) / (1000 * 60 * 60 * 24);
-          if (days > 0) consumoDiarioStr = ((l.kwh - prev.kwh) / days).toFixed(2).replace('.', ',');
-        } else {
-          consumoDiarioStr = 'Base';
-        }
-        csv += `"Lectura";"${l.fecha}";"${l.kwh} kWh (${tipoLecturaTxt})";"${consumoDiarioStr}";""\n`;
-      }
 
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
@@ -1054,18 +770,15 @@
     function setDemoMode(mode) {
       const today = new Date();
       if (mode === 1) {
-        state.lecturas = [{ fecha: getLocalTodayString(), kwh: 1000 }];
-        alert("Modo cambiado a: OBSERVACIÓN (Menos de 7 días desde el inicio)");
+        state.rondas = [];
+        alert("Modo cambiado a: OBSERVACIÓN (Día 1)");
       } else {
         const pastDate = new Date(today);
-        pastDate.setDate(pastDate.getDate() - 10);
+        pastDate.setDate(pastDate.getDate() - 2);
         const pastDateStr = `${pastDate.getFullYear()}-${String(pastDate.getMonth()+1).padStart(2,'0')}-${String(pastDate.getDate()).padStart(2,'0')}`;
         
-        state.lecturas = [
-          { fecha: pastDateStr, kwh: 1000 },
-          { fecha: getLocalTodayString(), kwh: 1070 }
-        ];
-        alert("Modo cambiado a: NORMAL (Han pasado más de 7 días)");
+        state.rondas = [{ fecha: pastDateStr, apagados: 3, practica: true }];
+        alert("Modo cambiado a: ACCIÓN (Día 2+, fuera de observación)");
       }
       saveState();
       navTo('inicio');
@@ -1201,32 +914,11 @@
       }
     }
 
-    function renderTarifaAjustes() {
-      document.getElementById('input-tarifa').value = state.tarifa || '';
-    }
-
-    function saveTarifaAjustes() {
-      const tarifaVal = parseFloat(document.getElementById('input-tarifa').value);
-      state.tarifa = (!isNaN(tarifaVal) && tarifaVal > 0) ? tarifaVal : null;
-      if (saveState()) {
-        alert("Tarifa guardada correctamente.");
-        navTo('ajustes');
-      }
-    }
-
     function restoreHiddenQuestions() {
       state.hiddenQuestions = [];
       saveState();
       alert("Se han vuelto a activar todas las preguntas ocultas.");
       renderAjustesMenu();
-    }
-
-    function resetAll() {
-      if (confirm("¿De verdad quieres borrar todos los datos guardados y reiniciar la aplicación?")) {
-        try { localStorage.removeItem('luz_a_cargo_data'); } catch (e) {}
-        state = JSON.parse(JSON.stringify(DEFAULT_STATE));
-        navTo('inicio');
-      }
     }
 
     window.addEventListener('DOMContentLoaded', () => {
