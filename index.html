@@ -376,12 +376,12 @@
         <div id="options-normal" class="q-options">
           <button class="btn btn-primary" onclick="answerQuestion('apagado')">Ya lo apagué</button>
           <button class="btn btn-secondary" onclick="answerQuestion('ok')">Todo estaba bien</button>
-          <button class="btn btn-outline" style="color: var(--text-muted);" onclick="answerQuestion('no_tengo')">No hay en este espacio</button>
+          <button class="btn btn-outline" style="color: var(--text-muted);" onclick="answerQuestion('no_tengo')">No aplica aquí</button>
         </div>
         <div id="options-observation" class="q-options" style="display: none;">
           <button id="btn-obs-found" class="btn btn-danger" onclick="answerQuestion('obs_encendido')">Lo encontré así</button>
           <button class="btn btn-secondary" onclick="answerQuestion('obs_bien')">Todo estaba bien</button>
-          <button class="btn btn-outline" style="color: var(--text-muted);" onclick="answerQuestion('no_tengo')">No hay en este espacio</button>
+          <button class="btn btn-outline" style="color: var(--text-muted);" onclick="answerQuestion('no_tengo')">No aplica aquí</button>
         </div>
       </div>
 
@@ -491,7 +491,7 @@
       </div>
 
       <div class="card" id="hidden-questions-card" style="display: none;">
-        <label>Preguntas ocultas ("No hay en este espacio")</label>
+        <label>Preguntas ocultas ("No aplica aquí")</label>
         <button class="btn btn-secondary" onclick="restoreHiddenQuestions()">Volver a mostrar todas las preguntas</button>
       </div>
 
@@ -509,7 +509,6 @@
   </div>
 
   <script>
-    // Preguntas con lenguaje súper claro, cotidiano y general
     const QUESTIONS_DEF = [
       { id: 'sala_luces', room: 'Sala', q: '¿Hay luces encendidas sin nadie?', cat: 'luces' },
       { id: 'sala_tv', room: 'Sala', q: '¿Quedó encendido el televisor, la consola de videojuegos o algún equipo de sonido?', cat: 'tv_audio' },
