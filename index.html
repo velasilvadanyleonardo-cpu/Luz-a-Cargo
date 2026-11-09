@@ -58,7 +58,6 @@
 
     .card { background-color: var(--card-bg); border: 1px solid rgba(226, 232, 240, 0.9); border-radius: var(--radius-lg); padding: 1.35rem; display: flex; flex-direction: column; gap: 1rem; box-shadow: var(--shadow-md); }
     
-    /* Tarjetas de menú de ajustes */
     .settings-menu-item {
       display: flex;
       align-items: center;
@@ -78,21 +77,9 @@
       transform: translateY(-2px);
       background-color: #f8fafc;
     }
-    .settings-menu-left {
-      display: flex;
-      align-items: center;
-      gap: 0.85rem;
-    }
+    .settings-menu-left { display: flex; align-items: center; gap: 0.85rem; }
     .settings-icon-box {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      background-color: var(--primary-light);
-      color: var(--primary-dark);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
+      width: 40px; height: 40px; border-radius: 10px; background-color: var(--primary-light); color: var(--primary-dark); display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
     }
 
     .hero-box { background: linear-gradient(135deg, var(--primary-dark) 0%, #166534 100%); color: white; border-radius: var(--radius-lg); padding: 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; box-shadow: var(--shadow-md); }
@@ -126,7 +113,6 @@
 
     .data-list { display: flex; flex-direction: column; gap: 0.75rem; }
     .data-item { display: flex; justify-content: space-between; align-items: center; padding: 0.85rem 1rem; border: 1px solid #f1f5f9; border-radius: var(--radius-md); background-color: var(--card-bg); font-size: 0.9rem; box-shadow: var(--shadow-sm); }
-    .settings-section { border-left: 4px solid var(--primary-dark); padding-left: 0.75rem; margin-bottom: 0.25rem; }
     .room-tag { display: flex; flex-direction: column; padding: 0.75rem 0.9rem; background: #f8fafc; border-radius: var(--radius-md); border: 1px solid #e2e8f0; gap: 0.4rem; }
     .footer-ods { font-size: 0.8rem; text-align: center; color: var(--text-muted); margin-top: auto; padding-top: 1rem; border-top: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; gap: 0.4rem; }
   </style>
@@ -180,7 +166,6 @@
             <p id="turn-info" style="font-size: 0.85rem; display: none;"></p>
           </div>
         </div>
-        <div id="behavior-summary" style="font-size: 0.85rem; color: var(--text-muted); display: none; border-top: 1px solid #f1f5f9; padding-top: 0.6rem;"></div>
       </div>
 
       <nav class="nav-links">
@@ -210,7 +195,7 @@
       <h2>Acerca del proyecto</h2>
       <div class="card" style="gap: 0.85rem; font-size: 0.95rem;">
         <p><strong>💡 Pregunta base:</strong> ¿Cómo podemos evitar el consumo de energía eléctrica de forma irresponsable?</p>
-        <p><strong>📊 Qué mide:</strong> Registra una sencilla ronda nocturna de verificación y el consumo semanal en kWh.</p>
+        <p><strong>📊 Qué mide:</strong> Registra una sencilla ronda nocturna de verificación de 10 puntos clave y el consumo semanal en kWh.</p>
       </div>
       <button class="btn btn-outline" onclick="navTo('inicio')">Volver al inicio</button>
     </section>
@@ -306,7 +291,7 @@
       <button class="btn btn-outline" onclick="navTo('inicio')">Volver al inicio</button>
     </section>
 
-    <!-- PANTALLA 4: HISTORIAL -->
+    <!-- PANTALLA 4: HISTORIAL (CON OPCIÓN DE BORRAR TODO) -->
     <section id="screen-historial" class="screen">
       <h2>Historial de Registros</h2>
       
@@ -322,10 +307,13 @@
       </div>
 
       <button class="btn btn-secondary" onclick="exportCSV()">📥 Exportar datos (CSV)</button>
+      
+      <!-- Opción para borrar todo el historial -->
+      <button class="btn btn-danger" style="margin-top: 0.2rem;" onclick="clearAllHistory()">🗑️ Borrar todo el historial</button>
       <button class="btn btn-outline" onclick="navTo('inicio')">Volver al inicio</button>
     </section>
 
-    <!-- PANTALLA 5: AJUSTES (MENÚ PRINCIPAL MODULAR) -->
+    <!-- PANTALLA 5: AJUSTES -->
     <section id="screen-ajustes" class="screen">
       <h2>Ajustes del sistema</h2>
       <p>Selecciona una categoría para configurar:</p>
@@ -365,22 +353,31 @@
         </div>
       </div>
 
-      <div class="card" id="hidden-questions-card" style="display: none; margin-top: 0.5rem;">
+      <div class="card" style="border-color: var(--baseline-color); background-color: var(--baseline-light);">
+        <label style="color: var(--baseline-color);">🧪 Panel de Pruebas / Demostración</label>
+        <p style="font-size:0.8rem; color:var(--text-muted);">Fuerza el modo de la ronda al instante para probarlo:</p>
+        <div style="display: flex; gap: 0.5rem;">
+          <button class="btn btn-secondary" style="font-size:0.8rem; flex:1;" onclick="setDemoMode(1)">Modo Observación</button>
+          <button class="btn btn-primary" style="font-size:0.8rem; flex:1;" onclick="setDemoMode(2)">Modo Normal</button>
+        </div>
+      </div>
+
+      <div class="card" id="hidden-questions-card" style="display: none; margin-top: 0.2rem;">
         <label>Preguntas ocultas ("No aplica aquí")</label>
         <button class="btn btn-secondary" onclick="restoreHiddenQuestions()">Volver a mostrar todas las preguntas</button>
       </div>
 
-      <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+      <div style="display: flex; gap: 0.5rem; margin-top: 0.2rem;">
         <button class="btn btn-danger" style="flex: 1;" onclick="resetAll()">Reiniciar todo</button>
         <button class="btn btn-outline" style="flex: 1;" onclick="navTo('inicio')">Volver al inicio</button>
       </div>
     </section>
 
-    <!-- SUBPANTALLA AJUSTES: INTEGRANTES (Múltiples nombres estructurados) -->
+    <!-- SUBPANTALLAS DE AJUSTES -->
     <section id="screen-ajustes-personas" class="screen">
       <h2>👥 Integrantes del hogar</h2>
       <div class="card">
-        <p style="font-size: 0.875rem;">Agrega los nombres de quienes participan en la rotación de las rondas nocturnas:</p>
+        <p style="font-size: 0.875rem;">Agrega los nombres de quienes participan en la rotación:</p>
         <div class="form-group">
           <label for="input-nuevo-integrante">Nombre del integrante</label>
           <div style="display: flex; gap: 0.5rem;">
@@ -394,7 +391,6 @@
       <button class="btn btn-outline" onclick="navTo('ajustes')">← Volver a ajustes</button>
     </section>
 
-    <!-- SUBPANTALLA AJUSTES: HABITACIONES Y PREGUNTAS -->
     <section id="screen-ajustes-habitaciones" class="screen">
       <h2>🏠 Habitaciones y preguntas</h2>
       <div class="card">
@@ -419,7 +415,6 @@
       <button class="btn btn-outline" onclick="navTo('ajustes')">← Volver a ajustes</button>
     </section>
 
-    <!-- SUBPANTALLA AJUSTES: TARIFA -->
     <section id="screen-ajustes-tarifa" class="screen">
       <h2>💰 Tarifa de luz</h2>
       <div class="card">
@@ -437,21 +432,19 @@
   <script>
     const QUESTIONS_DEF = [
       { id: 'sala_luces', room: 'Sala', q: '¿Quedó alguna luz prendida en la sala?', cat: 'luces' },
-      { id: 'sala_tv', room: 'Sala', q: '¿Quedó encendido el televisor, la consola de videojuegos o algún equipo de sonido?', cat: 'tv_audio' },
-      { id: 'sala_cargadores', room: 'Sala', q: '¿Hay cargadores enchufados sin usar?', cat: 'cargadores' },
+      { id: 'sala_tv', room: 'Sala', q: '¿Quedó encendido el televisor o equipo de sonido?', cat: 'tv_audio' },
+      { id: 'sala_cargadores', room: 'Sala', q: '¿Hay cargadores enchufados sin usar en la sala?', cat: 'cargadores' },
       
       { id: 'cocina_luces', room: 'Cocina', q: '¿Quedó alguna luz prendida en la cocina?', cat: 'luces' },
-      { id: 'cocina_aparatos', room: 'Cocina', q: '¿Hay pequeños aparatos enchufados sin usar (microondas, licuadora, hervidor)?', cat: 'cocina_peq' },
-      { id: 'cocina_refri', room: 'Cocina', q: '¿La puerta de la refrigeradora quedó mal cerrada o entreabierta?', cat: 'refrigeradora' },
+      { id: 'cocina_aparatos', room: 'Cocina', q: '¿Hay pequeños aparatos enchufados sin usar (microondas, licuadora)?', cat: 'cocina_peq' },
+      { id: 'cocina_refri', room: 'Cocina', q: '¿La puerta de la refrigeradora quedó mal cerrada?', cat: 'refrigeradora' },
 
       { id: 'dorm_luces', room: 'Dormitorio', q: '¿Quedó alguna luz prendida en el dormitorio?', cat: 'luces' },
-      { id: 'dorm_equipos', room: 'Dormitorio', q: '¿Quedó encendido el televisor, un ventilador o una estufa sin nadie?', cat: 'tv_audio' },
       { id: 'dorm_cargadores', room: 'Dormitorio', q: '¿Hay cargadores enchufados sin el celular?', cat: 'cargadores' },
 
-      { id: 'bano_luces', room: 'Baño', q: '¿Quedó la luz encendida en el baño?', cat: 'luces' },
-      { id: 'bano_terma', room: 'Baño', q: '¿La ducha eléctrica o calentador de agua está encendido sin que nadie lo vaya a usar pronto?', cat: 'terma', safety: true },
+      { id: 'bano_terma', room: 'Baño', q: '¿La luz del baño o la terma quedó encendida sin uso?', cat: 'terma', safety: true },
 
-      { id: 'patio_luces', room: 'Patio o pasillo', q: '¿Quedó encendida alguna luz en el patio, entrada o pasillo?', cat: 'exteriores' }
+      { id: 'patio_luces', room: 'Patio o pasillo', q: '¿Quedó encendida la luz del patio o pasillo?', cat: 'exteriores' }
     ];
 
     const ROOM_ICONS = {
@@ -570,6 +563,14 @@
       if (screenId === 'ajustes-tarifa') renderTarifaAjustes();
     }
 
+    function isObservationMode() {
+      if (state.lecturas.length === 0) return true;
+      const firstDate = new Date(state.lecturas[0].fecha + 'T00:00:00');
+      const todayDate = new Date(getLocalTodayString() + 'T00:00:00');
+      const daysElapsed = (todayDate - firstDate) / (1000 * 60 * 60 * 24);
+      return daysElapsed <= 7;
+    }
+
     function calculateStreak() {
       if (state.rondas.length === 0) return 0;
       const uniqueDates = [...new Set(state.rondas.map(r => r.fecha))].sort();
@@ -633,7 +634,7 @@
         baselineNotice.style.display = 'none';
         document.getElementById('reading-due-text').innerText = "⚡ Registra tu primera lectura para iniciar tu línea base.";
         readingDueNotice.style.display = 'flex';
-      } else if (state.lecturas.length === 1) {
+      } else if (isObservationMode()) {
         const firstDate = new Date(state.lecturas[0].fecha + 'T00:00:00');
         firstDate.setDate(firstDate.getDate() + 7);
         const targetDateStr = `${firstDate.getFullYear()}-${String(firstDate.getMonth()+1).padStart(2,'0')}-${String(firstDate.getDate()).padStart(2,'0')}`;
@@ -656,7 +657,7 @@
 
     function startRonda() {
       activeQuestions = [];
-      const isObservation = state.lecturas.length <= 1;
+      const isObs = isObservationMode();
 
       state.habitaciones.forEach(room => {
         const matchingDefs = QUESTIONS_DEF.filter(q => q.room.toLowerCase() === room.toLowerCase());
@@ -692,9 +693,9 @@
       countObservadosSession = 0;
       answeredHistoryStack = [];
 
-      document.getElementById('observation-mode-badge').style.display = isObservation ? 'block' : 'none';
-      document.getElementById('options-normal').style.display = isObservation ? 'none' : 'flex';
-      document.getElementById('options-observation').style.display = isObservation ? 'flex' : 'none';
+      document.getElementById('observation-mode-badge').style.display = isObs ? 'block' : 'none';
+      document.getElementById('options-normal').style.display = isObs ? 'none' : 'flex';
+      document.getElementById('options-observation').style.display = isObs ? 'flex' : 'none';
 
       renderQuestion();
       navTo('ronda');
@@ -711,7 +712,7 @@
       document.getElementById('ronda-question').innerText = q.q;
 
       const isRefri = q.cat === 'refrigeradora';
-      const isObs = state.lecturas.length <= 1;
+      const isObs = isObservationMode();
 
       if (isObs) {
         document.getElementById('btn-obs-found').innerText = isRefri ? '⚠️ La encontré mal cerrada' : '⚠️ Lo encontré encendido';
@@ -781,20 +782,20 @@
       }
 
       const todayStr = getLocalTodayString();
-      const isObservation = state.lecturas.length <= 1;
+      const isObs = isObservationMode();
 
       state.rondas.push({
         fecha: todayStr,
-        apagados: isObservation ? countObservadosSession : countApagadosSession,
+        apagados: isObs ? countObservadosSession : countApagadosSession,
         responsable: responsable,
-        practica: isObservation
+        practica: isObs
       });
       saveState();
 
       const finCountText = document.getElementById('fin-count-text');
-      const totalCount = isObservation ? countObservadosSession : countApagadosSession;
+      const totalCount = isObs ? countObservadosSession : countApagadosSession;
       
-      if (isObservation) {
+      if (isObs) {
         finCountText.innerText = totalCount === 0 ? "Observación completada: Todo estaba en orden." : `Observación completada: Encontraste ${totalCount} cosa(s) encendida(s).`;
       } else {
         finCountText.innerText = totalCount === 0 ? "Todo estaba en orden. Así se ahorra." : `Hoy apagaste ${totalCount} equipo(s). ¡Bien hecho!`;
@@ -864,19 +865,10 @@
       if (count === 0) {
         msgCard.style.display = 'none';
         chartCard.style.display = 'none';
-      } else if (count === 1) {
+      } else if (isObservationMode()) {
         msgCard.style.display = 'block';
-        msgText.innerText = "Punto de partida registrado. Ahora empieza tu semana de partida: observa y anota sin cambiar hábitos.";
+        msgText.innerText = "Punto de partida registrado. Estás en semana de partida: observa y anota sin cambiar hábitos.";
         chartCard.style.display = 'none';
-      } else if (count === 2) {
-        msgCard.style.display = 'block';
-        const baseStart = state.lecturas[0];
-        const baseEnd = state.lecturas[1];
-        const daysBase = (new Date(baseEnd.fecha + 'T00:00:00') - new Date(baseStart.fecha + 'T00:00:00')) / (1000 * 60 * 60 * 24);
-        const kwhDayBase = daysBase > 0 ? (baseEnd.kwh - baseStart.kwh) / daysBase : 0;
-        
-        msgText.innerText = `Semana de partida completada. Consumo base: ${kwhDayBase.toFixed(1)} kWh/día. A partir de ahora se aplicarán los cambios.`;
-        renderChart();
       } else {
         msgCard.style.display = 'block';
         chartCard.style.display = 'block';
@@ -893,7 +885,7 @@
         const kwhDayBase = daysBase > 0 ? (baseEnd.kwh - baseStart.kwh) / daysBase : 0;
 
         if (kwhDayBase === 0) {
-          msgText.innerText = "La semana de partida no registró consumo válidos.";
+          msgText.innerText = "La semana de partida no registró consumos válidos.";
         } else {
           const diffPct = ((kwhDayCurrent - kwhDayBase) / kwhDayBase) * 100;
           const absPct = Math.abs(diffPct).toFixed(1);
@@ -1018,6 +1010,17 @@
       }
     }
 
+    // Limpia únicamente las rondas y lecturas registradas sin afectar integrantes ni habitaciones
+    function clearAllHistory() {
+      if (confirm("¿Estás seguro de que deseas borrar todo el historial de rondas y lecturas? Tus configuraciones de integrantes y habitaciones se mantendrán.")) {
+        state.rondas = [];
+        state.lecturas = [];
+        saveState();
+        renderHistorial();
+        alert("Historial limpiado correctamente. La app ha vuelto al Modo Observación para iniciar una nueva línea base.");
+      }
+    }
+
     function exportCSV() {
       let csv = "\ufeffTipo;Fecha;Detalle/kWh;Consumo diario (kWh/día);Responsable/Nota\n";
       
@@ -1048,7 +1051,26 @@
       link.click();
     }
 
-    // Funciones específicas para los apartados de Ajustes
+    function setDemoMode(mode) {
+      const today = new Date();
+      if (mode === 1) {
+        state.lecturas = [{ fecha: getLocalTodayString(), kwh: 1000 }];
+        alert("Modo cambiado a: OBSERVACIÓN (Menos de 7 días desde el inicio)");
+      } else {
+        const pastDate = new Date(today);
+        pastDate.setDate(pastDate.getDate() - 10);
+        const pastDateStr = `${pastDate.getFullYear()}-${String(pastDate.getMonth()+1).padStart(2,'0')}-${String(pastDate.getDate()).padStart(2,'0')}`;
+        
+        state.lecturas = [
+          { fecha: pastDateStr, kwh: 1000 },
+          { fecha: getLocalTodayString(), kwh: 1070 }
+        ];
+        alert("Modo cambiado a: NORMAL (Han pasado más de 7 días)");
+      }
+      saveState();
+      navTo('inicio');
+    }
+
     function renderAjustesMenu() {
       const hiddenCard = document.getElementById('hidden-questions-card');
       hiddenCard.style.display = state.hiddenQuestions.length > 0 ? 'block' : 'none';
