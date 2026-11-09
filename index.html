@@ -342,7 +342,7 @@
 
       <div class="nav-links">
         <button onclick="navTo('lectura')">Lectura semanal</button>
-        <button onclick="navTest('historial')">Historial</button>
+        <button onclick="navTo('historial')">Historial</button>
         <button onclick="navTo('ajustes')">Ajustes</button>
         <button onclick="navTo('info')">Acerca del proyecto</button>
       </div>
@@ -376,12 +376,12 @@
         <div id="options-normal" class="q-options">
           <button class="btn btn-primary" onclick="answerQuestion('apagado')">Ya lo apagué</button>
           <button class="btn btn-secondary" onclick="answerQuestion('ok')">Todo estaba bien</button>
-          <button class="btn btn-outline" style="color: var(--text-muted);" onclick="answerQuestion('no_tengo')">No tengo esto</button>
+          <button class="btn btn-outline" style="color: var(--text-muted);" onclick="answerQuestion('no_tengo')">No hay en este espacio</button>
         </div>
         <div id="options-observation" class="q-options" style="display: none;">
           <button id="btn-obs-found" class="btn btn-danger" onclick="answerQuestion('obs_encendido')">Lo encontré así</button>
           <button class="btn btn-secondary" onclick="answerQuestion('obs_bien')">Todo estaba bien</button>
-          <button class="btn btn-outline" style="color: var(--text-muted);" onclick="answerQuestion('no_tengo')">No tengo esto</button>
+          <button class="btn btn-outline" style="color: var(--text-muted);" onclick="answerQuestion('no_tengo')">No hay en este espacio</button>
         </div>
       </div>
 
@@ -491,7 +491,7 @@
       </div>
 
       <div class="card" id="hidden-questions-card" style="display: none;">
-        <label>Preguntas ocultas ("No tengo esto")</label>
+        <label>Preguntas ocultas ("No hay en este espacio")</label>
         <button class="btn btn-secondary" onclick="restoreHiddenQuestions()">Volver a mostrar todas las preguntas</button>
       </div>
 
@@ -509,7 +509,6 @@
   </div>
 
   <script>
-    // Preguntas con lenguaje cotidiano, general y cercano para cualquier hogar, aula u oficina
     const QUESTIONS_DEF = [
       { id: 'sala_luces', room: 'Sala', q: '¿Hay luces encendidas sin nadie?', cat: 'luces' },
       { id: 'sala_tv', room: 'Sala', q: '¿El televisor o los equipos de entretenimiento siguen encendidos sin uso?', cat: 'tv_audio' },
@@ -638,10 +637,6 @@
       if (screenId === 'lectura') renderLectura();
       if (screenId === 'historial') renderHistorial();
       if (screenId === 'ajustes') renderAjustes();
-    }
-
-    function navTest(screenId) {
-      navTo(screenId);
     }
 
     function calculateStreak() {
