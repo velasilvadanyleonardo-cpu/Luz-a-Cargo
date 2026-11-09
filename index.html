@@ -4,34 +4,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Luz a Cargo - Ahorro Energético</title>
-  <!-- Tipografía moderna y amigable de Google Fonts -->
+  <!-- Tipografía moderna -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      /* 2. Paleta de colores: Verde natural, Verde oscuro, Blanco y Crema */
-      --bg-cream: #fbfb26; /* Tono crema natural de fondo */
+      /* 1 & 2. Fondo Crema Suave y Paleta Sostenible Soft */
+      --bg-cream: #faf7f2; /* Crema suave muy agradable a la vista */
       --card-bg: #ffffff;
-      --primary-dark: #14532d; /* Verde oscuro elegante */
-      --primary: #16a34a; /* Verde natural vivo */
+      --primary-dark: #14532d; /* Verde bosque profundo */
+      --primary: #16a34a; /* Verde natural */
       --primary-hover: #15803d;
-      --primary-light: #dcfce7;
-      --accent-yellow: #fef08a;
+      --primary-light: #e8f5e9;
+      --accent-pastel-yellow: #fef9c3; /* Amarillo pastel suave */
       --text-main: #1e293b;
       --text-muted: #64748b;
-      --border-color: #e2e8f0;
+      --border-color: #f1f5f9;
       --danger: #ef4444;
-      --danger-light: #fee2e2;
-      --warning-bg: #fef3c7;
-      --warning-text: #92400e;
+      --danger-light: #fef2f2;
+      --warning-bg: #fffbeb;
+      --warning-text: #b45309;
       --baseline-color: #0284c7;
-      --baseline-light: #e0f2fe;
-      --shadow-sm: 0 2px 8px rgba(20, 83, 45, 0.05);
-      --shadow-md: 0 8px 24px rgba(20, 83, 45, 0.08);
-      --radius-lg: 18px;
-      --radius-md: 12px;
+      --baseline-light: #f0f9ff;
+      --shadow-sm: 0 4px 12px rgba(20, 83, 45, 0.03);
+      --shadow-md: 0 10px 25px rgba(20, 83, 45, 0.06);
+      --radius-lg: 20px;
+      --radius-md: 14px;
       --radius-full: 9999px;
     }
 
@@ -52,28 +52,28 @@
       line-height: 1.5;
     }
 
-    /* 14. Adaptabilidad Responsiva */
+    /* 15. Adaptabilidad en cualquier pantalla */
     #app {
       width: 100%;
       max-width: 480px;
-      padding: 1.25rem 1rem 2rem 1rem;
+      padding: 1.25rem 1rem 2.5rem 1rem;
       display: flex;
       flex-direction: column;
       gap: 1.25rem;
     }
 
-    /* 13. Mensajes y Notificaciones */
+    /* 14. Notificaciones Soft */
     .alert-banner {
       background-color: var(--danger-light);
       color: var(--danger);
-      padding: 0.85rem 1.1rem;
+      padding: 0.9rem 1.1rem;
       border-radius: var(--radius-md);
       font-weight: 600;
       font-size: 0.875rem;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      border: 1px solid rgba(239, 68, 68, 0.2);
+      gap: 0.6rem;
+      border: 1px solid rgba(239, 68, 68, 0.15);
     }
 
     .notice-banner {
@@ -83,7 +83,7 @@
       border-radius: var(--radius-md);
       font-size: 0.9rem;
       font-weight: 600;
-      border: none;
+      border: 1px solid #fef08a;
       width: 100%;
       text-align: left;
       cursor: pointer;
@@ -101,6 +101,7 @@
     .notice-banner.baseline {
       background-color: var(--baseline-light);
       color: var(--baseline-color);
+      border-color: #bae6fd;
     }
 
     .screen {
@@ -113,9 +114,8 @@
       display: flex;
     }
 
-    /* 4. Tipografía diferenciada */
     h1 {
-      font-size: 1.65rem;
+      font-size: 1.55rem;
       font-weight: 800;
       line-height: 1.25;
       color: var(--primary-dark);
@@ -123,7 +123,7 @@
     }
 
     h2 {
-      font-size: 1.3rem;
+      font-size: 1.25rem;
       font-weight: 700;
       color: var(--primary-dark);
     }
@@ -133,7 +133,7 @@
       font-size: 0.95rem;
     }
 
-    /* 5. Botones estilizados con iconos y hover */
+    /* 6. Botones Unificados */
     .btn {
       min-height: 52px;
       padding: 0.85rem 1.25rem;
@@ -149,7 +149,7 @@
       text-align: center;
       text-decoration: none;
       width: 100%;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
       box-shadow: var(--shadow-sm);
     }
 
@@ -163,12 +163,12 @@
     }
 
     .btn-primary {
-      background-color: var(--primary);
+      background-color: var(--primary-dark);
       color: white;
     }
 
     .btn-primary:hover {
-      background-color: var(--primary-hover);
+      background-color: #0f3d21;
     }
 
     .btn-secondary {
@@ -179,7 +179,7 @@
 
     .btn-outline {
       background-color: var(--card-bg);
-      border-color: var(--border-color);
+      border-color: #e2e8f0;
       color: var(--text-main);
     }
 
@@ -192,10 +192,10 @@
       color: white;
     }
 
-    /* 6. Tarjetas Informativas */
+    /* 5. Tarjetas Modernas */
     .card {
       background-color: var(--card-bg);
-      border: 1px solid rgba(226, 232, 240, 0.8);
+      border: 1px solid rgba(226, 232, 240, 0.9);
       border-radius: var(--radius-lg);
       padding: 1.35rem;
       display: flex;
@@ -204,15 +204,16 @@
       box-shadow: var(--shadow-md);
     }
 
-    /* 15. Identidad Visual: Mascotas e Ilustraciones */
+    /* 3 & 4. Pantalla de inicio & Foquito 2D Ilustrado */
     .hero-box {
       background: linear-gradient(135deg, var(--primary-dark) 0%, #166534 100%);
       color: white;
       border-radius: var(--radius-lg);
-      padding: 1.5rem;
+      padding: 1.6rem 1.35rem;
       display: flex;
       align-items: center;
-      gap: 1.25rem;
+      justify-content: space-between;
+      gap: 1rem;
       box-shadow: var(--shadow-md);
       position: relative;
       overflow: hidden;
@@ -220,60 +221,60 @@
 
     .hero-box h1 {
       color: white;
-      font-size: 1.45rem;
+      font-size: 1.4rem;
     }
 
     .hero-box p {
       color: #bbf7d0;
       font-size: 0.875rem;
-      margin-top: 0.35rem;
+      margin-top: 0.4rem;
     }
 
+    /* 4. Ilustración del Foquito 2D Amigable */
     .mascot-svg {
-      width: 75px;
-      height: 75px;
+      width: 85px;
+      height: 85px;
       flex-shrink: 0;
-      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
     }
 
-    /* 12. Navegación Visual */
+    /* 13. Navegación Visual Resaltada */
     .nav-links {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 0.5rem;
       background: var(--card-bg);
-      padding: 0.75rem 0.5rem;
+      padding: 0.6rem 0.5rem;
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-md);
-      border: 1px solid var(--border-color);
+      border: 1px solid #f1f5f9;
     }
 
     .nav-tab {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.35rem;
+      gap: 0.3rem;
       background: none;
       border: none;
       color: var(--text-muted);
       font-size: 0.75rem;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
-      padding: 0.4rem 0.2rem;
+      padding: 0.5rem 0.2rem;
       border-radius: var(--radius-md);
       transition: all 0.2s;
     }
 
     .nav-tab svg {
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       fill: none;
       stroke: currentColor;
       stroke-width: 2;
     }
 
     .nav-tab:hover, .nav-tab.active-tab {
-      color: var(--primary);
+      color: var(--primary-dark);
       background-color: var(--primary-light);
     }
 
@@ -296,7 +297,7 @@
       width: 100%;
       min-height: 50px;
       padding: 0.65rem 0.85rem;
-      border: 1.5px solid var(--border-color);
+      border: 1.5px solid #e2e8f0;
       border-radius: var(--radius-md);
       font-size: 1rem;
       background-color: #f8fafc;
@@ -310,31 +311,31 @@
       background-color: white;
     }
 
-    /* 7. Ronda Nocturna: Bar de progreso e Iconos por Habitación */
+    /* 8. Indicador de Progreso con Porcentaje */
     .progress-container {
       width: 100%;
       background-color: #e2e8f0;
-      height: 8px;
+      height: 10px;
       border-radius: var(--radius-full);
       overflow: hidden;
     }
 
     .progress-bar {
       height: 100%;
-      background-color: var(--primary);
+      background: linear-gradient(90deg, var(--primary) 0%, #22c55e 100%);
       width: 0%;
-      transition: width 0.3s ease;
+      transition: width 0.4s ease-in-out;
     }
 
     .room-header {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.85rem;
     }
 
     .room-icon-box {
-      width: 44px;
-      height: 44px;
+      width: 48px;
+      height: 48px;
       border-radius: var(--radius-md);
       background-color: var(--primary-light);
       display: flex;
@@ -345,8 +346,8 @@
     }
 
     .room-icon-box svg {
-      width: 24px;
-      height: 24px;
+      width: 26px;
+      height: 26px;
       fill: none;
       stroke: currentColor;
       stroke-width: 2;
@@ -366,24 +367,25 @@
       border-radius: var(--radius-md);
       line-height: 1.4;
       display: flex;
-      gap: 0.5rem;
+      gap: 0.6rem;
       align-items: flex-start;
+      border: 1px solid #fde047;
     }
 
-    /* 8. Gráficos e Historial Visual */
+    /* 10. Gráficos de Consumo Diferenciados */
     .bar-chart {
       display: flex;
       align-items: flex-end;
       gap: 0.6rem;
       height: 180px;
       padding: 1.5rem 0.5rem 0.5rem 0.5rem;
-      border-bottom: 2px solid var(--border-color);
+      border-bottom: 2px solid #e2e8f0;
       overflow-x: auto;
     }
 
     .bar-col {
       flex: 1;
-      min-width: 45px;
+      min-width: 48px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -408,11 +410,11 @@
       font-size: 0.725rem;
       color: var(--text-muted);
       margin-top: 0.4rem;
-      font-weight: 600;
+      font-weight: 700;
       text-align: center;
     }
 
-    /* 9. Historial Organizado */
+    /* 11. Historial Visual */
     .data-list {
       display: flex;
       flex-direction: column;
@@ -424,18 +426,18 @@
       justify-content: space-between;
       align-items: center;
       padding: 0.85rem 1rem;
-      border: 1px solid var(--border-color);
+      border: 1px solid #f1f5f9;
       border-radius: var(--radius-md);
       background-color: var(--card-bg);
       font-size: 0.9rem;
       box-shadow: var(--shadow-sm);
     }
 
-    /* 10. Ajustes por Secciones Visuales */
+    /* 12. Ajustes Organizados en Secciones */
     .settings-section {
-      border-left: 4px solid var(--primary);
-      padding-left: 0.85rem;
-      margin-bottom: 0.5rem;
+      border-left: 4px solid var(--primary-dark);
+      padding-left: 0.75rem;
+      margin-bottom: 0.25rem;
     }
 
     .room-tag {
@@ -444,7 +446,7 @@
       padding: 0.75rem 0.9rem;
       background: #f8fafc;
       border-radius: var(--radius-md);
-      border: 1px solid var(--border-color);
+      border: 1px solid #e2e8f0;
     }
 
     .room-tag button {
@@ -461,7 +463,7 @@
       color: var(--text-muted);
       margin-top: auto;
       padding-top: 1rem;
-      border-top: 1px solid var(--border-color);
+      border-top: 1px solid #e2e8f0;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -478,25 +480,40 @@
       ⚠️ Se han restaurado los valores iniciales debido a datos dañados.
     </div>
 
-    <!-- PANTALLA 1: INICIO (3. Presentación llamativa) -->
+    <!-- PANTALLA 1: INICIO -->
     <section id="screen-inicio" class="screen active">
       <div class="hero-box">
         <div>
           <h1>¡Hola! Cuidemos la luz juntos</h1>
           <p>Tarda solo 2 minutos cada noche antes de ir a descansar.</p>
         </div>
-        <!-- 15. Personaje "Luz" (Foquito Vectorial) -->
+
+        <!-- 4. Personaje Principal Foquito 2D -->
         <svg class="mascot-svg" viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="45" fill="#fef08a" opacity="0.3"/>
-          <path d="M50 15 C33 15 20 28 20 45 C20 57 28 67 35 73 L35 82 C35 84 37 86 39 86 L61 86 C63 86 65 84 65 82 L65 73 C72 67 80 57 80 45 C80 28 67 15 50 15 Z" fill="#fde047" stroke="#14532d" stroke-width="3"/>
-          <!-- Carita feliz -->
-          <circle cx="40" cy="42" r="4" fill="#14532d"/>
-          <circle cx="60" cy="42" r="4" fill="#14532d"/>
-          <path d="M40 54 Q50 64 60 54" fill="none" stroke="#14532d" stroke-width="3" stroke-linecap="round"/>
-          <!-- Destellos -->
-          <line x1="50" y1="5" x2="50" y2="10" stroke="#16a34a" stroke-width="3" stroke-linecap="round"/>
-          <line x1="15" y1="20" x2="20" y2="24" stroke="#16a34a" stroke-width="3" stroke-linecap="round"/>
-          <line x1="85" y1="20" x2="80" y2="24" stroke="#16a34a" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="50" cy="45" r="38" fill="url(#bulbGlow)" opacity="0.3"/>
+          <defs>
+            <radialGradient id="bulbGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#fef08a"/>
+              <stop offset="100%" stop-color="#faf7f2" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <!-- Cuerpo de la bombilla -->
+          <path d="M50 12 C34 12 22 24 22 40 C22 52 30 62 36 68 L36 78 C36 80 38 82 40 82 L60 82 C62 82 64 80 64 78 L64 68 C70 62 78 52 78 40 C78 24 66 12 50 12 Z" fill="#fef08a" stroke="#14532d" stroke-width="3.5" stroke-linejoin="round"/>
+          <!-- Base de la rosca -->
+          <rect x="40" y="82" width="20" height="4" rx="2" fill="#94a3b8" stroke="#14532d" stroke-width="2"/>
+          <rect x="42" y="86" width="16" height="4" rx="2" fill="#64748b" stroke="#14532d" stroke-width="2"/>
+          <!-- Ojos amigables -->
+          <ellipse cx="42" cy="38" rx="3.5" ry="5" fill="#14532d"/>
+          <ellipse cx="58" cy="38" rx="3.5" ry="5" fill="#14532d"/>
+          <circle cx="43.5" cy="36.5" r="1.5" fill="#ffffff"/>
+          <circle cx="59.5" cy="36.5" r="1.5" fill="#ffffff"/>
+          <!-- Mejillas sonrojadas -->
+          <ellipse cx="36" cy="45" rx="3.5" ry="2" fill="#f87171" opacity="0.6"/>
+          <ellipse cx="64" cy="45" rx="3.5" ry="2" fill="#f87171" opacity="0.6"/>
+          <!-- Sonrisa -->
+          <path d="M42 48 Q50 56 58 48" fill="none" stroke="#14532d" stroke-width="3" stroke-linecap="round"/>
+          <!-- Destello de energía -->
+          <path d="M50 4 L50 8 M18 16 L22 19 M82 16 L78 19" stroke="#22c55e" stroke-width="3.5" stroke-linecap="round"/>
         </svg>
       </div>
 
@@ -510,15 +527,15 @@
         <span>→</span>
       </button>
 
-      <!-- 5. Botón de inicio más visible -->
-      <button class="btn btn-primary" style="font-size: 1.1rem; min-height: 56px;" onclick="startRonda()">
+      <!-- 6. Botón de inicio Verde Oscuro -->
+      <button class="btn btn-primary" style="font-size: 1.05rem; min-height: 56px;" onclick="startRonda()">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
         Empezar mi ronda nocturna
       </button>
 
       <div class="card">
-        <div style="display: flex; align-items: center; gap: 0.75rem;">
-          <div style="background: var(--accent-yellow); padding: 0.5rem; border-radius: var(--radius-md);">
+        <div style="display: flex; align-items: center; gap: 0.85rem;">
+          <div style="background: var(--accent-pastel-yellow); padding: 0.6rem; border-radius: var(--radius-md); border: 1px solid #fef08a;">
             🔥
           </div>
           <div>
@@ -526,24 +543,24 @@
             <p id="turn-info" style="font-size: 0.85rem; display: none;"></p>
           </div>
         </div>
-        <div id="behavior-summary" style="font-size: 0.85rem; color: var(--text-muted); display: none; border-top: 1px solid var(--border-color); padding-top: 0.6rem;"></div>
+        <div id="behavior-summary" style="font-size: 0.85rem; color: var(--text-muted); display: none; border-top: 1px solid #f1f5f9; padding-top: 0.6rem;"></div>
       </div>
 
-      <!-- 12. Navegación Visual Principal -->
+      <!-- 13. Navegación Visual -->
       <nav class="nav-links">
-        <button class="nav-tab" onclick="navTo('lectura')">
+        <button class="nav-tab" id="tab-lectura" onclick="navTo('lectura')">
           <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
           Medidor
         </button>
-        <button class="nav-tab" onclick="navTo('historial')">
+        <button class="nav-tab" id="tab-historial" onclick="navTo('historial')">
           <svg viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
           Historial
         </button>
-        <button class="nav-tab" onclick="navTo('ajustes')">
+        <button class="nav-tab" id="tab-ajustes" onclick="navTo('ajustes')">
           <svg viewBox="0 0 24 24"><path d="M12 6V4m0 16v-2m6-8h2M4 12H2m15.364 6.364l1.414 1.414M4.222 4.222l1.414 1.414m12.728 0l-1.414 1.414M5.636 18.364l-1.414 1.414M12 15a3 3 0 100-6 3 3 0 000 6z"></path></svg>
           Ajustes
         </button>
-        <button class="nav-tab" onclick="navTo('info')">
+        <button class="nav-tab" id="tab-info" onclick="navTo('info')">
           <svg viewBox="0 0 24 24"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
           Info
         </button>
@@ -554,24 +571,24 @@
       </div>
     </section>
 
-    <!-- PANTALLA 1.1: ACERCA DEL PROYECTO (INFO) -->
+    <!-- PANTALLA INFO -->
     <section id="screen-info" class="screen">
       <h2>Acerca del proyecto</h2>
       <div class="card" style="gap: 0.85rem; font-size: 0.95rem;">
         <p><strong>💡 Pregunta base:</strong> ¿Cómo podemos evitar el consumo de energía eléctrica de forma irresponsable?</p>
-        <p><strong>📊 Qué mide:</strong> Registra una sencilla ronda nocturna de verificación y el consumo medido semanalmente en kWh para concientizar sobre el gasto fantasma y el cuidado de los recursos.</p>
-        <p><strong>🔒 Privacidad total:</strong> Funciona en tu dispositivo sin necesidad de servidores ni conexión a internet.</p>
+        <p><strong>📊 Qué mide:</strong> Registra una sencilla ronda nocturna de verificación y el consumo medido semanalmente en kWh para concientizar sobre el gasto fantasma.</p>
+        <p><strong>🔒 Privacidad total:</strong> Tus datos permanecen en tu teléfono o computadora de forma segura.</p>
       </div>
       <button class="btn btn-outline" onclick="navTo('inicio')">Volver al inicio</button>
     </section>
 
-    <!-- PANTALLA 2: RONDA NOCTURNA (7. Progreso e Iconos de Habitación) -->
+    <!-- PANTALLA 2: RONDA NOCTURNA -->
     <section id="screen-ronda" class="screen">
-      <!-- 7. Indicador de progreso visual -->
+      <!-- 8. Indicador de Progreso con Porcentaje -->
       <div>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
-          <span style="font-size: 0.8rem; font-weight: 700; color: var(--primary-dark);" id="ronda-progress-text">Progreso de la ronda</span>
-          <span id="ronda-progress-num" style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">1 de 12</span>
+          <span style="font-size: 0.85rem; font-weight: 700; color: var(--primary-dark);" id="ronda-progress-text">Progreso de la ronda</span>
+          <span id="ronda-progress-num" style="font-size: 0.85rem; font-weight: 800; color: var(--primary);">0%</span>
         </div>
         <div class="progress-container">
           <div id="ronda-progress-bar" class="progress-bar"></div>
@@ -579,12 +596,12 @@
       </div>
 
       <div class="card">
-        <div id="observation-mode-badge" style="font-size: 0.8rem; background: var(--baseline-light); color: var(--baseline-color); padding: 0.35rem 0.6rem; border-radius: 6px; display: none; font-weight: 700;">
+        <div id="observation-mode-badge" style="font-size: 0.8rem; background: var(--baseline-light); color: var(--baseline-color); padding: 0.35rem 0.6rem; border-radius: 8px; display: none; font-weight: 700;">
           👁️ Modo Observación: Esta semana no apagues nada todavía
         </div>
 
         <div class="room-header">
-          <!-- 11. Icono dinámico según la habitación -->
+          <!-- 7. Iconos Ilustrativos por Habitación -->
           <div id="room-icon-container" class="room-icon-box">
             <svg viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
           </div>
@@ -623,61 +640,62 @@
         <button class="btn btn-outline" style="flex: 1; color: var(--danger); border-color: rgba(239, 68, 68, 0.3);" onclick="confirmExitRonda()">Salir</button>
       </div>
 
-      <!-- 13. Aviso de Seguridad -->
       <div id="safety-warning" class="safety-text" style="display: none;">
         <span>⚡</span>
-        <div><strong>Seguridad:</strong> Solo apaga o desenchufa aparatos con las manos bien secas. Nunca toques cables pelados.</div>
+        <div><strong>Seguridad:</strong> Solo apaga o desenchufa aparatos con las manos bien secas. Nunca toques cables desprotegidos.</div>
       </div>
     </section>
 
-    <!-- PANTALLA 2.1: FIN DE RONDA -->
+    <!-- FIN DE RONDA -->
     <section id="screen-fin-ronda" class="screen">
-      <div class="card" style="text-align: center; padding: 2rem 1.5rem;">
-        <div style="font-size: 3rem; margin-bottom: 0.5rem;">🎉</div>
+      <div class="card" style="text-align: center; padding: 2.5rem 1.5rem;">
+        <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">🌱</div>
         <h1 style="margin-bottom: 0.5rem;">¡Ronda completada!</h1>
-        <p id="fin-count-text" style="font-size: 1.1rem; font-weight: 600; color: var(--primary-dark);">Todo estaba en orden. Así se ahorra.</p>
+        <p id="fin-count-text" style="font-size: 1.1rem; font-weight: 700; color: var(--primary-dark);">Todo estaba en orden. Así se ahorra.</p>
       </div>
       <button class="btn btn-primary" onclick="navTo('inicio')">Volver al inicio</button>
     </section>
 
-    <!-- PANTALLA 3: LECTURA SEMANAL (8. Formularios y Gráficos) -->
+    <!-- PANTALLA 3: LECTURA SEMANAL -->
     <section id="screen-lectura" class="screen">
       <h2>Lectura semanal del medidor</h2>
       
+      <!-- 9. Formulario con separación y claridad -->
       <div class="card">
         <div class="form-group">
-          <label for="input-fecha-lectura">Fecha de lectura</label>
+          <label for="input-fecha-lectura">📅 Fecha de lectura</label>
           <input type="date" id="input-fecha-lectura">
         </div>
         <div class="form-group">
-          <label for="input-kwh">Lectura del medidor (kWh)</label>
+          <label for="input-kwh">⚡ Lectura del medidor (kWh)</label>
           <input type="number" id="input-kwh" placeholder="Ej. 1245.5" step="0.1" inputmode="decimal">
-          <small style="color: var(--text-muted); font-size: 0.8rem;">Es el número grande en el medidor de tu casa o recibo.</small>
+          <small style="color: var(--text-muted); font-size: 0.8rem;">Número grande visible en la pantalla del medidor.</small>
         </div>
         <div class="form-group">
-          <label for="input-tarifa-lectura">Tarifa por kWh en soles (opcional)</label>
+          <label for="input-tarifa-lectura">💰 Tarifa por kWh en soles (opcional)</label>
           <input type="number" id="input-tarifa-lectura" placeholder="Ej. 0.85" step="0.01" inputmode="decimal">
         </div>
         <button class="btn btn-primary" onclick="saveLectura()">Guardar lectura</button>
       </div>
 
       <div id="lectura-msg" class="card" style="display: none;">
-        <p id="lectura-msg-text" style="font-weight: 600; color: var(--primary-dark);"></p>
+        <p id="lectura-msg-text" style="font-weight: 700; color: var(--primary-dark);"></p>
       </div>
 
-      <!-- 8. Gráfico de Consumo -->
+      <!-- 10. Gráfico de Consumo -->
       <div id="chart-card" class="card" style="display: none;">
-        <label>Consumo promedio por día (kWh/día)</label>
+        <label>📊 Consumo promedio diario (kWh/día)</label>
         <div id="bar-chart" class="bar-chart"></div>
       </div>
 
       <button class="btn btn-outline" onclick="navTo('inicio')">Volver al inicio</button>
     </section>
 
-    <!-- PANTALLA 4: HISTORIAL (9. Tarjetas organizadas con iconos) -->
+    <!-- PANTALLA 4: HISTORIAL -->
     <section id="screen-historial" class="screen">
       <h2>Historial de Registros</h2>
       
+      <!-- 11. Tarjetas Visuales -->
       <div class="card">
         <label>🌙 Rondas nocturnas realizadas</label>
         <div id="list-rondas" class="data-list">
@@ -697,22 +715,21 @@
       <button class="btn btn-outline" onclick="navTo('inicio')">Volver al inicio</button>
     </section>
 
-    <!-- PANTALLA 5: AJUSTES (10. Secciones visuales) -->
+    <!-- PANTALLA 5: AJUSTES -->
     <section id="screen-ajustes" class="screen">
       <h2>Ajustes</h2>
       
-      <!-- Sección 1: Personas -->
+      <!-- 12. Secciones Visuales Diferenciadas -->
       <div class="card">
         <div class="settings-section">
-          <h2>👥 Integrantes</h2>
+          <h2>👥 Integrantes del hogar</h2>
         </div>
         <div class="form-group">
-          <label for="input-nombres">Nombres para rotación diaria</label>
-          <input type="text" id="input-nombres" placeholder="Ej. Ana, Juan, Pedro (separados por comas)">
+          <label for="input-nombres">Nombres para la rotación</label>
+          <input type="text" id="input-nombres" placeholder="Ej. Ana, Juan, Pedro">
         </div>
       </div>
 
-      <!-- Sección 2: Habitaciones -->
       <div class="card">
         <div class="settings-section">
           <h2>🏠 Habitaciones y preguntas</h2>
@@ -720,9 +737,9 @@
         <div id="list-habitaciones" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
         
         <div class="form-group" style="margin-top: 0.5rem;">
-          <label for="input-nueva-hab">Agregar nueva habitación</label>
+          <label for="input-nueva-hab">Agregar habitación</label>
           <div style="display: flex; gap: 0.5rem;">
-            <input type="text" id="input-nueva-hab" placeholder="Ej. Oficina">
+            <input type="text" id="input-nueva-hab" placeholder="Ej. Terraza">
             <button class="btn btn-secondary" style="width: auto; white-space: nowrap;" onclick="addHabitacionTemp()">Agregar</button>
           </div>
         </div>
@@ -730,23 +747,22 @@
         <div class="form-group" style="margin-top: 0.5rem;">
           <label for="input-nueva-pregunta">Agregar pregunta personalizada</label>
           <select id="select-hab-pregunta"></select>
-          <input type="text" id="input-nueva-pregunta" placeholder="Ej. ¿Quedó la computadora encendida?" style="margin-top:0.4rem;">
+          <input type="text" id="input-nueva-pregunta" placeholder="Ej. ¿La laptop quedó enchufada?" style="margin-top:0.4rem;">
           <button class="btn btn-secondary" style="margin-top:0.4rem;" onclick="addCustomQuestion()">Añadir pregunta</button>
         </div>
       </div>
 
       <div class="card" id="hidden-questions-card" style="display: none;">
-        <label>Preguntas ocultas ("No aplica aquí")</label>
+        <label>Preguntas ocultas</label>
         <button class="btn btn-secondary" onclick="restoreHiddenQuestions()">Volver a mostrar todas las preguntas</button>
       </div>
 
-      <!-- Sección 3: Tarifas -->
       <div class="card">
         <div class="settings-section">
-          <h2>💰 Tarifa eléctrica</h2>
+          <h2>💰 Tarifa de luz</h2>
         </div>
         <div class="form-group">
-          <label for="input-tarifa">Precio por kWh en soles (opcional)</label>
+          <label for="input-tarifa">Precio por kWh en soles</label>
           <input type="number" id="input-tarifa" placeholder="Ej. 0.85" step="0.01" inputmode="decimal">
         </div>
       </div>
@@ -758,7 +774,7 @@
   </div>
 
   <script>
-    // 7 & 11. Banco de preguntas con iconos SVG correspondientes por categoría/habitación
+    // Banco de preguntas con iconos SVG
     const QUESTIONS_DEF = [
       { id: 'sala_luces', room: 'Sala', q: '¿Quedó alguna luz prendida en la sala?', minDay: 1, icon: 'light' },
       { id: 'sala_tv', room: 'Sala', q: '¿Quedó encendido el televisor, la consola de videojuegos o algún equipo de sonido?', minDay: 1, icon: 'tv' },
@@ -873,6 +889,9 @@
       const target = document.getElementById(`screen-${screenId}`);
       if (target) target.classList.add('active');
 
+      const activeTab = document.getElementById(`tab-${screenId}`);
+      if (activeTab) activeTab.classList.add('active-tab');
+
       if (screenId === 'inicio') renderInicio();
       if (screenId === 'lectura') renderLectura();
       if (screenId === 'historial') renderHistorial();
@@ -930,13 +949,11 @@
       }
 
       const baselineNotice = document.getElementById('baseline-notice');
-      const readingDueNotice = document.getElementById('reading-due-notice');
-
       if (state.lecturas.length === 1) {
         const firstDate = new Date(state.lecturas[0].fecha + 'T00:00:00');
         firstDate.setDate(firstDate.getDate() + 7);
         const targetDateStr = firstDate.toISOString().split('T')[0];
-        document.getElementById('baseline-notice-text').innerText = `Semana de partida: solo observa. Proxima lectura el ${targetDateStr}.`;
+        document.getElementById('baseline-notice-text').innerText = `Semana de partida: solo observa. Próxima lectura el ${targetDateStr}.`;
         baselineNotice.style.display = 'flex';
       } else {
         baselineNotice.style.display = 'none';
@@ -992,22 +1009,20 @@
     function renderQuestion() {
       const q = activeQuestions[currentQIndex];
       document.getElementById('ronda-room-title').innerText = q.room;
-      document.getElementById('ronda-progress-num').innerText = `${currentQIndex + 1} de ${activeQuestions.length}`;
-      
-      const pct = ((currentQIndex + 1) / activeQuestions.length) * 100;
+
+      // 8. Porcentaje y barra de avance
+      const pct = Math.round(((currentQIndex + 1) / activeQuestions.length) * 100);
+      document.getElementById('ronda-progress-num').innerText = `${pct}%`;
       document.getElementById('ronda-progress-bar').style.width = `${pct}%`;
 
       document.getElementById('ronda-question').innerText = q.q;
 
-      // Icono de la habitación
       const roomKey = q.room.toLowerCase();
       const iconContainer = document.getElementById('room-icon-container');
       iconContainer.innerHTML = ROOM_ICONS[roomKey] || ROOM_ICONS['sala'];
 
       document.getElementById('btn-back-q').style.display = currentQIndex > 0 ? 'inline-flex' : 'none';
-
-      const safetyWarning = document.getElementById('safety-warning');
-      safetyWarning.style.display = q.safety ? 'flex' : 'none';
+      document.getElementById('safety-warning').style.display = q.safety ? 'flex' : 'none';
     }
 
     function answerQuestion(action) {
@@ -1107,7 +1122,7 @@
       } else {
         msgCard.style.display = 'block';
         chartCard.style.display = 'block';
-        msgText.innerText = `¡Registrado! Tienes ${count} lecturas guardadas para comparar el avance.`;
+        msgText.innerText = `¡Registrado! Tienes ${count} lecturas guardadas para comparar tu ahorro.`;
         renderChart();
       }
     }
@@ -1147,7 +1162,7 @@
         [...state.rondas].reverse().map(r => `
           <div class="data-item">
             <div><strong>📅 ${escapeHTML(r.fecha)}</strong></div>
-            <span>${r.apagados} apagados</span>
+            <span style="font-weight:700; color:var(--primary-dark);">${r.apagados} apagados</span>
           </div>
         `).join('');
 
@@ -1156,7 +1171,7 @@
         [...state.lecturas].reverse().map(l => `
           <div class="data-item">
             <div><strong>⚡ ${escapeHTML(l.fecha)}</strong></div>
-            <span>${l.kwh} kWh</span>
+            <span style="font-weight:700; color:var(--primary-dark);">${l.kwh} kWh</span>
           </div>
         `).join('');
     }
@@ -1238,7 +1253,7 @@
       state.customQuestions = [...tempCustomQuestions];
 
       if (saveState()) {
-        alert("Ajustes guardados correctamente.");
+        alert("Ajustes guardados.");
         navTo('inicio');
       }
     }
