@@ -4,24 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Luz a Cargo - Ahorro Energético</title>
-  <!-- Tipografía moderna -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      /* 1 & 2. Fondo Crema Suave y Paleta Sostenible Soft */
-      --bg-cream: #faf7f2; /* Crema suave muy agradable a la vista */
+      --bg-cream: #faf7f2;
       --card-bg: #ffffff;
-      --primary-dark: #14532d; /* Verde bosque profundo */
-      --primary: #16a34a; /* Verde natural */
+      --primary-dark: #14532d;
+      --primary: #16a34a;
       --primary-hover: #15803d;
       --primary-light: #e8f5e9;
-      --accent-pastel-yellow: #fef9c3; /* Amarillo pastel suave */
+      --accent-pastel-yellow: #fef9c3;
       --text-main: #1e293b;
       --text-muted: #64748b;
-      --border-color: #f1f5f9;
+      --border-color: #e2e8f0;
       --danger: #ef4444;
       --danger-light: #fef2f2;
       --warning-bg: #fffbeb;
@@ -35,499 +33,104 @@
       --radius-full: 9999px;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+    body { background-color: var(--bg-cream); color: var(--text-main); display: flex; justify-content: center; min-height: 100vh; font-size: 16px; line-height: 1.5; }
+    #app { width: 100%; max-width: 480px; padding: 1.25rem 1rem 2.5rem 1rem; display: flex; flex-direction: column; gap: 1.25rem; }
 
-    body {
-      background-color: var(--bg-cream);
-      color: var(--text-main);
-      display: flex;
-      justify-content: center;
-      min-height: 100vh;
-      font-size: 16px;
-      line-height: 1.5;
-    }
+    .alert-banner { background-color: var(--danger-light); color: var(--danger); padding: 0.9rem 1.1rem; border-radius: var(--radius-md); font-weight: 600; font-size: 0.875rem; display: flex; align-items: center; gap: 0.6rem; border: 1px solid rgba(239, 68, 68, 0.15); }
+    .notice-banner { background-color: var(--warning-bg); color: var(--warning-text); padding: 1rem 1.1rem; border-radius: var(--radius-md); font-size: 0.9rem; font-weight: 600; border: 1px solid #fef08a; width: 100%; text-align: left; cursor: pointer; display: flex; align-items: center; justify-content: space-between; box-shadow: var(--shadow-sm); }
+    .notice-banner.baseline { background-color: var(--baseline-light); color: var(--baseline-color); border-color: #bae6fd; }
 
-    /* 15. Adaptabilidad en cualquier pantalla */
-    #app {
-      width: 100%;
-      max-width: 480px;
-      padding: 1.25rem 1rem 2.5rem 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-    }
+    .screen { display: none; flex-direction: column; gap: 1.25rem; }
+    .screen.active { display: flex; }
 
-    /* 14. Notificaciones Soft */
-    .alert-banner {
-      background-color: var(--danger-light);
-      color: var(--danger);
-      padding: 0.9rem 1.1rem;
-      border-radius: var(--radius-md);
-      font-weight: 600;
-      font-size: 0.875rem;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      border: 1px solid rgba(239, 68, 68, 0.15);
-    }
+    h1 { font-size: 1.55rem; font-weight: 800; line-height: 1.25; color: var(--primary-dark); letter-spacing: -0.02em; }
+    h2 { font-size: 1.25rem; font-weight: 700; color: var(--primary-dark); }
+    p { color: var(--text-muted); font-size: 0.95rem; }
 
-    .notice-banner {
-      background-color: var(--warning-bg);
-      color: var(--warning-text);
-      padding: 1rem 1.1rem;
-      border-radius: var(--radius-md);
-      font-size: 0.9rem;
-      font-weight: 600;
-      border: 1px solid #fef08a;
-      width: 100%;
-      text-align: left;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: var(--shadow-sm);
-      transition: transform 0.2s;
-    }
+    .btn { min-height: 52px; padding: 0.85rem 1.25rem; border-radius: var(--radius-md); border: 1.5px solid transparent; font-size: 1rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; text-align: center; width: 100%; transition: all 0.2s; box-shadow: var(--shadow-sm); }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary { background-color: var(--primary-dark); color: white; }
+    .btn-primary:hover { background-color: #0f3d21; }
+    .btn-secondary { background-color: var(--primary-light); color: var(--primary-dark); }
+    .btn-outline { background-color: var(--card-bg); border-color: #e2e8f0; color: var(--text-main); }
+    .btn-danger { background-color: var(--danger); color: white; }
 
-    .notice-banner:hover {
-      transform: translateY(-2px);
-    }
+    .card { background-color: var(--card-bg); border: 1px solid rgba(226, 232, 240, 0.9); border-radius: var(--radius-lg); padding: 1.35rem; display: flex; flex-direction: column; gap: 1rem; box-shadow: var(--shadow-md); }
+    .hero-box { background: linear-gradient(135deg, var(--primary-dark) 0%, #166534 100%); color: white; border-radius: var(--radius-lg); padding: 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; box-shadow: var(--shadow-md); }
+    .hero-box h1 { color: white; font-size: 1.35rem; }
+    .hero-box p { color: #bbf7d0; font-size: 0.85rem; margin-top: 0.3rem; }
+    .mascot-svg { width: 75px; height: 75px; flex-shrink: 0; }
 
-    .notice-banner.baseline {
-      background-color: var(--baseline-light);
-      color: var(--baseline-color);
-      border-color: #bae6fd;
-    }
+    .nav-links { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; background: var(--card-bg); padding: 0.6rem 0.5rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); border: 1px solid #f1f5f9; }
+    .nav-tab { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; background: none; border: none; color: var(--text-muted); font-size: 0.75rem; font-weight: 700; cursor: pointer; padding: 0.5rem 0.2rem; border-radius: var(--radius-md); }
+    .nav-tab svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; }
+    .nav-tab:hover, .nav-tab.active-tab { color: var(--primary-dark); background-color: var(--primary-light); }
 
-    .screen {
-      display: none;
-      flex-direction: column;
-      gap: 1.25rem;
-    }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    label { font-weight: 700; font-size: 0.9rem; color: var(--primary-dark); }
+    input[type="number"], input[type="date"], input[type="text"], select { width: 100%; min-height: 50px; padding: 0.65rem 0.85rem; border: 1.5px solid #e2e8f0; border-radius: var(--radius-md); font-size: 1rem; background-color: #f8fafc; color: var(--text-main); }
 
-    .screen.active {
-      display: flex;
-    }
+    .progress-container { width: 100%; background-color: #e2e8f0; height: 10px; border-radius: var(--radius-full); overflow: hidden; }
+    .progress-bar { height: 100%; background: linear-gradient(90deg, var(--primary) 0%, #22c55e 100%); width: 0%; transition: width 0.3s; }
 
-    h1 {
-      font-size: 1.55rem;
-      font-weight: 800;
-      line-height: 1.25;
-      color: var(--primary-dark);
-      letter-spacing: -0.02em;
-    }
+    .room-header { display: flex; align-items: center; gap: 0.85rem; }
+    .room-icon-box { width: 48px; height: 48px; border-radius: var(--radius-md); background-color: var(--primary-light); display: flex; align-items: center; justify-content: center; color: var(--primary-dark); flex-shrink: 0; }
+    .room-icon-box svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 2; }
+    .q-options { display: flex; flex-direction: column; gap: 0.75rem; }
+    .safety-text { font-size: 0.85rem; background-color: var(--warning-bg); color: var(--warning-text); padding: 0.85rem; border-radius: var(--radius-md); display: flex; gap: 0.6rem; align-items: flex-start; border: 1px solid #fde047; }
 
-    h2 {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--primary-dark);
-    }
+    .bar-chart { display: flex; align-items: flex-end; gap: 0.6rem; height: 180px; padding: 1.5rem 0.5rem 0.5rem 0.5rem; border-bottom: 2px solid #e2e8f0; overflow-x: auto; }
+    .bar-col { flex: 1; min-width: 48px; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; }
+    .bar { width: 100%; max-width: 32px; background-color: var(--primary); border-radius: 6px 6px 0 0; min-height: 4px; }
+    .bar.baseline-bar { background-color: var(--baseline-color); }
+    .bar-label { font-size: 0.725rem; color: var(--text-muted); margin-top: 0.4rem; font-weight: 700; text-align: center; }
 
-    p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-    }
-
-    /* 6. Botones Unificados */
-    .btn {
-      min-height: 52px;
-      padding: 0.85rem 1.25rem;
-      border-radius: var(--radius-md);
-      border: 1.5px solid transparent;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.6rem;
-      text-align: center;
-      text-decoration: none;
-      width: 100%;
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .btn:active {
-      transform: scale(0.98);
-    }
-
-    .btn-primary {
-      background-color: var(--primary-dark);
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background-color: #0f3d21;
-    }
-
-    .btn-secondary {
-      background-color: var(--primary-light);
-      color: var(--primary-dark);
-      border-color: transparent;
-    }
-
-    .btn-outline {
-      background-color: var(--card-bg);
-      border-color: #e2e8f0;
-      color: var(--text-main);
-    }
-
-    .btn-outline:hover {
-      background-color: #f8fafc;
-    }
-
-    .btn-danger {
-      background-color: var(--danger);
-      color: white;
-    }
-
-    /* 5. Tarjetas Modernas */
-    .card {
-      background-color: var(--card-bg);
-      border: 1px solid rgba(226, 232, 240, 0.9);
-      border-radius: var(--radius-lg);
-      padding: 1.35rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      box-shadow: var(--shadow-md);
-    }
-
-    /* 3 & 4. Pantalla de inicio & Foquito 2D Ilustrado */
-    .hero-box {
-      background: linear-gradient(135deg, var(--primary-dark) 0%, #166534 100%);
-      color: white;
-      border-radius: var(--radius-lg);
-      padding: 1.6rem 1.35rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      box-shadow: var(--shadow-md);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-box h1 {
-      color: white;
-      font-size: 1.4rem;
-    }
-
-    .hero-box p {
-      color: #bbf7d0;
-      font-size: 0.875rem;
-      margin-top: 0.4rem;
-    }
-
-    /* 4. Ilustración del Foquito 2D Amigable */
-    .mascot-svg {
-      width: 85px;
-      height: 85px;
-      flex-shrink: 0;
-    }
-
-    /* 13. Navegación Visual Resaltada */
-    .nav-links {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.5rem;
-      background: var(--card-bg);
-      padding: 0.6rem 0.5rem;
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-md);
-      border: 1px solid #f1f5f9;
-    }
-
-    .nav-tab {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.3rem;
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      font-size: 0.75rem;
-      font-weight: 700;
-      cursor: pointer;
-      padding: 0.5rem 0.2rem;
-      border-radius: var(--radius-md);
-      transition: all 0.2s;
-    }
-
-    .nav-tab svg {
-      width: 22px;
-      height: 22px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 2;
-    }
-
-    .nav-tab:hover, .nav-tab.active-tab {
-      color: var(--primary-dark);
-      background-color: var(--primary-light);
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-
-    label {
-      font-weight: 700;
-      font-size: 0.9rem;
-      color: var(--primary-dark);
-    }
-
-    input[type="number"],
-    input[type="date"],
-    input[type="text"],
-    select {
-      width: 100%;
-      min-height: 50px;
-      padding: 0.65rem 0.85rem;
-      border: 1.5px solid #e2e8f0;
-      border-radius: var(--radius-md);
-      font-size: 1rem;
-      background-color: #f8fafc;
-      color: var(--text-main);
-      transition: border-color 0.2s;
-    }
-
-    input:focus, select:focus {
-      outline: none;
-      border-color: var(--primary);
-      background-color: white;
-    }
-
-    /* 8. Indicador de Progreso con Porcentaje */
-    .progress-container {
-      width: 100%;
-      background-color: #e2e8f0;
-      height: 10px;
-      border-radius: var(--radius-full);
-      overflow: hidden;
-    }
-
-    .progress-bar {
-      height: 100%;
-      background: linear-gradient(90deg, var(--primary) 0%, #22c55e 100%);
-      width: 0%;
-      transition: width 0.4s ease-in-out;
-    }
-
-    .room-header {
-      display: flex;
-      align-items: center;
-      gap: 0.85rem;
-    }
-
-    .room-icon-box {
-      width: 48px;
-      height: 48px;
-      border-radius: var(--radius-md);
-      background-color: var(--primary-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--primary-dark);
-      flex-shrink: 0;
-    }
-
-    .room-icon-box svg {
-      width: 26px;
-      height: 26px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 2;
-    }
-
-    .q-options {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-
-    .safety-text {
-      font-size: 0.85rem;
-      background-color: var(--warning-bg);
-      color: var(--warning-text);
-      padding: 0.85rem;
-      border-radius: var(--radius-md);
-      line-height: 1.4;
-      display: flex;
-      gap: 0.6rem;
-      align-items: flex-start;
-      border: 1px solid #fde047;
-    }
-
-    /* 10. Gráficos de Consumo Diferenciados */
-    .bar-chart {
-      display: flex;
-      align-items: flex-end;
-      gap: 0.6rem;
-      height: 180px;
-      padding: 1.5rem 0.5rem 0.5rem 0.5rem;
-      border-bottom: 2px solid #e2e8f0;
-      overflow-x: auto;
-    }
-
-    .bar-col {
-      flex: 1;
-      min-width: 48px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      height: 100%;
-      justify-content: flex-end;
-    }
-
-    .bar {
-      width: 100%;
-      max-width: 32px;
-      background-color: var(--primary);
-      border-radius: 6px 6px 0 0;
-      min-height: 4px;
-      transition: height 0.5s ease;
-    }
-
-    .bar.baseline-bar {
-      background-color: var(--baseline-color);
-    }
-
-    .bar-label {
-      font-size: 0.725rem;
-      color: var(--text-muted);
-      margin-top: 0.4rem;
-      font-weight: 700;
-      text-align: center;
-    }
-
-    /* 11. Historial Visual */
-    .data-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-
-    .data-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.85rem 1rem;
-      border: 1px solid #f1f5f9;
-      border-radius: var(--radius-md);
-      background-color: var(--card-bg);
-      font-size: 0.9rem;
-      box-shadow: var(--shadow-sm);
-    }
-
-    /* 12. Ajustes Organizados en Secciones */
-    .settings-section {
-      border-left: 4px solid var(--primary-dark);
-      padding-left: 0.75rem;
-      margin-bottom: 0.25rem;
-    }
-
-    .room-tag {
-      display: flex;
-      flex-direction: column;
-      padding: 0.75rem 0.9rem;
-      background: #f8fafc;
-      border-radius: var(--radius-md);
-      border: 1px solid #e2e8f0;
-    }
-
-    .room-tag button {
-      background: none;
-      border: none;
-      color: var(--danger);
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .footer-ods {
-      font-size: 0.8rem;
-      text-align: center;
-      color: var(--text-muted);
-      margin-top: auto;
-      padding-top: 1rem;
-      border-top: 1px solid #e2e8f0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.4rem;
-    }
+    .data-list { display: flex; flex-direction: column; gap: 0.75rem; }
+    .data-item { display: flex; justify-content: space-between; align-items: center; padding: 0.85rem 1rem; border: 1px solid #f1f5f9; border-radius: var(--radius-md); background-color: var(--card-bg); font-size: 0.9rem; box-shadow: var(--shadow-sm); }
+    .settings-section { border-left: 4px solid var(--primary-dark); padding-left: 0.75rem; margin-bottom: 0.25rem; }
+    .room-tag { display: flex; flex-direction: column; padding: 0.75rem 0.9rem; background: #f8fafc; border-radius: var(--radius-md); border: 1px solid #e2e8f0; gap: 0.4rem; }
+    .footer-ods { font-size: 0.8rem; text-align: center; color: var(--text-muted); margin-top: auto; padding-top: 1rem; border-top: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; gap: 0.4rem; }
   </style>
 </head>
 <body>
   <div id="app">
     <div id="storage-lock-alert" class="alert-banner" style="display:none;">
-      ⚠️ Almacenamiento bloqueado: No se pudo guardar la información en este navegador.
+      ⚠️ Almacenamiento bloqueado: No se pudieron guardar los cambios en el navegador.
     </div>
     <div id="storage-damage-alert" class="alert-banner" style="display:none;">
-      ⚠️ Se han restaurado los valores iniciales debido a datos dañados.
+      ⚠️ Datos dañados. Se guardó una copia en 'luz_a_cargo_backup' y se restauró la app.
     </div>
 
     <!-- PANTALLA 1: INICIO -->
     <section id="screen-inicio" class="screen active">
       <div class="hero-box">
         <div>
-          <h1>¡Hola! Cuidemos la luz juntos</h1>
-          <p>Tarda solo 2 minutos cada noche antes de ir a descansar.</p>
+          <!-- Punto 14: Titular Instructivo -->
+          <h1>Esta noche, apaga lo que nadie usa.</h1>
+          <p>¡Hola! Tu ronda nocturna de ahorro tarda solo 2 minutos.</p>
         </div>
-
-        <!-- 4. Personaje Principal Foquito 2D -->
         <svg class="mascot-svg" viewBox="0 0 100 100">
-          <circle cx="50" cy="45" r="38" fill="url(#bulbGlow)" opacity="0.3"/>
-          <defs>
-            <radialGradient id="bulbGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#fef08a"/>
-              <stop offset="100%" stop-color="#faf7f2" stop-opacity="0"/>
-            </radialGradient>
-          </defs>
-          <!-- Cuerpo de la bombilla -->
-          <path d="M50 12 C34 12 22 24 22 40 C22 52 30 62 36 68 L36 78 C36 80 38 82 40 82 L60 82 C62 82 64 80 64 78 L64 68 C70 62 78 52 78 40 C78 24 66 12 50 12 Z" fill="#fef08a" stroke="#14532d" stroke-width="3.5" stroke-linejoin="round"/>
-          <!-- Base de la rosca -->
-          <rect x="40" y="82" width="20" height="4" rx="2" fill="#94a3b8" stroke="#14532d" stroke-width="2"/>
-          <rect x="42" y="86" width="16" height="4" rx="2" fill="#64748b" stroke="#14532d" stroke-width="2"/>
-          <!-- Ojos amigables -->
+          <circle cx="50" cy="45" r="38" fill="#fef08a" opacity="0.4"/>
+          <path d="M50 12 C34 12 22 24 22 40 C22 52 30 62 36 68 L36 78 C36 80 38 82 40 82 L60 82 C62 82 64 80 64 78 L64 68 C70 62 78 52 78 40 C78 24 66 12 50 12 Z" fill="#fef08a" stroke="#14532d" stroke-width="3.5"/>
+          <rect x="40" y="82" width="20" height="4" fill="#94a3b8" stroke="#14532d" stroke-width="2"/>
           <ellipse cx="42" cy="38" rx="3.5" ry="5" fill="#14532d"/>
           <ellipse cx="58" cy="38" rx="3.5" ry="5" fill="#14532d"/>
-          <circle cx="43.5" cy="36.5" r="1.5" fill="#ffffff"/>
-          <circle cx="59.5" cy="36.5" r="1.5" fill="#ffffff"/>
-          <!-- Mejillas sonrojadas -->
-          <ellipse cx="36" cy="45" rx="3.5" ry="2" fill="#f87171" opacity="0.6"/>
-          <ellipse cx="64" cy="45" rx="3.5" ry="2" fill="#f87171" opacity="0.6"/>
-          <!-- Sonrisa -->
           <path d="M42 48 Q50 56 58 48" fill="none" stroke="#14532d" stroke-width="3" stroke-linecap="round"/>
-          <!-- Destello de energía -->
-          <path d="M50 4 L50 8 M18 16 L22 19 M82 16 L78 19" stroke="#22c55e" stroke-width="3.5" stroke-linecap="round"/>
         </svg>
       </div>
 
+      <!-- Punto 3: Banner de Lectura Pendiente / Inicial -->
       <button id="baseline-notice" class="notice-banner baseline" style="display:none;" onclick="navTo('lectura')">
-        <span id="baseline-notice-text">Semana de partida: solo observa, no apagues nada todavía. Vuelve a tomar la lectura el [fecha].</span>
+        <span id="baseline-notice-text">Semana de partida: solo observa. Próxima lectura el [fecha].</span>
         <span>→</span>
       </button>
 
       <button id="reading-due-notice" class="notice-banner" style="display:none;" onclick="navTo('lectura')">
-        <span>⚡ Hoy toca tu lectura semanal del medidor.</span>
+        <span id="reading-due-text">⚡ Hoy toca tu lectura semanal del medidor.</span>
         <span>→</span>
       </button>
 
-      <!-- 6. Botón de inicio Verde Oscuro -->
       <button class="btn btn-primary" style="font-size: 1.05rem; min-height: 56px;" onclick="startRonda()">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
         Empezar mi ronda nocturna
@@ -535,9 +138,7 @@
 
       <div class="card">
         <div style="display: flex; align-items: center; gap: 0.85rem;">
-          <div style="background: var(--accent-pastel-yellow); padding: 0.6rem; border-radius: var(--radius-md); border: 1px solid #fef08a;">
-            🔥
-          </div>
+          <div style="background: var(--accent-pastel-yellow); padding: 0.6rem; border-radius: var(--radius-md); border: 1px solid #fef08a;">🔥</div>
           <div>
             <p id="streak-info" style="font-weight: 700; color: var(--primary-dark); font-size: 1rem;">Empieza hoy tu primera noche</p>
             <p id="turn-info" style="font-size: 0.85rem; display: none;"></p>
@@ -546,7 +147,6 @@
         <div id="behavior-summary" style="font-size: 0.85rem; color: var(--text-muted); display: none; border-top: 1px solid #f1f5f9; padding-top: 0.6rem;"></div>
       </div>
 
-      <!-- 13. Navegación Visual -->
       <nav class="nav-links">
         <button class="nav-tab" id="tab-lectura" onclick="navTo('lectura')">
           <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
@@ -566,9 +166,7 @@
         </button>
       </nav>
 
-      <div class="footer-ods">
-        🌱 Apoya al ODS 7 (Energía asequible y no contaminante), ODS 12 y ODS 13.
-      </div>
+      <div class="footer-ods">🌱 Apoya al ODS 7, ODS 12 y ODS 13.</div>
     </section>
 
     <!-- PANTALLA INFO -->
@@ -576,18 +174,17 @@
       <h2>Acerca del proyecto</h2>
       <div class="card" style="gap: 0.85rem; font-size: 0.95rem;">
         <p><strong>💡 Pregunta base:</strong> ¿Cómo podemos evitar el consumo de energía eléctrica de forma irresponsable?</p>
-        <p><strong>📊 Qué mide:</strong> Registra una sencilla ronda nocturna de verificación y el consumo medido semanalmente en kWh para concientizar sobre el gasto fantasma.</p>
-        <p><strong>🔒 Privacidad total:</strong> Tus datos permanecen en tu teléfono o computadora de forma segura.</p>
+        <p><strong>📊 Qué mide:</strong> Registra una sencilla ronda nocturna de verificación y el consumo semanal en kWh.</p>
       </div>
       <button class="btn btn-outline" onclick="navTo('inicio')">Volver al inicio</button>
     </section>
 
     <!-- PANTALLA 2: RONDA NOCTURNA -->
     <section id="screen-ronda" class="screen">
-      <!-- 8. Indicador de Progreso con Porcentaje -->
       <div>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
           <span style="font-size: 0.85rem; font-weight: 700; color: var(--primary-dark);" id="ronda-progress-text">Progreso de la ronda</span>
+          <!-- Punto 15: Conteo exacto por respondidas -->
           <span id="ronda-progress-num" style="font-size: 0.85rem; font-weight: 800; color: var(--primary);">0%</span>
         </div>
         <div class="progress-container">
@@ -601,37 +198,24 @@
         </div>
 
         <div class="room-header">
-          <!-- 7. Iconos Ilustrativos por Habitación -->
-          <div id="room-icon-container" class="room-icon-box">
-            <svg viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-          </div>
+          <div id="room-icon-container" class="room-icon-box"></div>
           <h2 id="ronda-room-title">Sala</h2>
         </div>
 
         <h1 id="ronda-question" style="font-size: 1.25rem;">¿Quedó alguna luz prendida en la sala?</h1>
 
         <div id="options-normal" class="q-options">
-          <button class="btn btn-primary" onclick="answerQuestion('apagado')">
-            ✓ Ya lo apagué
-          </button>
-          <button class="btn btn-secondary" onclick="answerQuestion('ok')">
-            👍 Todo estaba bien
-          </button>
-          <button class="btn btn-outline" style="color: var(--text-muted);" onclick="answerQuestion('no_tengo')">
-            🚫 No aplica aquí
-          </button>
+          <!-- Punto 16: Botón adaptado a refrigeradora/normal -->
+          <button id="btn-norm-action" class="btn btn-primary" onclick="answerQuestion('apagado')">✓ Ya lo apagué</button>
+          <button class="btn btn-secondary" onclick="answerQuestion('ok')">👍 Todo estaba bien</button>
+          <button class="btn btn-outline" style="color: var(--text-muted);" onclick="answerQuestion('no_tengo')">🚫 No aplica aquí</button>
         </div>
 
         <div id="options-observation" class="q-options" style="display: none;">
-          <button id="btn-obs-found" class="btn btn-danger" onclick="answerQuestion('obs_encendido')">
-            ⚠️ Lo encontré encendido
-          </button>
-          <button class="btn btn-secondary" onclick="answerQuestion('obs_bien')">
-            👍 Todo estaba bien
-          </button>
-          <button class="btn btn-outline" style="color: var(--text-muted);" onclick="answerQuestion('no_tengo')">
-            🚫 No aplica aquí
-          </button>
+          <!-- Punto 16: Botón adaptado a refrigeradora/observación -->
+          <button id="btn-obs-found" class="btn btn-danger" onclick="answerQuestion('obs_encendido')">⚠️ Lo encontré encendido</button>
+          <button class="btn btn-secondary" onclick="answerQuestion('obs_bien')">👍 Todo estaba bien</button>
+          <button class="btn btn-outline" style="color: var(--text-muted);" onclick="answerQuestion('no_tengo')">🚫 No aplica aquí</button>
         </div>
       </div>
 
@@ -651,7 +235,8 @@
       <div class="card" style="text-align: center; padding: 2.5rem 1.5rem;">
         <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">🌱</div>
         <h1 style="margin-bottom: 0.5rem;">¡Ronda completada!</h1>
-        <p id="fin-count-text" style="font-size: 1.1rem; font-weight: 700; color: var(--primary-dark);">Todo estaba en orden. Así se ahorra.</p>
+        <!-- Punto 13: Coherencia en Modo Observación -->
+        <p id="fin-count-text" style="font-size: 1.1rem; font-weight: 700; color: var(--primary-dark);">Todo estaba en orden.</p>
       </div>
       <button class="btn btn-primary" onclick="navTo('inicio')">Volver al inicio</button>
     </section>
@@ -660,7 +245,6 @@
     <section id="screen-lectura" class="screen">
       <h2>Lectura semanal del medidor</h2>
       
-      <!-- 9. Formulario con separación y claridad -->
       <div class="card">
         <div class="form-group">
           <label for="input-fecha-lectura">📅 Fecha de lectura</label>
@@ -669,7 +253,7 @@
         <div class="form-group">
           <label for="input-kwh">⚡ Lectura del medidor (kWh)</label>
           <input type="number" id="input-kwh" placeholder="Ej. 1245.5" step="0.1" inputmode="decimal">
-          <small style="color: var(--text-muted); font-size: 0.8rem;">Número grande visible en la pantalla del medidor.</small>
+          <small style="color: var(--text-muted); font-size: 0.8rem;">Número grande visible en el medidor de luz.</small>
         </div>
         <div class="form-group">
           <label for="input-tarifa-lectura">💰 Tarifa por kWh en soles (opcional)</label>
@@ -678,11 +262,11 @@
         <button class="btn btn-primary" onclick="saveLectura()">Guardar lectura</button>
       </div>
 
+      <!-- Punto 1: Resultado y Soles Ahorrados -->
       <div id="lectura-msg" class="card" style="display: none;">
         <p id="lectura-msg-text" style="font-weight: 700; color: var(--primary-dark);"></p>
       </div>
 
-      <!-- 10. Gráfico de Consumo -->
       <div id="chart-card" class="card" style="display: none;">
         <label>📊 Consumo promedio diario (kWh/día)</label>
         <div id="bar-chart" class="bar-chart"></div>
@@ -695,20 +279,17 @@
     <section id="screen-historial" class="screen">
       <h2>Historial de Registros</h2>
       
-      <!-- 11. Tarjetas Visuales -->
+      <!-- Punto 8: Detalle de Rondas con responsable y tipo -->
       <div class="card">
         <label>🌙 Rondas nocturnas realizadas</label>
-        <div id="list-rondas" class="data-list">
-          <p style="font-size: 0.875rem;">No hay rondas registradas.</p>
-        </div>
+        <div id="list-rondas" class="data-list"><p style="font-size: 0.875rem;">No hay rondas registradas.</p></div>
       </div>
 
+      <!-- Punto 4: Borrar última lectura -->
       <div class="card">
         <label>⚡ Lecturas del medidor (kWh)</label>
-        <div id="list-lecturas" class="data-list">
-          <p style="font-size: 0.875rem;">No hay lecturas registradas.</p>
-        </div>
-        <button id="btn-delete-lectura" class="btn btn-outline" style="color: var(--danger); border-color: rgba(239, 68, 68, 0.3); display: none;" onclick="deleteLastLectura()">Borrar última lectura</button>
+        <div id="list-lecturas" class="data-list"><p style="font-size: 0.875rem;">No hay lecturas registradas.</p></div>
+        <button id="btn-delete-lectura" class="btn btn-outline" style="color: var(--danger); border-color: rgba(239, 68, 68, 0.3); display: none; margin-top: 0.5rem;" onclick="deleteLastLectura()">Borrar última lectura</button>
       </div>
 
       <button class="btn btn-secondary" onclick="exportCSV()">📥 Exportar datos (CSV)</button>
@@ -719,21 +300,16 @@
     <section id="screen-ajustes" class="screen">
       <h2>Ajustes</h2>
       
-      <!-- 12. Secciones Visuales Diferenciadas -->
       <div class="card">
-        <div class="settings-section">
-          <h2>👥 Integrantes del hogar</h2>
-        </div>
+        <div class="settings-section"><h2>👥 Integrantes del hogar</h2></div>
         <div class="form-group">
-          <label for="input-nombres">Nombres para la rotación</label>
+          <label for="input-nombres">Nombres para rotación diaria</label>
           <input type="text" id="input-nombres" placeholder="Ej. Ana, Juan, Pedro">
         </div>
       </div>
 
       <div class="card">
-        <div class="settings-section">
-          <h2>🏠 Habitaciones y preguntas</h2>
-        </div>
+        <div class="settings-section"><h2>🏠 Habitaciones y preguntas</h2></div>
         <div id="list-habitaciones" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
         
         <div class="form-group" style="margin-top: 0.5rem;">
@@ -752,15 +328,14 @@
         </div>
       </div>
 
+      <!-- Punto 4: Restaurar preguntas ocultas -->
       <div class="card" id="hidden-questions-card" style="display: none;">
-        <label>Preguntas ocultas</label>
+        <label>Preguntas ocultas ("No aplica aquí")</label>
         <button class="btn btn-secondary" onclick="restoreHiddenQuestions()">Volver a mostrar todas las preguntas</button>
       </div>
 
       <div class="card">
-        <div class="settings-section">
-          <h2>💰 Tarifa de luz</h2>
-        </div>
+        <div class="settings-section"><h2>💰 Tarifa de luz</h2></div>
         <div class="form-group">
           <label for="input-tarifa">Precio por kWh en soles</label>
           <input type="number" id="input-tarifa" placeholder="Ej. 0.85" step="0.01" inputmode="decimal">
@@ -774,22 +349,24 @@
   </div>
 
   <script>
-    // Banco de preguntas con iconos SVG
+    // Punto 10 y 11: Preguntas fijas por habitación para comparaciones exactas
     const QUESTIONS_DEF = [
-      { id: 'sala_luces', room: 'Sala', q: '¿Quedó alguna luz prendida en la sala?', minDay: 1, icon: 'light' },
-      { id: 'sala_tv', room: 'Sala', q: '¿Quedó encendido el televisor, la consola de videojuegos o algún equipo de sonido?', minDay: 1, icon: 'tv' },
-      { id: 'cocina_luces', room: 'Cocina', q: '¿Quedó alguna luz prendida en la cocina?', minDay: 1, icon: 'light' },
-      { id: 'cocina_refri', room: 'Cocina', q: '¿La puerta de la refrigeradora quedó mal cerrada o entreabierta?', minDay: 1, icon: 'fridge' },
-      { id: 'dorm_luces', room: 'Dormitorio', q: '¿Quedó alguna luz prendida en el dormitorio?', minDay: 1, icon: 'light' },
-      { id: 'bano_luces', room: 'Baño', q: '¿Quedó la luz encendida en el baño?', minDay: 1, icon: 'light' },
-      { id: 'patio_luces', room: 'Patio o pasillo', q: '¿Quedó encendida alguna luz en el patio, entrada o pasillo?', minDay: 1, icon: 'sun' },
+      { id: 'sala_luces', room: 'Sala', q: '¿Quedó alguna luz prendida en la sala?', cat: 'luces' },
+      { id: 'sala_tv', room: 'Sala', q: '¿Quedó encendido el televisor, la consola de videojuegos o algún equipo de sonido?', cat: 'tv_audio' },
+      { id: 'sala_cargadores', room: 'Sala', q: '¿Hay cargadores enchufados sin usar?', cat: 'cargadores' },
+      
+      { id: 'cocina_luces', room: 'Cocina', q: '¿Quedó alguna luz prendida en la cocina?', cat: 'luces' },
+      { id: 'cocina_aparatos', room: 'Cocina', q: '¿Hay pequeños aparatos enchufados sin usar (microondas, licuadora, hervidor)?', cat: 'cocina_peq' },
+      { id: 'cocina_refri', room: 'Cocina', q: '¿La puerta de la refrigeradora quedó mal cerrada o entreabierta?', cat: 'refrigeradora' },
 
-      { id: 'sala_cargadores', room: 'Sala', q: '¿Hay cargadores enchufados sin usar?', minDay: 3, icon: 'plug' },
-      { id: 'dorm_cargadores', room: 'Dormitorio', q: '¿Hay cargadores enchufados sin el celular?', minDay: 3, icon: 'plug' },
-      { id: 'cocina_aparatos', room: 'Cocina', q: '¿Hay pequeños aparatos enchufados sin usar (microondas, licuadora, hervidor)?', minDay: 3, icon: 'plug' },
+      { id: 'dorm_luces', room: 'Dormitorio', q: '¿Quedó alguna luz prendida en el dormitorio?', cat: 'luces' },
+      { id: 'dorm_equipos', room: 'Dormitorio', q: '¿Quedó encendido el televisor, un ventilador o una estufa sin nadie?', cat: 'tv_audio' },
+      { id: 'dorm_cargadores', room: 'Dormitorio', q: '¿Hay cargadores enchufados sin el celular?', cat: 'cargadores' },
 
-      { id: 'dorm_equipos', room: 'Dormitorio', q: '¿Quedó encendido el televisor, un ventilador o una estufa sin nadie?', minDay: 7, icon: 'tv' },
-      { id: 'bano_terma', room: 'Baño', q: '¿La ducha eléctrica o calentador de agua está encendido sin que nadie lo vaya a usar pronto?', minDay: 7, safety: true, icon: 'water' }
+      { id: 'bano_luces', room: 'Baño', q: '¿Quedó la luz encendida en el baño?', cat: 'luces' },
+      { id: 'bano_terma', room: 'Baño', q: '¿La ducha eléctrica o calentador de agua está encendido sin que nadie lo vaya a usar pronto?', cat: 'terma', safety: true },
+
+      { id: 'patio_luces', room: 'Patio o pasillo', q: '¿Quedó encendida alguna luz en el patio, entrada o pasillo?', cat: 'exteriores' }
     ];
 
     const ROOM_ICONS = {
@@ -819,6 +396,7 @@
     let countObservadosSession = 0;
     let answeredHistoryStack = [];
 
+    // Punto 6: Zona Horaria Estricta en Hora Local (sin desfasajes)
     function getLocalTodayString() {
       const d = new Date();
       if (d.getHours() < 4) d.setDate(d.getDate() - 1);
@@ -845,6 +423,7 @@
       }
     }
 
+    // Punto 5: Backup de seguridad al encontrar corruptela
     function loadState() {
       if (!checkStorage()) {
         document.getElementById('storage-lock-alert').style.display = 'flex';
@@ -865,6 +444,7 @@
             lecturas: Array.isArray(parsed.lecturas) ? parsed.lecturas : []
           };
         } catch (e) {
+          try { localStorage.setItem('luz_a_cargo_backup', data); } catch (err) {}
           document.getElementById('storage-damage-alert').style.display = 'flex';
           state = JSON.parse(JSON.stringify(DEFAULT_STATE));
         }
@@ -873,12 +453,18 @@
       }
     }
 
+    // Punto 5: Advertencia en tiempo real si el almacenamiento está bloqueado
     function saveState() {
-      if (!checkStorage()) return false;
+      if (!checkStorage()) {
+        document.getElementById('storage-lock-alert').style.display = 'flex';
+        return false;
+      }
       try {
         localStorage.setItem('luz_a_cargo_data', JSON.stringify(state));
+        document.getElementById('storage-lock-alert').style.display = 'none';
         return true;
       } catch (e) {
+        document.getElementById('storage-lock-alert').style.display = 'flex';
         return false;
       }
     }
@@ -898,6 +484,7 @@
       if (screenId === 'ajustes') renderAjustes();
     }
 
+    // Punto 6: Regla de racha que perdona 1 noche libre por semana
     function calculateStreak() {
       if (state.rondas.length === 0) return 0;
       const uniqueDates = [...new Set(state.rondas.map(r => r.fecha))].sort();
@@ -907,7 +494,7 @@
 
       const yesterdayDate = new Date(todayDate);
       yesterdayDate.setDate(yesterdayDate.getDate() - 1);
-      const yesterdayStr = yesterdayDate.toISOString().split('T')[0];
+      const yesterdayStr = `${yesterdayDate.getFullYear()}-${String(yesterdayDate.getMonth()+1).padStart(2,'0')}-${String(yesterdayDate.getDate()).padStart(2,'0')}`;
 
       const lastDoneStr = uniqueDates[uniqueDates.length - 1];
       if (lastDoneStr !== todayStr && lastDoneStr !== yesterdayStr) return 0;
@@ -918,12 +505,23 @@
 
       for (let i = 0; i < 365; i++) {
         if (checkDate < firstDateObj) break;
-        const dStr = checkDate.toISOString().split('T')[0];
+        const dStr = `${checkDate.getFullYear()}-${String(checkDate.getMonth()+1).padStart(2,'0')}-${String(checkDate.getDate()).padStart(2,'0')}`;
+        
         if (uniqueDates.includes(dStr)) {
           streak++;
           checkDate.setDate(checkDate.getDate() - 1);
         } else {
-          break;
+          // Evaluar si es la única noche perdida dentro de una ventana de 7 días
+          let missingInWindow = 0;
+          for (let w = 0; w < 7; w++) {
+            let testWDate = new Date(checkDate);
+            testWDate.setDate(testWDate.getDate() - w);
+            if (testWDate < firstDateObj) break;
+            let testWStr = `${testWDate.getFullYear()}-${String(testWDate.getMonth()+1).padStart(2,'0')}-${String(testWDate.getDate()).padStart(2,'0')}`;
+            if (!uniqueDates.includes(testWStr)) missingInWindow++;
+          }
+          if (missingInWindow > 1) break;
+          else checkDate.setDate(checkDate.getDate() - 1);
         }
       }
       return streak;
@@ -932,50 +530,53 @@
     function renderInicio() {
       const streak = calculateStreak();
       const streakInfo = document.getElementById('streak-info');
-      if (state.rondas.length === 0) {
-        streakInfo.innerText = "Empieza hoy tu primera noche";
-      } else {
-        streakInfo.innerText = `Llevas ${streak} noche${streak === 1 ? '' : 's'} seguida${streak === 1 ? '' : 's'}`;
-      }
+      streakInfo.innerText = state.rondas.length === 0 ? "Empieza hoy tu primera noche" : `Llevas ${streak} noche${streak === 1 ? '' : 's'} seguida${streak === 1 ? '' : 's'}`;
 
       const turnInfo = document.getElementById('turn-info');
       if (state.personas && state.personas.length > 1) {
         const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
-        const personIndex = dayOfYear % state.personas.length;
-        turnInfo.innerText = `👤 Le toca a ${state.personas[personIndex]}`;
+        turnInfo.innerText = `👤 Le toca a ${state.personas[dayOfYear % state.personas.length]}`;
         turnInfo.style.display = 'block';
       } else {
         turnInfo.style.display = 'none';
       }
 
+      // Punto 3: Notificación de lectura adecuada a cada estado
       const baselineNotice = document.getElementById('baseline-notice');
-      if (state.lecturas.length === 1) {
+      const readingDueNotice = document.getElementById('reading-due-notice');
+
+      if (state.lecturas.length === 0) {
+        baselineNotice.style.display = 'none';
+        document.getElementById('reading-due-text').innerText = "⚡ Registra tu primera lectura para iniciar tu línea base.";
+        readingDueNotice.style.display = 'flex';
+      } else if (state.lecturas.length === 1) {
         const firstDate = new Date(state.lecturas[0].fecha + 'T00:00:00');
         firstDate.setDate(firstDate.getDate() + 7);
-        const targetDateStr = firstDate.toISOString().split('T')[0];
+        const targetDateStr = `${firstDate.getFullYear()}-${String(firstDate.getMonth()+1).padStart(2,'0')}-${String(firstDate.getDate()).padStart(2,'0')}`;
         document.getElementById('baseline-notice-text').innerText = `Semana de partida: solo observa. Próxima lectura el ${targetDateStr}.`;
         baselineNotice.style.display = 'flex';
+        readingDueNotice.style.display = 'none';
       } else {
         baselineNotice.style.display = 'none';
+        const lastLecturaDate = new Date(state.lecturas[state.lecturas.length - 1].fecha + 'T00:00:00');
+        const todayDate = new Date(getLocalTodayString() + 'T00:00:00');
+        const daysSinceLast = (todayDate - lastLecturaDate) / (1000 * 60 * 60 * 24);
+        if (daysSinceLast >= 7) {
+          document.getElementById('reading-due-text').innerText = "⚡ Hoy toca tu lectura semanal del medidor.";
+          readingDueNotice.style.display = 'flex';
+        } else {
+          readingDueNotice.style.display = 'none';
+        }
       }
     }
 
+    // Punto 10 y 12: Orden físico de la casa y Modo Observación forzado si no hay lecturas completas
     function startRonda() {
       activeQuestions = [];
-      const isObservation = state.lecturas.length === 1;
-
-      let userDays = 1;
-      if (state.rondas.length > 0) {
-        const uniqueDates = [...new Set(state.rondas.map(r => r.fecha))].sort();
-        const firstDate = new Date(uniqueDates[0] + 'T00:00:00');
-        const todayDate = new Date(getLocalTodayString() + 'T00:00:00');
-        userDays = Math.max(1, Math.floor((todayDate - firstDate) / (1000 * 60 * 60 * 24)) + 1);
-      }
-
-      const availableDefs = QUESTIONS_DEF.filter(q => userDays >= q.minDay);
+      const isObservation = state.lecturas.length <= 1;
 
       state.habitaciones.forEach(room => {
-        const matchingDefs = availableDefs.filter(q => q.room.toLowerCase() === room.toLowerCase());
+        const matchingDefs = QUESTIONS_DEF.filter(q => q.room.toLowerCase() === room.toLowerCase());
         matchingDefs.forEach(q => {
           if (!state.hiddenQuestions.includes(q.id)) activeQuestions.push(q);
         });
@@ -984,14 +585,25 @@
         matchingCustom.forEach(q => {
           if (!state.hiddenQuestions.includes(q.id)) activeQuestions.push(q);
         });
+
+        // Punto 9: Generación de pregunta por defecto para habitaciones nuevas sin preguntas
+        if (matchingDefs.length === 0 && matchingCustom.length === 0) {
+          const customId = `custom_gen_${room.toLowerCase().replace(/\s+/g, '_')}`;
+          if (!state.hiddenQuestions.includes(customId)) {
+            activeQuestions.push({
+              id: customId,
+              room: room,
+              q: `¿Hay luces o aparatos encendidos sin uso en ${room}?`,
+              cat: 'luces'
+            });
+          }
+        }
       });
 
       if (activeQuestions.length === 0) {
         alert("No hay preguntas activas para la ronda. Revisa tus habitaciones en Ajustes.");
         return;
       }
-
-      activeQuestions.sort(() => Math.random() - 0.5);
 
       currentQIndex = 0;
       countApagadosSession = 0;
@@ -1010,12 +622,22 @@
       const q = activeQuestions[currentQIndex];
       document.getElementById('ronda-room-title').innerText = q.room;
 
-      // 8. Porcentaje y barra de avance
-      const pct = Math.round(((currentQIndex + 1) / activeQuestions.length) * 100);
+      // Punto 15: Conteo exacto por respondidas
+      const pct = Math.round((currentQIndex / activeQuestions.length) * 100);
       document.getElementById('ronda-progress-num').innerText = `${pct}%`;
       document.getElementById('ronda-progress-bar').style.width = `${pct}%`;
 
       document.getElementById('ronda-question').innerText = q.q;
+
+      // Punto 16: Adaptación de texto según el tipo de pregunta (Refrigeradora vs Normal)
+      const isRefri = q.cat === 'refrigeradora';
+      const isObs = state.lecturas.length <= 1;
+
+      if (isObs) {
+        document.getElementById('btn-obs-found').innerText = isRefri ? '⚠️ La encontré mal cerrada' : '⚠️ Lo encontré encendido';
+      } else {
+        document.getElementById('btn-norm-action').innerText = isRefri ? '✓ La cerré' : '✓ Ya lo apagué';
+      }
 
       const roomKey = q.room.toLowerCase();
       const iconContainer = document.getElementById('room-icon-container');
@@ -1025,6 +647,7 @@
       document.getElementById('safety-warning').style.display = q.safety ? 'flex' : 'none';
     }
 
+    // Punto 4: Soporte para revertir "No aplica aquí" al presionar Atrás
     function answerQuestion(action) {
       const q = activeQuestions[currentQIndex];
       answeredHistoryStack.push({ index: currentQIndex, action, qId: q.id });
@@ -1051,6 +674,15 @@
         const lastAnswer = answeredHistoryStack.pop();
         if (lastAnswer.action === 'apagado') countApagadosSession--;
         if (lastAnswer.action === 'obs_encendido') countObservadosSession--;
+        
+        if (lastAnswer.action === 'no_tengo') {
+          const hIdx = state.hiddenQuestions.indexOf(lastAnswer.qId);
+          if (hIdx >= 0) {
+            state.hiddenQuestions.splice(hIdx, 1);
+            saveState();
+          }
+        }
+
         currentQIndex = lastAnswer.index;
         renderQuestion();
       }
@@ -1062,43 +694,85 @@
       }
     }
 
+    // Punto 13: Terminología coherente según el modo
     function finishRonda() {
+      let responsable = '';
+      if (state.personas && state.personas.length > 1) {
+        const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+        responsable = state.personas[dayOfYear % state.personas.length];
+      } else if (state.personas && state.personas.length === 1) {
+        responsable = state.personas[0];
+      }
+
       const todayStr = getLocalTodayString();
-      const isObservation = state.lecturas.length === 1;
+      const isObservation = state.lecturas.length <= 1;
 
       state.rondas.push({
         fecha: todayStr,
         apagados: isObservation ? countObservadosSession : countApagadosSession,
+        responsable: responsable,
         practica: isObservation
       });
       saveState();
 
       const finCountText = document.getElementById('fin-count-text');
       const totalCount = isObservation ? countObservadosSession : countApagadosSession;
-      finCountText.innerText = totalCount === 0 ? "Todo estaba en orden. Así se ahorra." : `Hoy apagaste ${totalCount} equipo(s). ¡Bien hecho!`;
+      
+      if (isObservation) {
+        finCountText.innerText = totalCount === 0 ? "Observación completada: Todo estaba en orden." : `Observación completada: Encontraste ${totalCount} cosa(s) encendida(s).`;
+      } else {
+        finCountText.innerText = totalCount === 0 ? "Todo estaba en orden. Así se ahorra." : `Hoy apagaste ${totalCount} equipo(s). ¡Bien hecho!`;
+      }
 
       navTo('fin-ronda');
     }
 
     function renderLectura() {
       const todayStr = getLocalTodayString();
-      document.getElementById('input-fecha-lectura').value = todayStr;
+      const dateInput = document.getElementById('input-fecha-lectura');
+      dateInput.value = todayStr;
+      dateInput.max = todayStr;
       document.getElementById('input-kwh').value = '';
       document.getElementById('input-tarifa-lectura').value = state.tarifa || '';
       updateLecturaMsg();
     }
 
+    // Punto 2: Validaciones rigurosas de lecturas del medidor
     function saveLectura() {
       const fechaVal = document.getElementById('input-fecha-lectura').value;
       const kwhVal = parseFloat(document.getElementById('input-kwh').value);
       const tarifaVal = parseFloat(document.getElementById('input-tarifa-lectura').value);
+      const todayStr = getLocalTodayString();
 
-      if (!fechaVal || isNaN(kwhVal)) {
-        alert("Por favor ingresa una fecha y lectura válidas.");
+      if (!fechaVal || fechaVal > todayStr) {
+        alert("Por favor ingresa una fecha válida no posterior al día de hoy.");
         return;
       }
+      if (isNaN(kwhVal) || kwhVal < 0) {
+        alert("Por favor ingresa una lectura correcta en kWh.");
+        return;
+      }
+      if (!isNaN(tarifaVal) && tarifaVal > 0) {
+        state.tarifa = tarifaVal;
+      }
 
-      if (!isNaN(tarifaVal) && tarifaVal > 0) state.tarifa = tarifaVal;
+      if (state.lecturas.length > 0) {
+        const last = state.lecturas[state.lecturas.length - 1];
+        if (new Date(fechaVal + 'T00:00:00') <= new Date(last.fecha + 'T00:00:00')) {
+          alert("La fecha debe ser estrictamente posterior a la última lectura registrada.");
+          return;
+        }
+        if (kwhVal < last.kwh) {
+          alert("La lectura actual no puede ser menor que la lectura anterior.");
+          return;
+        }
+        const diffDays = (new Date(fechaVal + 'T00:00:00') - new Date(last.fecha + 'T00:00:00')) / (1000 * 60 * 60 * 24);
+        if (diffDays < 5) {
+          if (!confirm(`Han transcurrido solo ${diffDays.toFixed(1)} días desde la última lectura (menos de 5 días recomendados). ¿Deseas guardarla de todas formas?`)) {
+            return;
+          }
+        }
+      }
 
       state.lecturas.push({ fecha: fechaVal, kwh: kwhVal });
       saveState();
@@ -1106,6 +780,7 @@
       updateLecturaMsg();
     }
 
+    // Punto 1: Restauración completa de la prueba de resultados en soles y porcentaje
     function updateLecturaMsg() {
       const msgCard = document.getElementById('lectura-msg');
       const msgText = document.getElementById('lectura-msg-text');
@@ -1117,12 +792,63 @@
         chartCard.style.display = 'none';
       } else if (count === 1) {
         msgCard.style.display = 'block';
-        msgText.innerText = "Punto de partida registrado. Ahora observa durante tu primera semana.";
+        msgText.innerText = "Punto de partida registrado. Ahora empieza tu semana de partida: observa y anota sin cambiar hábitos.";
         chartCard.style.display = 'none';
+      } else if (count === 2) {
+        msgCard.style.display = 'block';
+        const baseStart = state.lecturas[0];
+        const baseEnd = state.lecturas[1];
+        const daysBase = (new Date(baseEnd.fecha + 'T00:00:00') - new Date(baseStart.fecha + 'T00:00:00')) / (1000 * 60 * 60 * 24);
+        const kwhDayBase = daysBase > 0 ? (baseEnd.kwh - baseStart.kwh) / daysBase : 0;
+        
+        msgText.innerText = `Semana de partida completada. Consumo base: ${kwhDayBase.toFixed(1)} kWh/día. A partir de ahora se aplicarán los cambios.`;
+        renderChart();
       } else {
         msgCard.style.display = 'block';
         chartCard.style.display = 'block';
-        msgText.innerText = `¡Registrado! Tienes ${count} lecturas guardadas para comparar tu ahorro.`;
+
+        const last = state.lecturas[count - 1];
+        const prev = state.lecturas[count - 2];
+        const baseStart = state.lecturas[0];
+        const baseEnd = state.lecturas[1];
+
+        const daysCurrent = (new Date(last.fecha + 'T00:00:00') - new Date(prev.fecha + 'T00:00:00')) / (1000 * 60 * 60 * 24);
+        const kwhDayCurrent = daysCurrent > 0 ? (last.kwh - prev.kwh) / daysCurrent : 0;
+
+        const daysBase = (new Date(baseEnd.fecha + 'T00:00:00') - new Date(baseStart.fecha + 'T00:00:00')) / (1000 * 60 * 60 * 24);
+        const kwhDayBase = daysBase > 0 ? (baseEnd.kwh - baseStart.kwh) / daysBase : 0;
+
+        if (kwhDayBase === 0) {
+          msgText.innerText = "La semana de partida no registró consumo válidos.";
+        } else {
+          const diffPct = ((kwhDayCurrent - kwhDayBase) / kwhDayBase) * 100;
+          const absPct = Math.abs(diffPct).toFixed(1);
+
+          let dineroTexto = '';
+          let ahorroAcumuladoSoles = 0;
+          
+          if (state.tarifa && state.tarifa > 0) {
+            for (let i = 2; i < state.lecturas.length; i++) {
+              const dPrev = new Date(state.lecturas[i - 1].fecha + 'T00:00:00');
+              const dCurr = new Date(state.lecturas[i].fecha + 'T00:00:00');
+              const dDays = (dCurr - dPrev) / (1000 * 60 * 60 * 24);
+              const dRate = dDays > 0 ? (state.lecturas[i].kwh - state.lecturas[i - 1].kwh) / dDays : 0;
+              const kwhSaved = kwhDayBase - dRate;
+              if (kwhSaved > 0) ahorroAcumuladoSoles += kwhSaved * dDays * state.tarifa;
+            }
+            if (ahorroAcumuladoSoles > 0) dineroTexto = ` Ahorro acumulado total: S/ ${ahorroAcumuladoSoles.toFixed(2)}.`;
+          } else {
+            dineroTexto = " (Configura tu tarifa en Ajustes para ver tu ahorro en soles).";
+          }
+
+          if (diffPct < 0) {
+            msgText.innerText = `Esta semana gastaste ${kwhDayCurrent.toFixed(1)} kWh/día vs ${kwhDayBase.toFixed(1)} kWh/día en la partida. Bajaste ${absPct} %.${dineroTexto}`;
+          } else if (diffPct > 0) {
+            msgText.innerText = `Esta semana gastaste ${kwhDayCurrent.toFixed(1)} kWh/día vs ${kwhDayBase.toFixed(1)} kWh/día en la partida. Subió ${absPct} %.${dineroTexto}`;
+          } else {
+            msgText.innerText = `Esta semana gastaste ${kwhDayCurrent.toFixed(1)} kWh/día, igual que en la semana de partida.${dineroTexto}`;
+          }
+        }
         renderChart();
       }
     }
@@ -1156,30 +882,91 @@
       });
     }
 
+    // Punto 8 y 4: Opciones para borrar rondas individuales y la última lectura
     function renderHistorial() {
       const rondasContainer = document.getElementById('list-rondas');
-      rondasContainer.innerHTML = state.rondas.length === 0 ? '<p style="font-size: 0.875rem;">No hay rondas registradas.</p>' :
-        [...state.rondas].reverse().map(r => `
-          <div class="data-item">
-            <div><strong>📅 ${escapeHTML(r.fecha)}</strong></div>
-            <span style="font-weight:700; color:var(--primary-dark);">${r.apagados} apagados</span>
-          </div>
-        `).join('');
+      if (state.rondas.length === 0) {
+        rondasContainer.innerHTML = '<p style="font-size: 0.875rem;">No hay rondas registradas.</p>';
+      } else {
+        rondasContainer.innerHTML = [...state.rondas].reverse().map((r, revIdx) => {
+          const originalIdx = state.rondas.length - 1 - revIdx;
+          const practicaBadge = r.practica ? ' <span style="color:var(--baseline-color); font-size:0.8rem;">(observación)</span>' : '';
+          return `
+            <div class="data-item">
+              <div>
+                <strong>📅 ${escapeHTML(r.fecha)}</strong>${practicaBadge}
+                ${r.responsable ? `<br><small>Le tocaba a: ${escapeHTML(r.responsable)}</small>` : ''}
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span style="font-weight:700; color:var(--primary-dark);">${r.apagados} ${r.practica ? 'encontrados' : 'apagados'}</span>
+                <button class="btn btn-outline" style="padding: 0.2rem 0.5rem; font-size: 0.75rem; color: var(--danger); border-color: rgba(239, 68, 68, 0.3); min-height: auto;" onclick="deleteRonda(${originalIdx})">Borrar</button>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
 
       const lecturasContainer = document.getElementById('list-lecturas');
-      lecturasContainer.innerHTML = state.lecturas.length === 0 ? '<p style="font-size: 0.875rem;">No hay lecturas registradas.</p>' :
-        [...state.lecturas].reverse().map(l => `
-          <div class="data-item">
-            <div><strong>⚡ ${escapeHTML(l.fecha)}</strong></div>
-            <span style="font-weight:700; color:var(--primary-dark);">${l.kwh} kWh</span>
-          </div>
-        `).join('');
+      const delBtn = document.getElementById('btn-delete-lectura');
+
+      if (state.lecturas.length === 0) {
+        lecturasContainer.innerHTML = '<p style="font-size: 0.875rem;">No hay lecturas registradas.</p>';
+        delBtn.style.display = 'none';
+      } else {
+        delBtn.style.display = 'block';
+        lecturasContainer.innerHTML = [...state.lecturas].reverse().map((l, idx) => {
+          const originalIdx = state.lecturas.length - 1 - idx;
+          let labelLectura = originalIdx === 0 ? ' (Punto de partida)' : (originalIdx === 1 ? ' (Fin semana partida)' : ` (Semana ${originalIdx})`);
+          return `
+            <div class="data-item">
+              <div><strong>⚡ ${escapeHTML(l.fecha)}</strong><small>${labelLectura}</small></div>
+              <span style="font-weight:700; color:var(--primary-dark);">${l.kwh} kWh</span>
+            </div>
+          `;
+        }).join('');
+      }
     }
 
+    function deleteRonda(index) {
+      if (confirm("¿Estás seguro de que deseas borrar esta ronda?")) {
+        state.rondas.splice(index, 1);
+        saveState();
+        renderHistorial();
+      }
+    }
+
+    function deleteLastLectura() {
+      if (state.lecturas.length === 0) return;
+      if (confirm("¿Estás seguro de que deseas borrar la última lectura?")) {
+        state.lecturas.pop();
+        saveState();
+        renderHistorial();
+        updateLecturaMsg();
+      }
+    }
+
+    // Punto 7: CSV con consumo diario, distinción de observación y etiquetas completas
     function exportCSV() {
-      let csv = "\ufeffTipo;Fecha;Valor\n";
-      state.rondas.forEach(r => csv += `"Ronda";"${r.fecha}";"${r.apagados}"\n`);
-      state.lecturas.forEach(l => csv += `"Lectura";"${l.fecha}";"${l.kwh} kWh"\n`);
+      let csv = "\ufeffTipo;Fecha;Detalle/kWh;Consumo diario (kWh/día);Responsable/Nota\n";
+      
+      state.rondas.forEach(r => {
+        const nota = r.practica ? 'Ronda de observación' : (r.responsable ? `Le tocaba a ${r.responsable}` : '');
+        csv += `"Ronda";"${r.fecha}";"${r.apagados} ${r.practica ? 'encontrados' : 'apagados'}";"";"${nota}"\n`;
+      });
+
+      for (let i = 0; i < state.lecturas.length; i++) {
+        const l = state.lecturas[i];
+        let consumoDiarioStr = '';
+        let tipoLecturaTxt = i === 0 ? 'Punto de partida' : (i === 1 ? 'Fin semana de partida' : `Semana ${i}`);
+        if (i > 0) {
+          const prev = state.lecturas[i - 1];
+          const days = (new Date(l.fecha + 'T00:00:00') - new Date(prev.fecha + 'T00:00:00')) / (1000 * 60 * 60 * 24);
+          if (days > 0) consumoDiarioStr = ((l.kwh - prev.kwh) / days).toFixed(2).replace('.', ',');
+        } else {
+          consumoDiarioStr = 'Base';
+        }
+        csv += `"Lectura";"${l.fecha}";"${l.kwh} kWh (${tipoLecturaTxt})";"${consumoDiarioStr}";""\n`;
+      }
 
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
@@ -1189,6 +976,7 @@
       link.click();
     }
 
+    // Punto 17: Visualización y eliminación interactiva de preguntas personalizadas en Ajustes
     function renderAjustes() {
       document.getElementById('input-nombres').value = (state.personas || []).join(', ');
       document.getElementById('input-tarifa').value = state.tarifa || '';
@@ -1196,18 +984,32 @@
       tempCustomQuestions = [...state.customQuestions];
       renderHabitacionesList();
       renderHabitacionesSelect();
+
+      const hiddenCard = document.getElementById('hidden-questions-card');
+      hiddenCard.style.display = state.hiddenQuestions.length > 0 ? 'block' : 'none';
     }
 
     function renderHabitacionesList() {
       const container = document.getElementById('list-habitaciones');
-      container.innerHTML = tempHabitaciones.map((hab, idx) => `
-        <div class="room-tag">
-          <div style="display:flex; justify-content:space-between;">
-            <strong>${escapeHTML(hab)}</strong>
-            ${tempHabitaciones.length > 1 ? `<button onclick="removeHabitacionTemp(${idx})">✕</button>` : ''}
+      container.innerHTML = tempHabitaciones.map((hab, idx) => {
+        const habCustoms = tempCustomQuestions.filter(q => q.room.toLowerCase() === hab.toLowerCase());
+        const customsHtml = habCustoms.map(qc => `
+          <div style="font-size:0.85rem; color:var(--text-muted); display:flex; justify-content:space-between; align-items:center; margin-top:0.25rem; padding-left:0.5rem;">
+            <span>• ${escapeHTML(qc.q)}</span>
+            <button class="btn btn-outline" style="padding:0.1rem 0.4rem; font-size:0.75rem; color:var(--danger); border-color:var(--danger); min-height:auto; width:auto;" onclick="removeCustomQuestion('${qc.id}')">✕</button>
           </div>
-        </div>
-      `).join('');
+        `).join('');
+
+        return `
+          <div class="room-tag">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong>${escapeHTML(hab)}</strong>
+              ${tempHabitaciones.length > 1 ? `<button onclick="removeHabitacionTemp(${idx})">✕</button>` : ''}
+            </div>
+            ${customsHtml}
+          </div>
+        `;
+      }).join('');
     }
 
     function renderHabitacionesSelect() {
@@ -1215,10 +1017,11 @@
       select.innerHTML = tempHabitaciones.map(hab => `<option value="${escapeHTML(hab)}">${escapeHTML(hab)}</option>`).join('');
     }
 
+    // Punto 9: Validación Case-Insensitive para evitar duplicados como "SALA" y "sala"
     function addHabitacionTemp() {
       const inp = document.getElementById('input-nueva-hab');
       const val = inp.value.trim();
-      if (val && !tempHabitaciones.includes(val)) {
+      if (val && !tempHabitaciones.some(h => h.toLowerCase() === val.toLowerCase())) {
         tempHabitaciones.push(val);
         inp.value = '';
         renderHabitacionesList();
@@ -1228,7 +1031,9 @@
 
     function removeHabitacionTemp(idx) {
       if (tempHabitaciones.length > 1) {
+        const removedHab = tempHabitaciones[idx];
         tempHabitaciones.splice(idx, 1);
+        tempCustomQuestions = tempCustomQuestions.filter(q => q.room.toLowerCase() !== removedHab.toLowerCase());
         renderHabitacionesList();
         renderHabitacionesSelect();
       }
@@ -1236,12 +1041,28 @@
 
     function addCustomQuestion() {
       const room = document.getElementById('select-hab-pregunta').value;
-      const qText = document.getElementById('input-nueva-pregunta').value.trim();
+      const qInp = document.getElementById('input-nueva-pregunta');
+      const qText = qInp.value.trim();
+
       if (room && qText) {
-        tempCustomQuestions.push({ id: `custom_${Date.now()}`, room, q: qText });
-        document.getElementById('input-nueva-pregunta').value = '';
-        alert("Pregunta añadida.");
+        const customId = `custom_${room.toLowerCase().replace(/\s+/g, '_')}_${Date.now()}`;
+        tempCustomQuestions.push({ id: customId, room: room, q: qText });
+        qInp.value = '';
+        renderHabitacionesList();
       }
+    }
+
+    function removeCustomQuestion(id) {
+      tempCustomQuestions = tempCustomQuestions.filter(q => q.id !== id);
+      renderHabitacionesList();
+    }
+
+    // Punto 4: Restaurar preguntas ocultadas por "No aplica aquí"
+    function restoreHiddenQuestions() {
+      state.hiddenQuestions = [];
+      saveState();
+      alert("Se han vuelto a activar todas las preguntas ocultas.");
+      renderAjustes();
     }
 
     function saveAjustes() {
@@ -1253,14 +1074,14 @@
       state.customQuestions = [...tempCustomQuestions];
 
       if (saveState()) {
-        alert("Ajustes guardados.");
+        alert("Ajustes guardados correctamente.");
         navTo('inicio');
       }
     }
 
     function resetAll() {
-      if (confirm("¿De verdad quieres borrar todos los datos guardados?")) {
-        localStorage.removeItem('luz_a_cargo_data');
+      if (confirm("¿De verdad quieres borrar todos los datos guardados y reiniciar la aplicación?")) {
+        try { localStorage.removeItem('luz_a_cargo_data'); } catch (e) {}
         state = JSON.parse(JSON.stringify(DEFAULT_STATE));
         navTo('inicio');
       }
