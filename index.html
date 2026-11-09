@@ -57,6 +57,44 @@
     .btn-danger { background-color: var(--danger); color: white; }
 
     .card { background-color: var(--card-bg); border: 1px solid rgba(226, 232, 240, 0.9); border-radius: var(--radius-lg); padding: 1.35rem; display: flex; flex-direction: column; gap: 1rem; box-shadow: var(--shadow-md); }
+    
+    /* Tarjetas de menú de ajustes */
+    .settings-menu-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.15rem;
+      background: var(--card-bg);
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.2s;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+    .settings-menu-item:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      background-color: #f8fafc;
+    }
+    .settings-menu-left {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+    .settings-icon-box {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background-color: var(--primary-light);
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
     .hero-box { background: linear-gradient(135deg, var(--primary-dark) 0%, #166534 100%); color: white; border-radius: var(--radius-lg); padding: 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; box-shadow: var(--shadow-md); }
     .hero-box h1 { color: white; font-size: 1.35rem; }
     .hero-box p { color: #bbf7d0; font-size: 0.85rem; margin-top: 0.3rem; }
@@ -106,7 +144,6 @@
     <section id="screen-inicio" class="screen active">
       <div class="hero-box">
         <div>
-          <!-- Punto 14: Titular Instructivo -->
           <h1>Esta noche, apaga lo que nadie usa.</h1>
           <p>¡Hola! Tu ronda nocturna de ahorro tarda solo 2 minutos.</p>
         </div>
@@ -120,7 +157,6 @@
         </svg>
       </div>
 
-      <!-- Punto 3: Banner de Lectura Pendiente / Inicial -->
       <button id="baseline-notice" class="notice-banner baseline" style="display:none;" onclick="navTo('lectura')">
         <span id="baseline-notice-text">Semana de partida: solo observa. Próxima lectura el [fecha].</span>
         <span>→</span>
@@ -184,7 +220,6 @@
       <div>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
           <span style="font-size: 0.85rem; font-weight: 700; color: var(--primary-dark);" id="ronda-progress-text">Progreso de la ronda</span>
-          <!-- Punto 15: Conteo exacto por respondidas -->
           <span id="ronda-progress-num" style="font-size: 0.85rem; font-weight: 800; color: var(--primary);">0%</span>
         </div>
         <div class="progress-container">
@@ -205,14 +240,12 @@
         <h1 id="ronda-question" style="font-size: 1.25rem;">¿Quedó alguna luz prendida en la sala?</h1>
 
         <div id="options-normal" class="q-options">
-          <!-- Punto 16: Botón adaptado a refrigeradora/normal -->
           <button id="btn-norm-action" class="btn btn-primary" onclick="answerQuestion('apagado')">✓ Ya lo apagué</button>
           <button class="btn btn-secondary" onclick="answerQuestion('ok')">👍 Todo estaba bien</button>
           <button class="btn btn-outline" style="color: var(--text-muted);" onclick="answerQuestion('no_tengo')">🚫 No aplica aquí</button>
         </div>
 
         <div id="options-observation" class="q-options" style="display: none;">
-          <!-- Punto 16: Botón adaptado a refrigeradora/observación -->
           <button id="btn-obs-found" class="btn btn-danger" onclick="answerQuestion('obs_encendido')">⚠️ Lo encontré encendido</button>
           <button class="btn btn-secondary" onclick="answerQuestion('obs_bien')">👍 Todo estaba bien</button>
           <button class="btn btn-outline" style="color: var(--text-muted);" onclick="answerQuestion('no_tengo')">🚫 No aplica aquí</button>
@@ -235,7 +268,6 @@
       <div class="card" style="text-align: center; padding: 2.5rem 1.5rem;">
         <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">🌱</div>
         <h1 style="margin-bottom: 0.5rem;">¡Ronda completada!</h1>
-        <!-- Punto 13: Coherencia en Modo Observación -->
         <p id="fin-count-text" style="font-size: 1.1rem; font-weight: 700; color: var(--primary-dark);">Todo estaba en orden.</p>
       </div>
       <button class="btn btn-primary" onclick="navTo('inicio')">Volver al inicio</button>
@@ -262,7 +294,6 @@
         <button class="btn btn-primary" onclick="saveLectura()">Guardar lectura</button>
       </div>
 
-      <!-- Punto 1: Resultado y Soles Ahorrados -->
       <div id="lectura-msg" class="card" style="display: none;">
         <p id="lectura-msg-text" style="font-weight: 700; color: var(--primary-dark);"></p>
       </div>
@@ -279,13 +310,11 @@
     <section id="screen-historial" class="screen">
       <h2>Historial de Registros</h2>
       
-      <!-- Punto 8: Detalle de Rondas con responsable y tipo -->
       <div class="card">
         <label>🌙 Rondas nocturnas realizadas</label>
         <div id="list-rondas" class="data-list"><p style="font-size: 0.875rem;">No hay rondas registradas.</p></div>
       </div>
 
-      <!-- Punto 4: Borrar última lectura -->
       <div class="card">
         <label>⚡ Lecturas del medidor (kWh)</label>
         <div id="list-lecturas" class="data-list"><p style="font-size: 0.875rem;">No hay lecturas registradas.</p></div>
@@ -296,20 +325,79 @@
       <button class="btn btn-outline" onclick="navTo('inicio')">Volver al inicio</button>
     </section>
 
-    <!-- PANTALLA 5: AJUSTES -->
+    <!-- PANTALLA 5: AJUSTES (MENÚ PRINCIPAL MODULAR) -->
     <section id="screen-ajustes" class="screen">
-      <h2>Ajustes</h2>
-      
-      <div class="card">
-        <div class="settings-section"><h2>👥 Integrantes del hogar</h2></div>
-        <div class="form-group">
-          <label for="input-nombres">Nombres para rotación diaria</label>
-          <input type="text" id="input-nombres" placeholder="Ej. Ana, Juan, Pedro">
+      <h2>Ajustes del sistema</h2>
+      <p>Selecciona una categoría para configurar:</p>
+
+      <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+        <div class="settings-menu-item" onclick="navTo('ajustes-personas')">
+          <div class="settings-menu-left">
+            <div class="settings-icon-box">👥</div>
+            <div>
+              <strong>Integrantes del hogar</strong>
+              <p style="font-size: 0.8rem; margin: 0;">Gestiona quiénes rotan cada noche</p>
+            </div>
+          </div>
+          <span style="color: var(--text-muted); font-weight: bold;">›</span>
+        </div>
+
+        <div class="settings-menu-item" onclick="navTo('ajustes-habitaciones')">
+          <div class="settings-menu-left">
+            <div class="settings-icon-box">🏠</div>
+            <div>
+              <strong>Habitaciones y preguntas</strong>
+              <p style="font-size: 0.8rem; margin: 0;">Personaliza áreas y revisa dudas</p>
+            </div>
+          </div>
+          <span style="color: var(--text-muted); font-weight: bold;">›</span>
+        </div>
+
+        <div class="settings-menu-item" onclick="navTo('ajustes-tarifa')">
+          <div class="settings-menu-left">
+            <div class="settings-icon-box">💰</div>
+            <div>
+              <strong>Tarifa de luz</strong>
+              <p style="font-size: 0.8rem; margin: 0;">Actualiza el costo por kWh en soles</p>
+            </div>
+          </div>
+          <span style="color: var(--text-muted); font-weight: bold;">›</span>
         </div>
       </div>
 
+      <div class="card" id="hidden-questions-card" style="display: none; margin-top: 0.5rem;">
+        <label>Preguntas ocultas ("No aplica aquí")</label>
+        <button class="btn btn-secondary" onclick="restoreHiddenQuestions()">Volver a mostrar todas las preguntas</button>
+      </div>
+
+      <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+        <button class="btn btn-danger" style="flex: 1;" onclick="resetAll()">Reiniciar todo</button>
+        <button class="btn btn-outline" style="flex: 1;" onclick="navTo('inicio')">Volver al inicio</button>
+      </div>
+    </section>
+
+    <!-- SUBPANTALLA AJUSTES: INTEGRANTES (Múltiples nombres estructurados) -->
+    <section id="screen-ajustes-personas" class="screen">
+      <h2>👥 Integrantes del hogar</h2>
       <div class="card">
-        <div class="settings-section"><h2>🏠 Habitaciones y preguntas</h2></div>
+        <p style="font-size: 0.875rem;">Agrega los nombres de quienes participan en la rotación de las rondas nocturnas:</p>
+        <div class="form-group">
+          <label for="input-nuevo-integrante">Nombre del integrante</label>
+          <div style="display: flex; gap: 0.5rem;">
+            <input type="text" id="input-nuevo-integrante" placeholder="Ej. Carlos">
+            <button class="btn btn-secondary" style="width: auto; white-space: nowrap;" onclick="addIntegrante()">Agregar</button>
+          </div>
+        </div>
+        <div id="list-integrantes" style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem;"></div>
+      </div>
+      <button class="btn btn-primary" onclick="savePersonasAjustes()">Guardar cambios</button>
+      <button class="btn btn-outline" onclick="navTo('ajustes')">← Volver a ajustes</button>
+    </section>
+
+    <!-- SUBPANTALLA AJUSTES: HABITACIONES Y PREGUNTAS -->
+    <section id="screen-ajustes-habitaciones" class="screen">
+      <h2>🏠 Habitaciones y preguntas</h2>
+      <div class="card">
         <div id="list-habitaciones" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
         
         <div class="form-group" style="margin-top: 0.5rem;">
@@ -327,29 +415,26 @@
           <button class="btn btn-secondary" style="margin-top:0.4rem;" onclick="addCustomQuestion()">Añadir pregunta</button>
         </div>
       </div>
+      <button class="btn btn-primary" onclick="saveHabitacionesAjustes()">Guardar cambios</button>
+      <button class="btn btn-outline" onclick="navTo('ajustes')">← Volver a ajustes</button>
+    </section>
 
-      <!-- Punto 4: Restaurar preguntas ocultas -->
-      <div class="card" id="hidden-questions-card" style="display: none;">
-        <label>Preguntas ocultas ("No aplica aquí")</label>
-        <button class="btn btn-secondary" onclick="restoreHiddenQuestions()">Volver a mostrar todas las preguntas</button>
-      </div>
-
+    <!-- SUBPANTALLA AJUSTES: TARIFA -->
+    <section id="screen-ajustes-tarifa" class="screen">
+      <h2>💰 Tarifa de luz</h2>
       <div class="card">
-        <div class="settings-section"><h2>💰 Tarifa de luz</h2></div>
         <div class="form-group">
           <label for="input-tarifa">Precio por kWh en soles</label>
           <input type="number" id="input-tarifa" placeholder="Ej. 0.85" step="0.01" inputmode="decimal">
+          <small style="color: var(--text-muted); font-size: 0.8rem;">Permite calcular el ahorro acumulado en soles en el registro semanal.</small>
         </div>
       </div>
-
-      <button class="btn btn-primary" onclick="saveAjustes()">Guardar ajustes</button>
-      <button class="btn btn-danger" onclick="resetAll()">Reiniciar todo</button>
-      <button class="btn btn-outline" onclick="navTo('inicio')">Volver al inicio</button>
+      <button class="btn btn-primary" onclick="saveTarifaAjustes()">Guardar tarifa</button>
+      <button class="btn btn-outline" onclick="navTo('ajustes')">← Volver a ajustes</button>
     </section>
   </div>
 
   <script>
-    // Punto 10 y 11: Preguntas fijas por habitación para comparaciones exactas
     const QUESTIONS_DEF = [
       { id: 'sala_luces', room: 'Sala', q: '¿Quedó alguna luz prendida en la sala?', cat: 'luces' },
       { id: 'sala_tv', room: 'Sala', q: '¿Quedó encendido el televisor, la consola de videojuegos o algún equipo de sonido?', cat: 'tv_audio' },
@@ -390,13 +475,13 @@
     let state = JSON.parse(JSON.stringify(DEFAULT_STATE));
     let tempHabitaciones = [];
     let tempCustomQuestions = [];
+    let tempPersonas = [];
     let activeQuestions = [];
     let currentQIndex = 0;
     let countApagadosSession = 0;
     let countObservadosSession = 0;
     let answeredHistoryStack = [];
 
-    // Punto 6: Zona Horaria Estricta en Hora Local (sin desfasajes)
     function getLocalTodayString() {
       const d = new Date();
       if (d.getHours() < 4) d.setDate(d.getDate() - 1);
@@ -423,7 +508,6 @@
       }
     }
 
-    // Punto 5: Backup de seguridad al encontrar corruptela
     function loadState() {
       if (!checkStorage()) {
         document.getElementById('storage-lock-alert').style.display = 'flex';
@@ -453,7 +537,6 @@
       }
     }
 
-    // Punto 5: Advertencia en tiempo real si el almacenamiento está bloqueado
     function saveState() {
       if (!checkStorage()) {
         document.getElementById('storage-lock-alert').style.display = 'flex';
@@ -481,10 +564,12 @@
       if (screenId === 'inicio') renderInicio();
       if (screenId === 'lectura') renderLectura();
       if (screenId === 'historial') renderHistorial();
-      if (screenId === 'ajustes') renderAjustes();
+      if (screenId === 'ajustes') renderAjustesMenu();
+      if (screenId === 'ajustes-personas') renderPersonasAjustes();
+      if (screenId === 'ajustes-habitaciones') renderHabitacionesAjustes();
+      if (screenId === 'ajustes-tarifa') renderTarifaAjustes();
     }
 
-    // Punto 6: Regla de racha que perdona 1 noche libre por semana
     function calculateStreak() {
       if (state.rondas.length === 0) return 0;
       const uniqueDates = [...new Set(state.rondas.map(r => r.fecha))].sort();
@@ -511,7 +596,6 @@
           streak++;
           checkDate.setDate(checkDate.getDate() - 1);
         } else {
-          // Evaluar si es la única noche perdida dentro de una ventana de 7 días
           let missingInWindow = 0;
           for (let w = 0; w < 7; w++) {
             let testWDate = new Date(checkDate);
@@ -533,15 +617,15 @@
       streakInfo.innerText = state.rondas.length === 0 ? "Empieza hoy tu primera noche" : `Llevas ${streak} noche${streak === 1 ? '' : 's'} seguida${streak === 1 ? '' : 's'}`;
 
       const turnInfo = document.getElementById('turn-info');
-      if (state.personas && state.personas.length > 1) {
+      if (state.personas && state.personas.length > 0) {
         const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
-        turnInfo.innerText = `👤 Le toca a ${state.personas[dayOfYear % state.personas.length]}`;
+        const personIndex = dayOfYear % state.personas.length;
+        turnInfo.innerText = `👤 Le toca a ${state.personas[personIndex]}`;
         turnInfo.style.display = 'block';
       } else {
         turnInfo.style.display = 'none';
       }
 
-      // Punto 3: Notificación de lectura adecuada a cada estado
       const baselineNotice = document.getElementById('baseline-notice');
       const readingDueNotice = document.getElementById('reading-due-notice');
 
@@ -570,7 +654,6 @@
       }
     }
 
-    // Punto 10 y 12: Orden físico de la casa y Modo Observación forzado si no hay lecturas completas
     function startRonda() {
       activeQuestions = [];
       const isObservation = state.lecturas.length <= 1;
@@ -586,7 +669,6 @@
           if (!state.hiddenQuestions.includes(q.id)) activeQuestions.push(q);
         });
 
-        // Punto 9: Generación de pregunta por defecto para habitaciones nuevas sin preguntas
         if (matchingDefs.length === 0 && matchingCustom.length === 0) {
           const customId = `custom_gen_${room.toLowerCase().replace(/\s+/g, '_')}`;
           if (!state.hiddenQuestions.includes(customId)) {
@@ -622,14 +704,12 @@
       const q = activeQuestions[currentQIndex];
       document.getElementById('ronda-room-title').innerText = q.room;
 
-      // Punto 15: Conteo exacto por respondidas
       const pct = Math.round((currentQIndex / activeQuestions.length) * 100);
       document.getElementById('ronda-progress-num').innerText = `${pct}%`;
       document.getElementById('ronda-progress-bar').style.width = `${pct}%`;
 
       document.getElementById('ronda-question').innerText = q.q;
 
-      // Punto 16: Adaptación de texto según el tipo de pregunta (Refrigeradora vs Normal)
       const isRefri = q.cat === 'refrigeradora';
       const isObs = state.lecturas.length <= 1;
 
@@ -647,7 +727,6 @@
       document.getElementById('safety-warning').style.display = q.safety ? 'flex' : 'none';
     }
 
-    // Punto 4: Soporte para revertir "No aplica aquí" al presionar Atrás
     function answerQuestion(action) {
       const q = activeQuestions[currentQIndex];
       answeredHistoryStack.push({ index: currentQIndex, action, qId: q.id });
@@ -694,14 +773,11 @@
       }
     }
 
-    // Punto 13: Terminología coherente según el modo
     function finishRonda() {
       let responsable = '';
-      if (state.personas && state.personas.length > 1) {
+      if (state.personas && state.personas.length > 0) {
         const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
         responsable = state.personas[dayOfYear % state.personas.length];
-      } else if (state.personas && state.personas.length === 1) {
-        responsable = state.personas[0];
       }
 
       const todayStr = getLocalTodayString();
@@ -737,7 +813,6 @@
       updateLecturaMsg();
     }
 
-    // Punto 2: Validaciones rigurosas de lecturas del medidor
     function saveLectura() {
       const fechaVal = document.getElementById('input-fecha-lectura').value;
       const kwhVal = parseFloat(document.getElementById('input-kwh').value);
@@ -780,7 +855,6 @@
       updateLecturaMsg();
     }
 
-    // Punto 1: Restauración completa de la prueba de resultados en soles y porcentaje
     function updateLecturaMsg() {
       const msgCard = document.getElementById('lectura-msg');
       const msgText = document.getElementById('lectura-msg-text');
@@ -882,7 +956,6 @@
       });
     }
 
-    // Punto 8 y 4: Opciones para borrar rondas individuales y la última lectura
     function renderHistorial() {
       const rondasContainer = document.getElementById('list-rondas');
       if (state.rondas.length === 0) {
@@ -945,7 +1018,6 @@
       }
     }
 
-    // Punto 7: CSV con consumo diario, distinción de observación y etiquetas completas
     function exportCSV() {
       let csv = "\ufeffTipo;Fecha;Detalle/kWh;Consumo diario (kWh/día);Responsable/Nota\n";
       
@@ -976,17 +1048,59 @@
       link.click();
     }
 
-    // Punto 17: Visualización y eliminación interactiva de preguntas personalizadas en Ajustes
-    function renderAjustes() {
-      document.getElementById('input-nombres').value = (state.personas || []).join(', ');
-      document.getElementById('input-tarifa').value = state.tarifa || '';
+    // Funciones específicas para los apartados de Ajustes
+    function renderAjustesMenu() {
+      const hiddenCard = document.getElementById('hidden-questions-card');
+      hiddenCard.style.display = state.hiddenQuestions.length > 0 ? 'block' : 'none';
+    }
+
+    function renderPersonasAjustes() {
+      tempPersonas = [...state.personas];
+      renderPersonasTempList();
+    }
+
+    function renderPersonasTempList() {
+      const container = document.getElementById('list-integrantes');
+      if (tempPersonas.length === 0) {
+        container.innerHTML = '<p style="font-size:0.85rem; color:var(--text-muted);">No hay integrantes registrados.</p>';
+        return;
+      }
+      container.innerHTML = tempPersonas.map((p, idx) => `
+        <div style="display:flex; justify-content:space-between; align-items:center; background:#f8fafc; padding:0.6rem 0.8rem; border-radius:8px; border:1px solid #e2e8f0;">
+          <strong>👤 ${escapeHTML(p)}</strong>
+          <button class="btn btn-outline" style="padding:0.2rem 0.5rem; font-size:0.75rem; color:var(--danger); border-color:var(--danger); min-height:auto; width:auto;" onclick="removeIntegrante(${idx})">✕</button>
+        </div>
+      `).join('');
+    }
+
+    function addIntegrante() {
+      const inp = document.getElementById('input-nuevo-integrante');
+      const val = inp.value.trim();
+      if (val && !tempPersonas.some(p => p.toLowerCase() === val.toLowerCase())) {
+        tempPersonas.push(val);
+        inp.value = '';
+        renderPersonasTempList();
+      }
+    }
+
+    function removeIntegrante(idx) {
+      tempPersonas.splice(idx, 1);
+      renderPersonasTempList();
+    }
+
+    function savePersonasAjustes() {
+      state.personas = [...tempPersonas];
+      if (saveState()) {
+        alert("Integrantes guardados correctamente.");
+        navTo('ajustes');
+      }
+    }
+
+    function renderHabitacionesAjustes() {
       tempHabitaciones = [...state.habitaciones];
       tempCustomQuestions = [...state.customQuestions];
       renderHabitacionesList();
       renderHabitacionesSelect();
-
-      const hiddenCard = document.getElementById('hidden-questions-card');
-      hiddenCard.style.display = state.hiddenQuestions.length > 0 ? 'block' : 'none';
     }
 
     function renderHabitacionesList() {
@@ -1017,7 +1131,6 @@
       select.innerHTML = tempHabitaciones.map(hab => `<option value="${escapeHTML(hab)}">${escapeHTML(hab)}</option>`).join('');
     }
 
-    // Punto 9: Validación Case-Insensitive para evitar duplicados como "SALA" y "sala"
     function addHabitacionTemp() {
       const inp = document.getElementById('input-nueva-hab');
       const val = inp.value.trim();
@@ -1057,26 +1170,33 @@
       renderHabitacionesList();
     }
 
-    // Punto 4: Restaurar preguntas ocultadas por "No aplica aquí"
+    function saveHabitacionesAjustes() {
+      state.habitaciones = [...tempHabitaciones];
+      state.customQuestions = [...tempCustomQuestions];
+      if (saveState()) {
+        alert("Habitaciones y preguntas guardadas correctamente.");
+        navTo('ajustes');
+      }
+    }
+
+    function renderTarifaAjustes() {
+      document.getElementById('input-tarifa').value = state.tarifa || '';
+    }
+
+    function saveTarifaAjustes() {
+      const tarifaVal = parseFloat(document.getElementById('input-tarifa').value);
+      state.tarifa = (!isNaN(tarifaVal) && tarifaVal > 0) ? tarifaVal : null;
+      if (saveState()) {
+        alert("Tarifa guardada correctamente.");
+        navTo('ajustes');
+      }
+    }
+
     function restoreHiddenQuestions() {
       state.hiddenQuestions = [];
       saveState();
       alert("Se han vuelto a activar todas las preguntas ocultas.");
-      renderAjustes();
-    }
-
-    function saveAjustes() {
-      const nombresRaw = document.getElementById('input-nombres').value;
-      state.personas = nombresRaw.split(',').map(n => n.trim()).filter(n => n.length > 0);
-      const tarifaVal = parseFloat(document.getElementById('input-tarifa').value);
-      state.tarifa = (!isNaN(tarifaVal) && tarifaVal > 0) ? tarifaVal : null;
-      state.habitaciones = [...tempHabitaciones];
-      state.customQuestions = [...tempCustomQuestions];
-
-      if (saveState()) {
-        alert("Ajustes guardados correctamente.");
-        navTo('inicio');
-      }
+      renderAjustesMenu();
     }
 
     function resetAll() {
