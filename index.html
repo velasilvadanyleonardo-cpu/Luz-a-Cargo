@@ -509,24 +509,25 @@
   </div>
 
   <script>
-    // Preguntas 100% enfocadas en la ronda nocturna
+    // Banco de preguntas dividido por niveles de desbloqueo (día 1, día 3, día 7)
     const QUESTIONS_DEF = [
-      { id: 'sala_luces', room: 'Sala', q: '¿Quedó alguna luz prendida en la sala?', cat: 'luces' },
-      { id: 'sala_tv', room: 'Sala', q: '¿Quedó encendido el televisor, la consola de videojuegos o algún equipo de sonido?', cat: 'tv_audio' },
-      { id: 'sala_cargadores', room: 'Sala', q: '¿Hay cargadores enchufados sin usar?', cat: 'cargadores' },
-      
-      { id: 'cocina_luces', room: 'Cocina', q: '¿Quedó alguna luz prendida en la cocina?', cat: 'luces' },
-      { id: 'cocina_aparatos', room: 'Cocina', q: '¿Hay pequeños aparatos enchufados sin usar (microondas, licuadora, hervidor)?', cat: 'cocina_peq' },
-      { id: 'cocina_refri', room: 'Cocina', q: '¿La puerta de la refrigeradora quedó mal cerrada o entreabierta?', cat: 'refrigeradora' },
+      // Nivel 1: Esenciales (Desde el primer día)
+      { id: 'sala_luces', room: 'Sala', q: '¿Quedó alguna luz prendida en la sala?', minDay: 1 },
+      { id: 'sala_tv', room: 'Sala', q: '¿Quedó encendido el televisor, la consola de videojuegos o algún equipo de sonido?', minDay: 1 },
+      { id: 'cocina_luces', room: 'Cocina', q: '¿Quedó alguna luz prendida en la cocina?', minDay: 1 },
+      { id: 'cocina_refri', room: 'Cocina', q: '¿La puerta de la refrigeradora quedó mal cerrada o entreabierta?', minDay: 1 },
+      { id: 'dorm_luces', room: 'Dormitorio', q: '¿Quedó alguna luz prendida en el dormitorio?', minDay: 1 },
+      { id: 'bano_luces', room: 'Baño', q: '¿Quedó la luz encendida en el baño?', minDay: 1 },
+      { id: 'patio_luces', room: 'Patio o pasillo', q: '¿Quedó encendida alguna luz en el patio, entrada o pasillo?', minDay: 1 },
 
-      { id: 'dorm_luces', room: 'Dormitorio', q: '¿Quedó alguna luz prendida en el dormitorio?', cat: 'luces' },
-      { id: 'dorm_equipos', room: 'Dormitorio', q: '¿Quedó encendido el televisor, un ventilador o una estufa sin nadie?', cat: 'tv_audio' },
-      { id: 'dorm_cargadores', room: 'Dormitorio', q: '¿Hay cargadores enchufados sin el celular?', cat: 'cargadores' },
+      // Nivel 2: Desbloqueo a partir del Día 3 (Cargadores y pequeños consumos)
+      { id: 'sala_cargadores', room: 'Sala', q: '¿Hay cargadores enchufados sin usar?', minDay: 3 },
+      { id: 'dorm_cargadores', room: 'Dormitorio', q: '¿Hay cargadores enchufados sin el celular?', minDay: 3 },
+      { id: 'cocina_aparatos', room: 'Cocina', q: '¿Hay pequeños aparatos enchufados sin usar (microondas, licuadora, hervidor)?', minDay: 3 },
 
-      { id: 'bano_luces', room: 'Baño', q: '¿Quedó la luz encendida en el baño?', cat: 'luces' },
-      { id: 'bano_terma', room: 'Baño', q: '¿La ducha eléctrica o calentador de agua está encendido sin que nadie lo vaya a usar pronto?', cat: 'terma', safety: true },
-
-      { id: 'patio_luces', room: 'Patio o pasillo', q: '¿Quedó encendida alguna luz en el patio, entrada o pasillo?', cat: 'exteriores' }
+      // Nivel 3: Desbloqueo a partir del Día 7 (Equipos pesados y seguridad)
+      { id: 'dorm_equipos', room: 'Dormitorio', q: '¿Quedó encendido el televisor, un ventilador o una estufa sin nadie?', minDay: 7 },
+      { id: 'bano_terma', room: 'Baño', q: '¿La ducha eléctrica o calentador de agua está encendido sin que nadie lo vaya a usar pronto?', minDay: 7, safety: true }
     ];
 
     const DEFAULT_STATE = {
@@ -750,8 +751,20 @@
       activeQuestions = [];
       const isObservation = state.lecturas.length === 1;
 
+      // Calcular el número de días desde la primera ronda o lectura registrada
+      let userDays = 1;
+      if (state.rondas.length > 0) {
+        const uniqueDates = [...new Set(state.rondas.map(r => r.fecha))].sort();
+        const firstDate = new Date(uniqueDates[0] + 'T00:00:00');
+        const todayDate = new Date(getLocalTodayString() + 'T00:00:00');
+        userDays = Math.max(1, Math.floor((todayDate - firstDate) / (1000 * 60 * 60 * 24)) + 1);
+      }
+
+      // Filtrar preguntas según el día desbloqueado
+      const availableDefs = QUESTIONS_DEF.filter(q => userDays >= q.minDay);
+
       state.habitaciones.forEach(room => {
-        const matchingDefs = QUESTIONS_DEF.filter(q => q.room.toLowerCase() === room.toLowerCase());
+        const matchingDefs = availableDefs.filter(q => q.room.toLowerCase() === room.toLowerCase());
         matchingDefs.forEach(q => {
           if (!state.hiddenQuestions.includes(q.id)) {
             activeQuestions.push(q);
@@ -782,6 +795,9 @@
         alert("No hay preguntas activas para la ronda. Revisa tus habitaciones en Ajustes.");
         return;
       }
+
+      // Mezclar el orden de las preguntas de forma dinámica cada día
+      activeQuestions.sort(() => Math.random() - 0.5);
 
       currentQIndex = 0;
       countApagadosSession = 0;
