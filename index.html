@@ -509,23 +509,24 @@
   </div>
 
   <script>
+    // Preguntas 100% enfocadas en la ronda nocturna
     const QUESTIONS_DEF = [
-      { id: 'sala_luces', room: 'Sala', q: '¿Hay luces encendidas sin nadie?', cat: 'luces' },
+      { id: 'sala_luces', room: 'Sala', q: '¿Quedó alguna luz prendida en la sala?', cat: 'luces' },
       { id: 'sala_tv', room: 'Sala', q: '¿Quedó encendido el televisor, la consola de videojuegos o algún equipo de sonido?', cat: 'tv_audio' },
       { id: 'sala_cargadores', room: 'Sala', q: '¿Hay cargadores enchufados sin usar?', cat: 'cargadores' },
       
-      { id: 'cocina_luces', room: 'Cocina', q: '¿Hay luz encendida sin nadie?', cat: 'luces' },
+      { id: 'cocina_luces', room: 'Cocina', q: '¿Quedó alguna luz prendida en la cocina?', cat: 'luces' },
       { id: 'cocina_aparatos', room: 'Cocina', q: '¿Hay pequeños aparatos enchufados sin usar (microondas, licuadora, hervidor)?', cat: 'cocina_peq' },
       { id: 'cocina_refri', room: 'Cocina', q: '¿La puerta de la refrigeradora quedó mal cerrada o entreabierta?', cat: 'refrigeradora' },
 
-      { id: 'dorm_luces', room: 'Dormitorio', q: '¿Hay luz encendida sin nadie?', cat: 'luces' },
+      { id: 'dorm_luces', room: 'Dormitorio', q: '¿Quedó alguna luz prendida en el dormitorio?', cat: 'luces' },
       { id: 'dorm_equipos', room: 'Dormitorio', q: '¿Quedó encendido el televisor, un ventilador o una estufa sin nadie?', cat: 'tv_audio' },
       { id: 'dorm_cargadores', room: 'Dormitorio', q: '¿Hay cargadores enchufados sin el celular?', cat: 'cargadores' },
 
-      { id: 'bano_luces', room: 'Baño', q: '¿Hay luz encendida sin nadie?', cat: 'luces' },
+      { id: 'bano_luces', room: 'Baño', q: '¿Quedó la luz encendida en el baño?', cat: 'luces' },
       { id: 'bano_terma', room: 'Baño', q: '¿La ducha eléctrica o calentador de agua está encendido sin que nadie lo vaya a usar pronto?', cat: 'terma', safety: true },
 
-      { id: 'patio_luces', room: 'Patio o pasillo', q: '¿Hay luces exteriores encendidas de día?', cat: 'exteriores' }
+      { id: 'patio_luces', room: 'Patio o pasillo', q: '¿Quedó encendida alguna luz en el patio, entrada o pasillo?', cat: 'exteriores' }
     ];
 
     const DEFAULT_STATE = {
