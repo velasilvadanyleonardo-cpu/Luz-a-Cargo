@@ -3,910 +3,1985 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Luz a Cargo - Ahorro Energético</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  
+  <title>Luz a Cargo</title>
   <style>
     :root {
-      --bg-cream: #faf7f2;
-      --card-bg: #ffffff;
-      --primary-dark: #14532d;
-      --primary: #16a34a;
-      --primary-hover: #15803d;
-      --primary-light: #e8f5e9;
-      --accent-pastel-yellow: #fef9c3;
-      --text-main: #1e293b;
-      --text-muted: #64748b;
-      --border-color: #e2e8f0;
-      --danger: #ef4444;
-      --danger-light: #fef2f2;
-      --warning-bg: #fffbeb;
-      --warning-text: #b45309;
-      --baseline-color: #0284c7;
-      --baseline-light: #f0f9ff;
-      --shadow-sm: 0 4px 12px rgba(20, 83, 45, 0.03);
-      --shadow-md: 0 10px 25px rgba(20, 83, 45, 0.06);
-      --radius-lg: 20px;
-      --radius-md: 14px;
-      --radius-full: 9999px;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --primary: #14532d;
+      --primary-btn: #15803d;
+      --primary-light: #dcfce7;
+      --text: #0f172a;
+      --muted: #475569;
+      --border: #cbd5e1;
+      --danger: #b91c1c;
+      --danger-bg: #fef2f2;
+      --warn-bg: #fffbeb;
+      --warn-text: #92400e;
+      --radius: 14px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
-    body { background-color: var(--bg-cream); color: var(--text-main); display: flex; justify-content: center; min-height: 100vh; font-size: 16px; line-height: 1.5; }
-    #app { width: 100%; max-width: 480px; padding: 1.25rem 1rem 2.5rem 1rem; display: flex; flex-direction: column; gap: 1.25rem; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
 
-    .alert-banner { background-color: var(--danger-light); color: var(--danger); padding: 0.9rem 1.1rem; border-radius: var(--radius-md); font-weight: 600; font-size: 0.875rem; display: flex; align-items: center; gap: 0.6rem; border: 1px solid rgba(239, 68, 68, 0.15); }
-    .notice-banner { background-color: var(--warning-bg); color: var(--warning-text); padding: 1rem 1.1rem; border-radius: var(--radius-md); font-size: 0.9rem; font-weight: 600; border: 1px solid #fef08a; width: 100%; text-align: left; cursor: pointer; display: flex; align-items: center; justify-content: space-between; box-shadow: var(--shadow-sm); }
-    .notice-banner.baseline { background-color: var(--baseline-light); color: var(--baseline-color); border-color: #bae6fd; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.5;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
 
-    .screen { display: none; flex-direction: column; gap: 1.25rem; }
-    .screen.active { display: flex; }
+    #app {
+      width: 100%;
+      max-width: 500px;
+      padding: 1rem 1rem 3rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
 
-    h1 { font-size: 1.55rem; font-weight: 800; line-height: 1.25; color: var(--primary-dark); letter-spacing: -0.02em; }
-    h2 { font-size: 1.25rem; font-weight: 700; color: var(--primary-dark); }
-    p { color: var(--text-muted); font-size: 0.95rem; }
+    .screen {
+      display: none;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
 
-    .btn { min-height: 52px; padding: 0.85rem 1.25rem; border-radius: var(--radius-md); border: 1.5px solid transparent; font-size: 1rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; text-align: center; width: 100%; transition: all 0.2s; box-shadow: var(--shadow-sm); }
-    .btn:active { transform: scale(0.98); }
-    .btn-primary { background-color: var(--primary-dark); color: white; }
-    .btn-primary:hover { background-color: #0f3d21; }
-    .btn-secondary { background-color: var(--primary-light); color: var(--primary-dark); }
-    .btn-outline { background-color: var(--card-bg); border-color: #e2e8f0; color: var(--text-main); }
-    .btn-danger { background-color: var(--danger); color: white; }
+    .screen.active {
+      display: flex;
+    }
 
-    .card { background-color: var(--card-bg); border: 1px solid rgba(226, 232, 240, 0.9); border-radius: var(--radius-lg); padding: 1.35rem; display: flex; flex-direction: column; gap: 1rem; box-shadow: var(--shadow-md); }
-    
-    .settings-menu-item {
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1.25;
+    }
+
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    p, span, li, label, small, input, select, button, td, th {
+      font-size: 16px;
+    }
+
+    .muted-text {
+      color: var(--muted);
+    }
+
+    .card {
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .alert-banner {
+      background: var(--danger-bg);
+      color: var(--danger);
+      border: 1.5px solid #fca5a5;
+      border-radius: var(--radius);
+      padding: 0.9rem 1rem;
+      font-weight: 700;
+      display: none;
+    }
+
+    .safety-box {
+      background: var(--warn-bg);
+      color: var(--warn-text);
+      border: 1.5px solid #fcd34d;
+      border-radius: var(--radius);
+      padding: 0.9rem 1rem;
+      font-weight: 600;
+    }
+
+    .btn {
+      min-height: 52px;
+      padding: 0.75rem 1.1rem;
+      border-radius: var(--radius);
+      border: 1.5px solid transparent;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      text-align: center;
+      width: 100%;
+    }
+
+    .btn:active {
+      transform: scale(0.99);
+    }
+
+    .btn-primary {
+      background: var(--primary-btn);
+      color: #ffffff;
+    }
+
+    .btn-secondary {
+      background: var(--primary-light);
+      color: var(--primary);
+      border-color: #86efac;
+    }
+
+    .btn-outline {
+      background: #ffffff;
+      color: var(--text);
+      border-color: var(--border);
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: #ffffff;
+    }
+
+    .btn-danger-outline {
+      background: #ffffff;
+      color: var(--danger);
+      border-color: #fca5a5;
+    }
+
+    .nav-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.65rem;
+    }
+
+    .nav-btn {
+      min-height: 56px;
+      padding: 0.65rem;
+      border-radius: var(--radius);
+      border: 1.5px solid var(--border);
+      background: #ffffff;
+      color: var(--text);
+      font-weight: 700;
+      cursor: pointer;
       display: flex;
       align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .nav-btn.active-nav {
+      background: var(--primary-light);
+      border-color: var(--primary-btn);
+      color: var(--primary);
+    }
+
+    .hero-box {
+      background: var(--primary);
+      color: #ffffff;
+      border-radius: var(--radius);
+      padding: 1.35rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .hero-box h1 {
+      color: #ffffff;
+    }
+
+    .hero-box p {
+      color: #dcfce7;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    label {
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    select {
+      width: 100%;
+      min-height: 50px;
+      padding: 0.65rem 0.85rem;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      background: #ffffff;
+      color: var(--text);
+    }
+
+    .progress-wrap {
+      width: 100%;
+      height: 12px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--primary-btn);
+      width: 0%;
+      transition: width 0.2s;
+    }
+
+    .q-header {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .icon-box {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      background: var(--primary-light);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .icon-box svg {
+      width: 28px;
+      height: 28px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .list-item {
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.9rem;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .row-between {
+      display: flex;
       justify-content: space-between;
-      padding: 1rem 1.15rem;
-      background: var(--card-bg);
-      border: 1px solid #e2e8f0;
-      border-radius: var(--radius-md);
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .link-btn {
+      background: none;
+      border: none;
+      color: var(--primary-btn);
+      font-weight: 700;
+      text-decoration: underline;
       cursor: pointer;
-      box-shadow: var(--shadow-sm);
-      transition: all 0.2s;
-      text-decoration: none;
-      color: var(--text-main);
-    }
-    .settings-menu-item:hover {
-      border-color: var(--primary);
-      transform: translateY(-2px);
-      background-color: #f8fafc;
-    }
-    .settings-menu-left { display: flex; align-items: center; gap: 0.85rem; }
-    .settings-icon-box {
-      width: 40px; height: 40px; border-radius: 10px; background-color: var(--primary-light); color: var(--primary-dark); display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+      text-align: left;
+      padding: 0.25rem 0;
     }
 
-    .hero-box { background: linear-gradient(135deg, var(--primary-dark) 0%, #166534 100%); color: white; border-radius: var(--radius-lg); padding: 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; box-shadow: var(--shadow-md); }
-    .hero-box h1 { color: white; font-size: 1.35rem; }
-    .hero-box p { color: #bbf7d0; font-size: 0.85rem; margin-top: 0.3rem; }
-    .mascot-svg { width: 75px; height: 75px; flex-shrink: 0; }
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 100;
+    }
 
-    .nav-links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; background: var(--card-bg); padding: 0.6rem 0.5rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); border: 1px solid #f1f5f9; }
-    .nav-tab { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; background: none; border: none; color: var(--text-muted); font-size: 0.75rem; font-weight: 700; cursor: pointer; padding: 0.5rem 0.2rem; border-radius: var(--radius-md); }
-    .nav-tab svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; }
-    .nav-tab:hover, .nav-tab.active-tab { color: var(--primary-dark); background-color: var(--primary-light); }
+    .modal-backdrop.open {
+      display: flex;
+    }
 
-    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
-    label { font-weight: 700; font-size: 0.9rem; color: var(--primary-dark); }
-    input[type="text"], select { width: 100%; min-height: 50px; padding: 0.65rem 0.85rem; border: 1.5px solid #e2e8f0; border-radius: var(--radius-md); font-size: 1rem; background-color: #f8fafc; color: var(--text-main); }
+    .modal-box {
+      background: #ffffff;
+      border-radius: var(--radius);
+      padding: 1.35rem;
+      width: 100%;
+      max-width: 440px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
 
-    .progress-container { width: 100%; background-color: #e2e8f0; height: 10px; border-radius: var(--radius-full); overflow: hidden; }
-    .progress-bar { height: 100%; background: linear-gradient(90deg, var(--primary) 0%, #22c55e 100%); width: 0%; transition: width 0.3s; }
+    .bar-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 0.6rem;
+      height: 170px;
+      padding-top: 1.5rem;
+      border-bottom: 2px solid var(--border);
+      overflow-x: auto;
+    }
 
-    .room-header { display: flex; align-items: center; gap: 0.85rem; }
-    .room-icon-box { width: 48px; height: 48px; border-radius: var(--radius-md); background-color: var(--primary-light); display: flex; align-items: center; justify-content: center; color: var(--primary-dark); flex-shrink: 0; }
-    .room-icon-box svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 2; }
-    .q-options { display: flex; flex-direction: column; gap: 0.75rem; }
-    .safety-text { font-size: 0.85rem; background-color: var(--warning-bg); color: var(--warning-text); padding: 0.85rem; border-radius: var(--radius-md); display: flex; gap: 0.6rem; align-items: flex-start; border: 1px solid #fde047; }
+    .bar-col {
+      flex: 1;
+      min-width: 56px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      height: 100%;
+      gap: 0.25rem;
+    }
 
-    .data-list { display: flex; flex-direction: column; gap: 0.75rem; }
-    .data-item { display: flex; justify-content: space-between; align-items: center; padding: 0.85rem 1rem; border: 1px solid #f1f5f9; border-radius: var(--radius-md); background-color: var(--card-bg); font-size: 0.9rem; box-shadow: var(--shadow-sm); }
-    .room-tag { display: flex; flex-direction: column; padding: 0.75rem 0.9rem; background: #f8fafc; border-radius: var(--radius-md); border: 1px solid #e2e8f0; gap: 0.4rem; }
-    .footer-ods { font-size: 0.8rem; text-align: center; color: var(--text-muted); margin-top: auto; padding-top: 1rem; border-top: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; gap: 0.4rem; }
+    .bar {
+      width: 34px;
+      background: var(--primary-btn);
+      border-radius: 6px 6px 0 0;
+      min-height: 4px;
+    }
+
+    .bar.base {
+      background: #0369a1;
+    }
+
+    .settings-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      background: #ffffff;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .tag-pill {
+      display: inline-block;
+      background: var(--warn-bg);
+      color: var(--warn-text);
+      border: 1px solid #fcd34d;
+      padding: 0.2rem 0.6rem;
+      border-radius: 8px;
+      font-weight: 700;
+    }
   </style>
 </head>
 <body>
   <div id="app">
-    <div id="storage-lock-alert" class="alert-banner" style="display:none;">
-      ⚠️ Almacenamiento bloqueado: No se pudieron guardar los cambios en el navegador.
+    <div id="alert-storage-locked" class="alert-banner">
+      No se pudieron guardar los cambios porque el almacenamiento del navegador está bloqueado.
     </div>
-    <div id="storage-damage-alert" class="alert-banner" style="display:none;">
-      ⚠️ Datos dañados. Se restauraron los valores iniciales.
+    <div id="alert-storage-corrupt" class="alert-banner">
+      Los datos guardados estaban dañados. Se guardó una copia de respaldo en 'luz_a_cargo_backup' y se inició con datos limpios.
     </div>
+
+    <!-- NAVEGACIÓN PRINCIPAL (4 PANTALLAS CLARAS) -->
+    <nav class="nav-grid" aria-label="Navegación principal">
+      <button class="nav-btn active-nav" id="nav-inicio" onclick="navTo('inicio')">Inicio</button>
+      <button class="nav-btn" id="nav-historial" onclick="navTo('historial')">Lo que has hecho</button>
+      <button class="nav-btn" id="nav-medidor" onclick="navTo('medidor')">Comprobar con mi medidor</button>
+      <button class="nav-btn" id="nav-ajustes" onclick="navTo('ajustes')">Cambiar mis datos</button>
+    </nav>
 
     <!-- PANTALLA 1: INICIO -->
     <section id="screen-inicio" class="screen active">
       <div class="hero-box">
-        <div>
-          <h1>Esta noche, apaga lo que nadie usa.</h1>
-          <p>¡Hola! Tu ronda nocturna de ahorro tarda solo 2 minutos.</p>
-        </div>
-        <svg class="mascot-svg" viewBox="0 0 100 100">
-          <circle cx="50" cy="45" r="38" fill="#fef08a" opacity="0.4"/>
-          <path d="M50 12 C34 12 22 24 22 40 C22 52 30 62 36 68 L36 78 C36 80 38 82 40 82 L60 82 C62 82 64 80 64 78 L64 68 C70 62 78 52 78 40 C78 24 66 12 50 12 Z" fill="#fef08a" stroke="#14532d" stroke-width="3.5"/>
-          <rect x="40" y="82" width="20" height="4" fill="#94a3b8" stroke="#14532d" stroke-width="2"/>
-          <ellipse cx="42" cy="38" rx="3.5" ry="5" fill="#14532d"/>
-          <ellipse cx="58" cy="38" rx="3.5" ry="5" fill="#14532d"/>
-          <path d="M42 48 Q50 56 58 48" fill="none" stroke="#14532d" stroke-width="3" stroke-linecap="round"/>
-        </svg>
+        <h1>Esta noche, apaga lo que nadie usa.</h1>
+        <p>Revisa tu casa habitación por habitación antes de dormir.</p>
       </div>
 
-      <div id="baseline-notice" class="notice-banner baseline" style="display:none;">
-        <span id="baseline-notice-text">Primer uso (Diagnóstico): Hoy solo observa y registra sin apagar.</span>
-      </div>
-
-      <button class="btn btn-primary" style="font-size: 1.05rem; min-height: 56px;" onclick="startRonda()">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-        Empezar mi ronda nocturna
-      </button>
+      <button class="btn btn-primary" onclick="iniciarRevision()">Revisar la casa</button>
 
       <div class="card">
-        <div style="display: flex; align-items: center; gap: 0.85rem;">
-          <div style="background: var(--accent-pastel-yellow); padding: 0.6rem; border-radius: var(--radius-md); border: 1px solid #fef08a;">🔥</div>
-          <div>
-            <p id="streak-info" style="font-weight: 700; color: var(--primary-dark); font-size: 1rem;">Empieza hoy tu primera noche</p>
-            <p id="turn-info" style="font-size: 0.85rem; display: none;"></p>
-          </div>
-        </div>
+        <p id="inicio-noches" style="font-weight: 700; color: var(--primary);">Empieza hoy tu primera noche</p>
+        <p id="inicio-turno" style="display: none; font-weight: 700;"></p>
+        <p id="inicio-ahorro" style="font-weight: 700; color: var(--primary-btn);">Dinero que ya no se va: aprox. S/ 0,00</p>
       </div>
 
-      <nav class="nav-links">
-        <button class="nav-tab active-tab" id="tab-inicio" onclick="navTo('inicio')">
-          <svg viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-          Inicio
-        </button>
-        <button class="nav-tab" id="tab-historial" onclick="navTo('historial')">
-          <svg viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-          Historial
-        </button>
-        <button class="nav-tab" id="tab-ajustes" onclick="navTo('ajustes')">
-          <svg viewBox="0 0 24 24"><path d="M12 6V4m0 16v-2m6-8h2M4 12H2m15.364 6.364l1.414 1.414M4.222 4.222l1.414 1.414m12.728 0l-1.414 1.414M5.636 18.364l-1.414 1.414M12 15a3 3 0 100-6 3 3 0 000 6z"></path></svg>
-          Ajustes
-        </button>
-      </nav>
-
-      <div class="footer-ods">🌱 Apoya al ODS 7, ODS 12 y ODS 13.</div>
+      <button class="btn btn-outline" onclick="navTo('info')">Para qué sirve esta página</button>
     </section>
 
-    <!-- PANTALLA 2: RONDA NOCTURNA -->
-    <section id="screen-ronda" class="screen">
+    <!-- PANTALLA: PARA QUÉ SIRVE ESTA PÁGINA -->
+    <section id="screen-info" class="screen">
+      <h2>Para qué sirve esta página</h2>
+      <div class="card">
+        <p><strong>Pregunta base:</strong> ¿Cómo podemos evitar el consumo de energía eléctrica de forma irresponsable en el hogar?</p>
+        <p><strong>Qué es cálculo aproximado:</strong> Es una estimación en soles calculada con la potencia referencial de cada aparato (en vatios), las horas que suele quedarse prendido, 30 días al mes y el precio de la luz. Sirve para darte una idea clara, pero no reemplaza al recibo.</p>
+        <p><strong>Qué es medido:</strong> Es la lectura real que anotas directamente de tu medidor de luz en unidades de luz (kWh) cada 7 días para comprobar si tu consumo bajó.</p>
+        <p><strong>Objetivos de Desarrollo Sostenible (ODS):</strong></p>
+        <ul style="padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.4rem;">
+          <li><strong>ODS 7:</strong> Energía asequible y no contaminante.</li>
+          <li><strong>ODS 12:</strong> Producción y consumo responsables.</li>
+          <li><strong>ODS 13:</strong> Acción por el clima.</li>
+        </ul>
+      </div>
+      <button class="btn btn-outline" onclick="navTo('inicio')">Volver al inicio</button>
+    </section>
+
+    <!-- PANTALLA: REVISAR LA CASA -->
+    <section id="screen-revision" class="screen">
       <div>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
-          <span style="font-size: 0.85rem; font-weight: 700; color: var(--primary-dark);" id="ronda-progress-text">Progreso de la ronda</span>
-          <span id="ronda-progress-num" style="font-size: 0.85rem; font-weight: 800; color: var(--primary);">0%</span>
+        <div class="row-between" style="margin-bottom: 0.35rem;">
+          <span style="font-weight: 700; color: var(--primary);">Avance de la revisión</span>
+          <span id="rev-progreso-txt" style="font-weight: 700; color: var(--primary);">0 de 0</span>
         </div>
-        <div class="progress-container">
-          <div id="ronda-progress-bar" class="progress-bar"></div>
+        <div class="progress-wrap">
+          <div id="rev-progreso-bar" class="progress-fill"></div>
         </div>
       </div>
 
+      <!-- PASO A: PREGUNTA PRINCIPAL DE LA HABITACIÓN -->
+      <div id="paso-pregunta" class="card">
+        <div class="q-header">
+          <div id="rev-icono" class="icon-box"></div>
+          <h2 id="rev-habitacion">Sala</h2>
+        </div>
+
+        <p id="rev-texto-pregunta" style="font-size: 1.2rem; font-weight: 700;"></p>
+
+        <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+          <button id="btn-si-apague" class="btn btn-primary" onclick="responderSi()">Sí, lo apagué</button>
+          <button class="btn btn-secondary" onclick="responderBien()">No, estaba todo bien</button>
+          <button class="btn btn-outline" onclick="responderNoTengo()">No tengo esto en casa</button>
+        </div>
+      </div>
+
+      <!-- PASO B: PREGUNTA DE TIEMPO (SOLO SI NO ES CARGADOR/ENCHUFADO) -->
+      <div id="paso-tiempo" class="card" style="display: none;">
+        <h2 id="tiempo-titulo">¿Cuánto tiempo suele quedarse así?</h2>
+        <p id="tiempo-subtitulo" class="muted-text"></p>
+        <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+          <button class="btn btn-outline" onclick="elegirTiempo('poco')">Poco (1 a 2 horas)</button>
+          <button class="btn btn-outline" onclick="elegirTiempo('normal')">Normal (3 a 5 horas)</button>
+          <button class="btn btn-outline" onclick="elegirTiempo('mucho')">Mucho (6 horas o más)</button>
+        </div>
+      </div>
+
+      <div id="rev-seguridad" class="safety-box" style="display: none;">
+        Seguridad: Apaga o desconecta aparatos eléctricos siempre con las manos bien secas y sin tocar cables pelados.
+      </div>
+
+      <div class="row-between">
+        <button id="btn-volver-atras" class="btn btn-outline" style="display: none;" onclick="volverPreguntaAnterior()">Volver a la pregunta anterior</button>
+        <button class="btn btn-danger-outline" onclick="pedirSalirRevision()">Salir</button>
+      </div>
+    </section>
+
+    <!-- PANTALLA: RESULTADO DE LA REVISIÓN -->
+    <section id="screen-resultado" class="screen">
       <div class="card">
-        <div id="observation-mode-badge" style="font-size: 0.8rem; background: var(--baseline-light); color: var(--baseline-color); padding: 0.35rem 0.6rem; border-radius: 8px; display: none; font-weight: 700;">
-          👁️ Modo Observación (Primer Uso): Hoy no apagues nada todavía
+        <h1 id="res-titulo">Resultado de hoy</h1>
+        <p id="res-mensaje-principal" style="font-weight: 700;"></p>
+        <p id="res-rango-mensual" style="display: none; font-weight: 700; color: var(--primary);"></p>
+        <p id="res-acumulado" style="font-weight: 700; color: var(--primary-btn);"></p>
+
+        <div id="res-nota-precio" style="display: none;">
+          <span class="tag-pill" id="res-etiqueta-precio"></span>
         </div>
 
-        <div id="assigned-person-badge" style="font-size: 0.85rem; background: var(--primary-light); color: var(--primary-dark); padding: 0.4rem 0.7rem; border-radius: 8px; font-weight: 700; display: none;">
-          👤 Turno de: <span id="current-person-name"></span>
-        </div>
-
-        <div class="room-header">
-          <div id="room-icon-container" class="room-icon-box"></div>
-          <h2 id="ronda-room-title">Sala</h2>
-        </div>
-
-        <h1 id="ronda-question" style="font-size: 1.25rem;">¿Quedó alguna luz prendida en la sala?</h1>
-
-        <div id="options-normal" class="q-options">
-          <button id="btn-norm-action" class="btn btn-primary" onclick="answerQuestion('apagado')">✓ Ya lo apagué</button>
-          <button class="btn btn-secondary" onclick="answerQuestion('ok')">👍 Todo estaba bien</button>
-          <button class="btn btn-outline" style="color: var(--text-muted);" onclick="answerQuestion('no_tengo')">🚫 No aplica aquí</button>
-        </div>
-
-        <div id="options-observation" class="q-options" style="display: none;">
-          <button id="btn-obs-found" class="btn btn-danger" onclick="answerQuestion('obs_encendido')">⚠️ Lo encontré encendido</button>
-          <button class="btn btn-secondary" onclick="answerQuestion('obs_bien')">👍 Todo estaba bien</button>
-          <button class="btn btn-outline" style="color: var(--text-muted);" onclick="answerQuestion('no_tengo')">🚫 No aplica aquí</button>
-        </div>
+        <button id="btn-como-calculamos" class="link-btn" style="display: none;" onclick="abrirModalCalculo()">¿Cómo lo calculamos?</button>
       </div>
 
-      <div style="display: flex; gap: 0.5rem;">
-        <button id="btn-back-q" class="btn btn-outline" style="flex: 1; display: none;" onclick="prevQuestion()">← Atrás</button>
-        <button class="btn btn-outline" style="flex: 1; color: var(--danger); border-color: rgba(239, 68, 68, 0.3);" onclick="confirmExitRonda()">Salir</button>
-      </div>
-
-      <div id="safety-warning" class="safety-text" style="display: none;">
-        <span>⚡</span>
-        <div><strong>Seguridad:</strong> Solo apaga o desenchufa aparatos con las manos bien secas. Nunca toques cables desprotegidos.</div>
-      </div>
-    </section>
-
-    <!-- FIN DE RONDA -->
-    <section id="screen-fin-ronda" class="screen">
-      <div class="card" style="text-align: center; padding: 2.5rem 1.5rem;">
-        <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">🌱</div>
-        <h1 style="margin-bottom: 0.5rem;">¡Ronda completada!</h1>
-        <p id="fin-count-text" style="font-size: 1.1rem; font-weight: 700; color: var(--primary-dark);">Todo estaba en orden.</p>
-      </div>
-      <button class="btn btn-primary" onclick="navTo('inicio')">Volver al inicio</button>
-    </section>
-
-    <!-- PANTALLA 3: HISTORIAL -->
-    <section id="screen-historial" class="screen">
-      <h2>Historial de Rondas</h2>
-      
-      <div class="card">
-        <label>🌙 Rondas nocturnas realizadas</label>
-        <div id="list-rondas" class="data-list"><p style="font-size: 0.875rem;">No hay rondas registradas.</p></div>
-      </div>
-
-      <button class="btn btn-secondary" onclick="exportCSV()">📥 Exportar datos (CSV)</button>
-      <button class="btn btn-danger" onclick="clearAllHistory()">🗑️ Borrar historial</button>
-      <button class="btn btn-outline" onclick="navTo('inicio')">Volver al inicio</button>
-    </section>
-
-    <!-- PANTALLA 4: AJUSTES -->
-    <section id="screen-ajustes" class="screen">
-      <h2>Ajustes del sistema</h2>
-      <p>Selecciona una categoría para configurar:</p>
-
-      <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-        <div class="settings-menu-item" onclick="navTo('ajustes-personas')">
-          <div class="settings-menu-left">
-            <div class="settings-icon-box">👥</div>
-            <div>
-              <strong>Integrantes del hogar</strong>
-              <p style="font-size: 0.8rem; margin: 0;">Reparten las preguntas equitativamente</p>
-            </div>
-          </div>
-          <span style="color: var(--text-muted); font-weight: bold;">›</span>
-        </div>
-
-        <div class="settings-menu-item" onclick="navTo('ajustes-habitaciones')">
-          <div class="settings-menu-left">
-            <div class="settings-icon-box">🏠</div>
-            <div>
-              <strong>Habitaciones y preguntas</strong>
-              <p style="font-size: 0.8rem; margin: 0;">Personaliza áreas y revisa dudas</p>
-            </div>
-          </div>
-          <span style="color: var(--text-muted); font-weight: bold;">›</span>
-        </div>
-      </div>
-
-      <div class="card" style="border-color: var(--baseline-color); background-color: var(--baseline-light);">
-        <label style="color: var(--baseline-color);">🧪 Panel de Pruebas / Demostración</label>
-        <p style="font-size:0.8rem; color:var(--text-muted);">Fuerza el estado del historial al instante:</p>
-        <div style="display: flex; gap: 0.5rem;">
-          <button class="btn btn-secondary" style="font-size:0.8rem; flex:1;" onclick="setDemoMode(1)">Modo Observación (0 rondas)</button>
-          <button class="btn btn-primary" style="font-size:0.8rem; flex:1;" onclick="setDemoMode(2)">Modo Acción (1+ rondas)</button>
-        </div>
-      </div>
-
-      <div class="card" id="hidden-questions-card" style="display: none; margin-top: 0.2rem;">
-        <label>Preguntas ocultas ("No aplica aquí")</label>
-        <button class="btn btn-secondary" onclick="restoreHiddenQuestions()">Volver a mostrar todas las preguntas</button>
-      </div>
-
-      <button class="btn btn-outline" onclick="navTo('inicio')">Volver al inicio</button>
-    </section>
-
-    <!-- SUBPANTALLAS DE AJUSTES -->
-    <section id="screen-ajustes-personas" class="screen">
-      <h2>👥 Integrantes del hogar</h2>
-      <div class="card">
-        <p style="font-size: 0.875rem;">Agrega a todos los participantes. Las preguntas se repartirán equitativamente entre ellos:</p>
+      <!-- PEDIR PRECIO DE LA LUZ UNA SOLA VEZ AL TERMINAR EL PRIMER USO -->
+      <div id="card-precio-primer-uso" class="card" style="display: none;">
+        <h2>Precio de tu luz</h2>
+        <p>Ahora estamos usando un precio de ejemplo (<span id="ejemplo-precio-txt">S/ 0,85</span> por unidad de luz). Escribe el tuyo para que el cálculo aproximado sea más real (lo ves en tu recibo):</p>
         <div class="form-group">
-          <label for="input-nuevo-integrante">Nombre del integrante</label>
-          <div style="display: flex; gap: 0.5rem;">
-            <input type="text" id="input-nuevo-integrante" placeholder="Ej. Carlos">
-            <button class="btn btn-secondary" style="width: auto; white-space: nowrap;" onclick="addIntegrante()">Agregar</button>
-          </div>
+          <label for="input-precio-primer-uso">Precio por unidad de luz (kWh) en soles</label>
+          <input type="number" id="input-precio-primer-uso" step="0.01" min="0.01" placeholder="Ejemplo: 0.85" inputmode="decimal">
         </div>
-        <div id="list-integrantes" style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem;"></div>
+        <button class="btn btn-primary" onclick="guardarPrecioPrimerUso()">Guardar precio y recalcular</button>
       </div>
-      <button class="btn btn-primary" onclick="savePersonasAjustes()">Guardar cambios</button>
-      <button class="btn btn-outline" onclick="navTo('ajustes')">← Volver a ajustes</button>
+
+      <button id="btn-continuar-resultado" class="btn btn-primary" onclick="navTo('inicio')">Quiero hacerlo cada noche</button>
     </section>
 
-    <section id="screen-ajustes-habitaciones" class="screen">
-      <h2>🏠 Habitaciones y preguntas</h2>
-      <div class="card">
-        <div id="list-habitaciones" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
-        
-        <div class="form-group" style="margin-top: 0.5rem;">
-          <label for="input-nueva-hab">Agregar habitación</label>
-          <div style="display: flex; gap: 0.5rem;">
-            <input type="text" id="input-nueva-hab" placeholder="Ej. Terraza">
-            <button class="btn btn-secondary" style="width: auto; white-space: nowrap;" onclick="addHabitacionTemp()">Agregar</button>
-          </div>
-        </div>
+    <!-- PANTALLA 2: LO QUE HAS HECHO (HISTORIAL) -->
+    <section id="screen-historial" class="screen">
+      <h2>Lo que has hecho</h2>
 
-        <div class="form-group" style="margin-top: 0.5rem;">
-          <label for="input-nueva-pregunta">Agregar pregunta personalizada</label>
-          <select id="select-hab-pregunta"></select>
-          <input type="text" id="input-nueva-pregunta" placeholder="Ej. ¿La laptop quedó enchufada?" style="margin-top:0.4rem;">
-          <button class="btn btn-secondary" style="margin-top:0.4rem;" onclick="addCustomQuestion()">Añadir pregunta</button>
+      <div class="card">
+        <p id="hist-resumen-ahorro" style="font-weight: 700; color: var(--primary-btn);">Dinero que ya no se va: aprox. S/ 0,00</p>
+        <button class="link-btn" onclick="abrirModalCalculoHistorial()">¿Cómo lo calculamos?</button>
+      </div>
+
+      <div class="card">
+        <h2>Noches revisadas</h2>
+        <div id="lista-noches" style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <p class="muted-text">Aún no has revisado la casa ninguna noche.</p>
         </div>
       </div>
-      <button class="btn btn-primary" onclick="saveHabitacionesAjustes()">Guardar cambios</button>
-      <button class="btn btn-outline" onclick="navTo('ajustes')">← Volver a ajustes</button>
+
+      <button class="btn btn-secondary" onclick="exportarCSV()">Descargar mis datos en archivo (CSV)</button>
+      <button id="btn-borrar-todo" class="btn btn-danger-outline" onclick="confirmarBorrarTodo()">Borrar todo</button>
+    </section>
+
+    <!-- PANTALLA 3: COMPROBAR CON MI MEDIDOR -->
+    <section id="screen-medidor" class="screen">
+      <h2>Comprobar con mi medidor</h2>
+      <div class="card">
+        <p class="muted-text">Anota la lectura de hoy y vuelve a anotarla a los 7 días para medir el cambio real en unidades de luz (kWh).</p>
+        <div class="form-group">
+          <label for="med-fecha">Fecha de la lectura</label>
+          <input type="date" id="med-fecha">
+        </div>
+        <div class="form-group">
+          <label for="med-valor">Número del medidor (unidades de luz / kWh)</label>
+          <input type="number" id="med-valor" step="0.1" min="0" placeholder="Ejemplo: 1450.5" inputmode="decimal">
+        </div>
+        <button class="btn btn-primary" onclick="guardarLecturaMedidor()">Guardar lectura</button>
+      </div>
+
+      <div id="med-resultado-card" class="card" style="display: none;">
+        <h2>Resultado medido</h2>
+        <p id="med-resultado-texto" style="font-weight: 700;"></p>
+      </div>
+
+      <div id="med-grafico-card" class="card" style="display: none;">
+        <h2>Unidades de luz por día</h2>
+        <div id="med-grafico" class="bar-chart"></div>
+      </div>
+
+      <div class="card">
+        <h2>Lecturas anotadas</h2>
+        <div id="med-lista" style="display: flex; flex-direction: column; gap: 0.65rem;">
+          <p class="muted-text">Todavía no has anotado ninguna lectura.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PANTALLA 4: CAMBIAR MIS DATOS (AJUSTES) -->
+    <section id="screen-ajustes" class="screen">
+      <h2>Cambiar mis datos</h2>
+
+      <div class="settings-item" onclick="navTo('ajustes-personas')">
+        <span>Personas que revisan la casa</span>
+        <span>→</span>
+      </div>
+
+      <div class="settings-item" onclick="navTo('ajustes-habitaciones')">
+        <span>Habitaciones y preguntas propias</span>
+        <span>→</span>
+      </div>
+
+      <div class="settings-item" onclick="navTo('ajustes-precio')">
+        <span>Precio de la luz</span>
+        <span>→</span>
+      </div>
+
+      <div id="ajustes-ocultas-card" class="card" style="display: none;">
+        <p>Has ocultado algunas cosas porque dijiste “No tengo esto en casa”.</p>
+        <button class="btn btn-secondary" onclick="volverAMostrarTodas()">Volver a mostrar todas</button>
+      </div>
+    </section>
+
+    <!-- SUBPANTALLA AJUSTES: PERSONAS -->
+    <section id="screen-ajustes-personas" class="screen">
+      <h2>Personas que revisan la casa</h2>
+      <div class="card">
+        <p class="muted-text">Si hay dos o más personas, el turno cambia cada noche (con corte a las 4 a. m.) y esa persona revisa toda la casa.</p>
+        <div class="form-group">
+          <label for="input-persona">Nombre de la persona</label>
+          <input type="text" id="input-persona" placeholder="Escribe un nombre">
+        </div>
+        <button class="btn btn-secondary" onclick="agregarPersona()">Agregar persona</button>
+        <div id="lista-personas" style="display: flex; flex-direction: column; gap: 0.5rem;"></div>
+      </div>
+      <button class="btn btn-outline" onclick="navTo('ajustes')">Volver a cambiar mis datos</button>
+    </section>
+
+    <!-- SUBPANTALLA AJUSTES: HABITACIONES Y PREGUNTAS PROPIAS -->
+    <section id="screen-ajustes-habitaciones" class="screen">
+      <h2>Habitaciones y preguntas propias</h2>
+      <div class="card">
+        <div class="form-group">
+          <label for="input-habitacion">Agregar una habitación</label>
+          <input type="text" id="input-habitacion" placeholder="Ejemplo: Lavandería">
+        </div>
+        <button class="btn btn-secondary" onclick="agregarHabitacion()">Agregar habitación</button>
+      </div>
+
+      <div class="card">
+        <h2>Agregar pregunta propia</h2>
+        <div class="form-group">
+          <label for="select-hab-propia">En qué habitación</label>
+          <select id="select-hab-propia"></select>
+        </div>
+        <div class="form-group">
+          <label for="input-preg-propia">Qué quieres revisar</label>
+          <input type="text" id="input-preg-propia" placeholder="Ejemplo: ¿Quedó prendida la arrocera?">
+        </div>
+        <div class="form-group">
+          <label for="select-tipo-propia">Qué tipo de aparato es</label>
+          <select id="select-tipo-propia">
+            <option value="foco">Foco o luz</option>
+            <option value="televisor">Televisor o equipo de sonido</option>
+            <option value="ventilador">Ventilador</option>
+            <option value="estufa">Estufa eléctrica</option>
+            <option value="terma">Terma</option>
+            <option value="ducha">Ducha eléctrica</option>
+            <option value="refrigeradora">Refrigeradora</option>
+            <option value="cargador">Cargador o aparato enchufado sin usar</option>
+            <option value="otro_aparato">Otro aparato eléctrico</option>
+          </select>
+        </div>
+        <button class="btn btn-secondary" onclick="agregarPreguntaPropia()">Guardar pregunta propia</button>
+      </div>
+
+      <div class="card">
+        <h2>Tus habitaciones y preguntas propias</h2>
+        <div id="lista-habitaciones-ajustes" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
+      </div>
+
+      <button class="btn btn-outline" onclick="navTo('ajustes')">Volver a cambiar mis datos</button>
+    </section>
+
+    <!-- SUBPANTALLA AJUSTES: PRECIO DE LA LUZ -->
+    <section id="screen-ajustes-precio" class="screen">
+      <h2>Precio de la luz</h2>
+      <div class="card">
+        <p id="ajustes-precio-estado" class="muted-text"></p>
+        <div class="form-group">
+          <label for="input-precio-ajustes">Precio por unidad de luz (kWh) en soles</label>
+          <input type="number" id="input-precio-ajustes" step="0.01" min="0.01" placeholder="Ejemplo: 0.85" inputmode="decimal">
+          <small class="muted-text">Lo ves en tu recibo de luz.</small>
+        </div>
+        <button class="btn btn-primary" onclick="guardarPrecioAjustes()">Guardar precio</button>
+      </div>
+      <button class="btn btn-outline" onclick="navTo('ajustes')">Volver a cambiar mis datos</button>
     </section>
   </div>
 
+  <!-- MODAL DE CONFIRMACIÓN Y EXPLICACIÓN DE CÁLCULO -->
+  <div id="modal-backdrop" class="modal-backdrop" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <h2 id="modal-titulo">Confirmación</h2>
+      <div id="modal-cuerpo" style="display: flex; flex-direction: column; gap: 0.65rem;"></div>
+      <div id="modal-botones" style="display: flex; flex-direction: column; gap: 0.5rem;"></div>
+    </div>
+  </div>
+
   <script>
-    const QUESTIONS_DEF = [
-      { id: 'sala_luces', room: 'Sala', q: '¿Quedó alguna luz prendida en la sala?', cat: 'luces' },
-      { id: 'sala_tv', room: 'Sala', q: '¿Quedó encendido el televisor o equipo de sonido?', cat: 'tv_audio' },
-      { id: 'sala_cargadores', room: 'Sala', q: '¿Hay cargadores enchufados sin usar en la sala?', cat: 'cargadores' },
-      
-      { id: 'cocina_luces', room: 'Cocina', q: '¿Quedó alguna luz prendida en la cocina?', cat: 'luces' },
-      { id: 'cocina_aparatos', room: 'Cocina', q: '¿Hay pequeños aparatos enchufados sin usar (microondas, licuadora)?', cat: 'cocina_peq' },
-      { id: 'cocina_refri', room: 'Cocina', q: '¿La puerta de la refrigeradora quedó mal cerrada?', cat: 'refrigeradora' },
+    /* ==========================================================================
+       TABLA DE POTENCIAS Y HORAS POR TIPO DE COSA
+       REFERENCIAL: REEMPLAZAR CON FUENTE (ETIQUETAS DE APARATOS O TABLA OFICIAL)
+       ========================================================================== */
+    const TABLA_POTENCIAS_REFERENCIAL = {
+      foco: {
+        nombre: "Foco o luz",
+        vatiosMin: 9,
+        vatiosMax: 20,
+        preguntaTiempo: true,
+        fuente: "Referencial: reemplazar con fuente"
+      },
+      televisor: {
+        nombre: "Televisor o equipo de sonido",
+        vatiosMin: 60,
+        vatiosMax: 150,
+        preguntaTiempo: true,
+        fuente: "Referencial: reemplazar con fuente"
+      },
+      ventilador: {
+        nombre: "Ventilador",
+        vatiosMin: 45,
+        vatiosMax: 75,
+        preguntaTiempo: true,
+        fuente: "Referencial: reemplazar con fuente"
+      },
+      estufa: {
+        nombre: "Estufa eléctrica",
+        vatiosMin: 1000,
+        vatiosMax: 1500,
+        preguntaTiempo: true,
+        fuente: "Referencial: reemplazar con fuente"
+      },
+      refrigeradora: {
+        nombre: "Refrigeradora mal cerrada",
+        vatiosMin: 100,
+        vatiosMax: 200,
+        preguntaTiempo: true,
+        fuente: "Referencial: reemplazar con fuente"
+      },
+      terma: {
+        nombre: "Terma eléctrica",
+        vatiosMin: 1200,
+        vatiosMax: 1800,
+        preguntaTiempo: true,
+        fuente: "Referencial: reemplazar con fuente"
+      },
+      ducha: {
+        nombre: "Ducha eléctrica",
+        vatiosMin: 3000,
+        vatiosMax: 4500,
+        preguntaTiempo: true,
+        fuente: "Referencial: reemplazar con fuente"
+      },
+      otro_aparato: {
+        nombre: "Aparato eléctrico",
+        vatiosMin: 50,
+        vatiosMax: 150,
+        preguntaTiempo: true,
+        fuente: "Referencial: reemplazar con fuente"
+      },
+      cargador: {
+        nombre: "Cargador o aparato enchufado sin usar",
+        vatiosMin: 1,
+        vatiosMax: 5,
+        preguntaTiempo: false,
+        horasFijasMin: 8,
+        horasFijasMax: 12,
+        fuente: "Referencial: reemplazar con fuente"
+      }
+    };
 
-      { id: 'dorm_luces', room: 'Dormitorio', q: '¿Quedó alguna luz prendida en el dormitorio?', cat: 'luces' },
-      { id: 'dorm_cargadores', room: 'Dormitorio', q: '¿Hay cargadores enchufados sin el celular?', cat: 'cargadores' },
+    const HORAS_POR_OPCION = {
+      poco: { etiqueta: "Poco (1 a 2 horas)", min: 1, max: 2 },
+      normal: { etiqueta: "Normal (3 a 5 horas)", min: 3, max: 5 },
+      mucho: { etiqueta: "Mucho (6 horas o más)", min: 6, max: 8 }
+    };
 
-      { id: 'bano_terma', room: 'Baño', q: '¿La luz del baño o la terma quedó encendida sin uso?', cat: 'terma', safety: true },
+    const PRECIO_EJEMPLO_SOLES = 0.85;
 
-      { id: 'patio_luces', room: 'Patio o pasillo', q: '¿Quedó encendida la luz del patio o pasillo?', cat: 'exteriores' }
+    /* ==========================================================================
+       PREGUNTAS FIJAS POR HABITACIÓN (SIN ORDEN ALEATORIO)
+       ========================================================================== */
+    const PREGUNTAS_BASE = [
+      { id: "sala_1", habitacion: "Sala", texto: "¿Quedó algún foco o luz prendida en la sala?", tipo: "foco", icono: "foco", seguridad: false },
+      { id: "sala_2", habitacion: "Sala", texto: "¿Quedó prendido el televisor, decodificador del cable o equipo de sonido en la sala?", tipo: "televisor", icono: "televisor", seguridad: false },
+      { id: "sala_3", habitacion: "Sala", texto: "¿Hay cargadores o aparatos enchufados sin usar en la sala?", tipo: "cargador", icono: "cargador", seguridad: false },
+
+      { id: "cocina_1", habitacion: "Cocina", texto: "¿Quedó algún foco o luz prendida en la cocina?", tipo: "foco", icono: "foco", seguridad: false },
+      { id: "cocina_2", habitacion: "Cocina", texto: "¿Hay aparatos enchufados sin usar en la cocina (microondas, hervidor eléctrico, licuadora o arrocera)?", tipo: "cargador", icono: "cargador", seguridad: false },
+      { id: "cocina_3", habitacion: "Cocina", texto: "¿La puerta de la refrigeradora quedó mal cerrada?", tipo: "refrigeradora", icono: "refrigeradora", seguridad: false },
+
+      { id: "cuarto_1", habitacion: "Cuarto", texto: "¿Quedó algún foco o luz prendida en el cuarto?", tipo: "foco", icono: "foco", seguridad: false },
+      { id: "cuarto_2", habitacion: "Cuarto", texto: "¿Quedó prendido el televisor, ventilador o estufa eléctrica sin nadie en el cuarto?", tipo: "televisor", icono: "televisor", seguridad: false },
+      { id: "cuarto_3", habitacion: "Cuarto", texto: "¿Hay cargador del celular o laptop enchufados sin usar en el cuarto?", tipo: "cargador", icono: "cargador", seguridad: false },
+
+      { id: "bano_1", habitacion: "Baño", texto: "¿Quedó prendido el foco o luz del baño?", tipo: "foco", icono: "foco", seguridad: false },
+      { id: "bano_2", habitacion: "Baño", texto: "¿Quedó prendida la terma eléctrica sin usar?", tipo: "terma", icono: "terma", seguridad: true },
+      { id: "bano_3", habitacion: "Baño", texto: "¿Quedó prendida la ducha eléctrica sin usar?", tipo: "ducha", icono: "ducha", seguridad: true },
+
+      { id: "pasillo_1", habitacion: "Pasillo o patio", texto: "¿Quedó prendida la luz del pasillo o patio?", tipo: "foco", icono: "foco", seguridad: false }
     ];
 
-    const ROOM_ICONS = {
-      'sala': '<svg viewBox="0 0 24 24"><path d="M20 12v6a2 2 0 01-2 2H6a2 2 0 01-2-2v-6M4 12V7a2 2 0 012-2h12a2 2 0 012 2v5M4 12h16"></path></svg>',
-      'cocina': '<svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"></path></svg>',
-      'dormitorio': '<svg viewBox="0 0 24 24"><path d="M3 7v11m0-4h18m0 4V11a2 2 0 00-2-2H7a2 2 0 00-2 2v7M5 7h4a2 2 0 012 2v2H3V9a2 2 0 012-2z"></path></svg>',
-      'baño': '<svg viewBox="0 0 24 24"><path d="M4 12h16a1 1 0 011 1v3a4 4 0 01-4 4H7a4 4 0 01-4-4v-3a1 1 0 011-1zM6 12V5a2 2 0 012-2h3a2 2 0 012 2v7"></path></svg>',
-      'patio o pasillo': '<svg viewBox="0 0 24 24"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>'
+    const ICONOS_SVG = {
+      foco: '<svg viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg>',
+      televisor: '<svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="13" rx="2"/><polyline points="17 2 12 7 7 2"/></svg>',
+      cargador: '<svg viewBox="0 0 24 24"><path d="M12 22v-5M9 7V2M15 7V2M6 7h12v5a6 6 0 0 1-12 0V7z"/></svg>',
+      refrigeradora: '<svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="5" y1="10" x2="19" y2="10"/><line x1="9" y1="6" x2="9" y2="8"/><line x1="9" y1="14" x2="9" y2="17"/></svg>',
+      terma: '<svg viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="16" rx="3"/><path d="M9 19v2M15 19v2M12 8v5"/></svg>',
+      ducha: '<svg viewBox="0 0 24 24"><path d="M4 4h6a4 4 0 0 1 4 4v2"/><path d="M10 10h8l1 3H9l1-3z"/><line x1="11" y1="16" x2="11" y2="18"/><line x1="14" y1="16" x2="14" y2="19"/><line x1="17" y1="16" x2="17" y2="18"/></svg>'
     };
 
-    const DEFAULT_STATE = {
+    const STORAGE_KEY = "luz_a_cargo_v2";
+    const BACKUP_KEY = "luz_a_cargo_backup";
+
+    const ESTADO_INICIAL = {
       personas: [],
-      habitaciones: ['Sala', 'Cocina', 'Dormitorio', 'Baño', 'Patio o pasillo'],
-      customQuestions: [], 
-      hiddenQuestions: [],
-      rondas: []
+      habitaciones: ["Sala", "Cocina", "Cuarto", "Baño", "Pasillo o patio"],
+      preguntasPropias: [],
+      siguienteIdPropio: 1,
+      preguntasOcultas: [],
+      precioLuz: null,
+      precioYaPedido: false,
+      noches: [],
+      lecturas: []
     };
 
-    let state = JSON.parse(JSON.stringify(DEFAULT_STATE));
-    let tempHabitaciones = [];
-    let tempCustomQuestions = [];
-    let tempPersonas = [];
-    let activeQuestions = [];
-    let currentQIndex = 0;
-    let countApagadosSession = 0;
-    let countObservadosSession = 0;
-    let answeredHistoryStack = [];
-    let assignedPersonName = '';
+    let state = JSON.parse(JSON.stringify(ESTADO_INICIAL));
 
-    function getLocalTodayString() {
-      const d = new Date();
-      if (d.getHours() < 4) d.setDate(d.getDate() - 1);
-      const year = d.getFullYear();
-      const month = String(d.getMonth() + 1).padStart(2, '0');
-      const day = String(d.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
+    /* Estado de la sesión de revisión actual */
+    let listaRevisionActual = [];
+    let indicePreguntaActual = 0;
+    let respuestasSesion = [];
+    let hallazgosSesion = [];
+    let historialPasos = [];
+    let ultimaNocheGuardadaId = null;
+
+    /* ==========================================================================
+       UTILIDADES DE FECHA LOCAL Y CORTE A LAS 4 A. M.
+       ========================================================================== */
+    function obtenerFechaNocheActual() {
+      const ahora = new Date();
+      if (ahora.getHours() < 4) {
+        ahora.setDate(ahora.getDate() - 1);
+      }
+      return formatearFechaISO(ahora);
     }
 
-    function escapeHTML(str) {
-      return String(str).replace(/[&<>"']/g, function(m) {
-        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
-      });
+    function obtenerFechaHoyCalendario() {
+      return formatearFechaISO(new Date());
     }
 
-    function checkStorage() {
+    function formatearFechaISO(fechaObj) {
+      const y = fechaObj.getFullYear();
+      const m = String(fechaObj.getMonth() + 1).padStart(2, "0");
+      const d = String(fechaObj.getDate()).padStart(2, "0");
+      return `${y}-${m}-${d}`;
+    }
+
+    function formatearSoles(num) {
+      return "S/ " + num.toFixed(2).replace(".", ",");
+    }
+
+    function obtenerPrecioActivo() {
+      return (typeof state.precioLuz === "number" && state.precioLuz > 0)
+        ? state.precioLuz
+        : PRECIO_EJEMPLO_SOLES;
+    }
+
+    function obtenerPersonaDeTurno() {
+      if (!state.personas || state.personas.length <= 1) {
+        return null;
+      }
+      const fechaNoche = obtenerFechaNocheActual();
+      const partes = fechaNoche.split("-");
+      const fechaObj = new Date(Number(partes[0]), Number(partes[1]) - 1, Number(partes[2]));
+      const diasDesdeEpoch = Math.floor(fechaObj.getTime() / (1000 * 60 * 60 * 24));
+      const idx = Math.abs(diasDesdeEpoch) % state.personas.length;
+      return state.personas[idx];
+    }
+
+    /* ==========================================================================
+       ALMACENAMIENTO SEGURO CON RESPALDO Y AVISOS SEPARADOS
+       ========================================================================== */
+    function verificarStorageDisponible() {
       try {
-        const testKey = '__test_storage__';
-        localStorage.setItem(testKey, testKey);
-        localStorage.removeItem(testKey);
+        const k = "__prueba_storage__";
+        localStorage.setItem(k, "1");
+        localStorage.removeItem(k);
         return true;
       } catch (e) {
         return false;
       }
     }
 
-    function loadState() {
-      if (!checkStorage()) {
-        document.getElementById('storage-lock-alert').style.display = 'flex';
-        state = JSON.parse(JSON.stringify(DEFAULT_STATE));
+    function cargarEstado() {
+      if (!verificarStorageDisponible()) {
+        document.getElementById("alert-storage-locked").style.display = "block";
         return;
       }
-      const data = localStorage.getItem('luz_a_cargo_data');
-      if (data) {
+      const crudo = localStorage.getItem(STORAGE_KEY);
+      if (!crudo) return;
+      try {
+        const parsed = JSON.parse(crudo);
+        if (!parsed || typeof parsed !== "object") throw new Error("Formato inválido");
+        state = {
+          personas: Array.isArray(parsed.personas) ? parsed.personas : [],
+          habitaciones: Array.isArray(parsed.habitaciones) && parsed.habitaciones.length > 0
+            ? parsed.habitaciones
+            : [...ESTADO_INICIAL.habitaciones],
+          preguntasPropias: Array.isArray(parsed.preguntasPropias) ? parsed.preguntasPropias : [],
+          siguienteIdPropio: typeof parsed.siguienteIdPropio === "number" ? parsed.siguienteIdPropio : 1,
+          preguntasOcultas: Array.isArray(parsed.preguntasOcultas) ? parsed.preguntasOcultas : [],
+          precioLuz: typeof parsed.precioLuz === "number" && parsed.precioLuz > 0 ? parsed.precioLuz : null,
+          precioYaPedido: Boolean(parsed.precioYaPedido),
+          noches: Array.isArray(parsed.noches) ? parsed.noches : [],
+          lecturas: Array.isArray(parsed.lecturas) ? parsed.lecturas : []
+        };
+      } catch (err) {
         try {
-          const parsed = JSON.parse(data);
-          state = {
-            personas: Array.isArray(parsed.personas) ? parsed.personas : [],
-            habitaciones: Array.isArray(parsed.habitaciones) && parsed.habitaciones.length > 0 ? parsed.habitaciones : [...DEFAULT_STATE.habitaciones],
-            customQuestions: Array.isArray(parsed.customQuestions) ? parsed.customQuestions : [],
-            hiddenQuestions: Array.isArray(parsed.hiddenQuestions) ? parsed.hiddenQuestions : [],
-            rondas: Array.isArray(parsed.rondas) ? parsed.rondas : []
-          };
-        } catch (e) {
-          document.getElementById('storage-damage-alert').style.display = 'flex';
-          state = JSON.parse(JSON.stringify(DEFAULT_STATE));
-        }
-      } else {
-        state = JSON.parse(JSON.stringify(DEFAULT_STATE));
+          localStorage.setItem(BACKUP_KEY, crudo);
+        } catch (e2) {}
+        document.getElementById("alert-storage-corrupt").style.display = "block";
+        state = JSON.parse(JSON.stringify(ESTADO_INICIAL));
       }
     }
 
-    function saveState() {
-      if (!checkStorage()) {
-        document.getElementById('storage-lock-alert').style.display = 'flex';
+    function guardarEstado() {
+      if (!verificarStorageDisponible()) {
+        document.getElementById("alert-storage-locked").style.display = "block";
         return false;
       }
       try {
-        localStorage.setItem('luz_a_cargo_data', JSON.stringify(state));
-        document.getElementById('storage-lock-alert').style.display = 'none';
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        document.getElementById("alert-storage-locked").style.display = "none";
         return true;
       } catch (e) {
-        document.getElementById('storage-lock-alert').style.display = 'flex';
+        document.getElementById("alert-storage-locked").style.display = "block";
         return false;
       }
     }
 
-    function navTo(screenId) {
-      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active-tab'));
-      const target = document.getElementById(`screen-${screenId}`);
-      if (target) target.classList.add('active');
+    /* ==========================================================================
+       CÁLCULO DE CONSUMO Y AHORRO EN SOLES (SIEMPRE RANGO APROXIMADO)
+       ========================================================================== */
+    function calcularRangoHallazgo(hallazgo, precioKwh) {
+      const ref = TABLA_POTENCIAS_REFERENCIAL[hallazgo.tipo] || TABLA_POTENCIAS_REFERENCIAL.otro_aparato;
+      let horasMin, horasMax, etiquetaTiempo;
 
-      const activeTab = document.getElementById(`tab-${screenId}`);
-      if (activeTab) activeTab.classList.add('active-tab');
+      if (ref.preguntaTiempo) {
+        const opt = HORAS_POR_OPCION[hallazgo.tiempo] || HORAS_POR_OPCION.normal;
+        horasMin = opt.min;
+        horasMax = opt.max;
+        etiquetaTiempo = opt.etiqueta;
+      } else {
+        horasMin = ref.horasFijasMin;
+        horasMax = ref.horasFijasMax;
+        etiquetaTiempo = "enchufado sin usar";
+      }
 
-      if (screenId === 'inicio') renderInicio();
-      if (screenId === 'historial') renderHistorial();
-      if (screenId === 'ajustes') renderAjustesMenu();
-      if (screenId === 'ajustes-personas') renderPersonasAjustes();
-      if (screenId === 'ajustes-habitaciones') renderHabitacionesAjustes();
+      const kwhMesMin = (ref.vatiosMin * horasMin * 30) / 1000;
+      const kwhMesMax = (ref.vatiosMax * horasMax * 30) / 1000;
+      const solesMesMin = kwhMesMin * precioKwh;
+      const solesMesMax = kwhMesMax * precioKwh;
+
+      const kwhNocheMin = (ref.vatiosMin * horasMin) / 1000;
+      const kwhNocheMax = (ref.vatiosMax * horasMax) / 1000;
+      const solesNocheMin = kwhNocheMin * precioKwh;
+      const solesNocheMax = kwhNocheMax * precioKwh;
+
+      return {
+        nombre: ref.nombre,
+        vatiosMin: ref.vatiosMin,
+        vatiosMax: ref.vatiosMax,
+        horasMin,
+        horasMax,
+        etiquetaTiempo,
+        fuente: ref.fuente,
+        solesMesMin,
+        solesMesMax,
+        solesNocheMin,
+        solesNocheMax
+      };
     }
 
-    // El modo observación se quita estrictamente después del primer uso (si ya existe al menos 1 ronda registrada)
-    function isObservationMode() {
-      return state.rondas.length === 0;
+    function calcularAhorroAcumuladoTotal() {
+      const precio = obtenerPrecioActivo();
+      let totalMin = 0;
+      let totalMax = 0;
+      state.noches.forEach(noche => {
+        if (Array.isArray(noche.hallazgos)) {
+          noche.hallazgos.forEach(h => {
+            const c = calcularRangoHallazgo(h, precio);
+            totalMin += c.solesNocheMin;
+            totalMax += c.solesNocheMax;
+          });
+        }
+      });
+      return {
+        min: totalMin,
+        max: totalMax,
+        promedio: (totalMin + totalMax) / 2
+      };
     }
 
-    function calculateStreak() {
-      if (state.rondas.length === 0) return 0;
-      const uniqueDates = [...new Set(state.rondas.map(r => r.fecha))].sort();
-      const firstRegistro = uniqueDates[0];
-      const todayStr = getLocalTodayString();
-      const todayDate = new Date(todayStr + 'T00:00:00');
+    /* ==========================================================================
+       NOCHES SEGUIDAS CON UNA NOCHE DE PERDÓN POR SEMANA
+       ========================================================================== */
+    function calcularNochesSeguidas() {
+      if (state.noches.length === 0) return 0;
+      const fechasUnicas = [...new Set(state.noches.map(n => n.fecha))].sort();
+      const primeraFechaStr = fechasUnicas[0];
+      const hoyStr = obtenerFechaNocheActual();
 
-      const yesterdayDate = new Date(todayDate);
-      yesterdayDate.setDate(yesterdayDate.getDate() - 1);
-      const yesterdayStr = `${yesterdayDate.getFullYear()}-${String(yesterdayDate.getMonth()+1).padStart(2,'0')}-${String(yesterdayDate.getDate()).padStart(2,'0')}`;
+      const partesHoy = hoyStr.split("-");
+      const hoyObj = new Date(Number(partesHoy[0]), Number(partesHoy[1]) - 1, Number(partesHoy[2]));
+      const ayerObj = new Date(hoyObj);
+      ayerObj.setDate(ayerObj.getDate() - 1);
+      const ayerStr = formatearFechaISO(ayerObj);
 
-      const lastDoneStr = uniqueDates[uniqueDates.length - 1];
-      if (lastDoneStr !== todayStr && lastDoneStr !== yesterdayStr) return 0;
+      const ultimaFechaStr = fechasUnicas[fechasUnicas.length - 1];
+      if (ultimaFechaStr !== hoyStr && ultimaFechaStr !== ayerStr) {
+        return 0;
+      }
 
-      let streak = 0;
-      let checkDate = new Date(lastDoneStr + 'T00:00:00');
-      const firstDateObj = new Date(firstRegistro + 'T00:00:00');
+      const pUlt = ultimaFechaStr.split("-");
+      let cursor = new Date(Number(pUlt[0]), Number(pUlt[1]) - 1, Number(pUlt[2]));
+      const pPrim = primeraFechaStr.split("-");
+      const primeraObj = new Date(Number(pPrim[0]), Number(pPrim[1]) - 1, Number(pPrim[2]));
 
+      let seguidas = 0;
       for (let i = 0; i < 365; i++) {
-        if (checkDate < firstDateObj) break;
-        const dStr = `${checkDate.getFullYear()}-${String(checkDate.getMonth()+1).padStart(2,'0')}-${String(checkDate.getDate()).padStart(2,'0')}`;
-        
-        if (uniqueDates.includes(dStr)) {
-          streak++;
-          checkDate.setDate(checkDate.getDate() - 1);
+        if (cursor < primeraObj) break;
+        const dStr = formatearFechaISO(cursor);
+        if (fechasUnicas.includes(dStr)) {
+          seguidas++;
+          cursor.setDate(cursor.getDate() - 1);
         } else {
-          let missingInWindow = 0;
+          let faltasEnVentana = 0;
           for (let w = 0; w < 7; w++) {
-            let testWDate = new Date(checkDate);
-            testWDate.setDate(testWDate.getDate() - w);
-            if (testWDate < firstDateObj) break;
-            let testWStr = `${testWDate.getFullYear()}-${String(testWDate.getMonth()+1).padStart(2,'0')}-${String(testWDate.getDate()).padStart(2,'0')}`;
-            if (!uniqueDates.includes(testWStr)) missingInWindow++;
+            const test = new Date(cursor);
+            test.setDate(test.getDate() - w);
+            if (test < primeraObj) break;
+            if (!fechasUnicas.includes(formatearFechaISO(test))) {
+              faltasEnVentana++;
+            }
           }
-          if (missingInWindow > 1) break;
-          else checkDate.setDate(checkDate.getDate() - 1);
+          if (faltasEnVentana > 1) {
+            break;
+          } else {
+            cursor.setDate(cursor.getDate() - 1);
+          }
         }
       }
-      return streak;
+      return seguidas;
+    }
+
+    /* ==========================================================================
+       NAVEGACIÓN Y RENDER DE INICIO
+       ========================================================================== */
+    function navTo(screenId) {
+      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+      const target = document.getElementById("screen-" + screenId);
+      if (target) target.classList.add("active");
+
+      document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active-nav"));
+      if (screenId === "inicio" || screenId === "info") {
+        document.getElementById("nav-inicio").classList.add("active-nav");
+      } else if (screenId === "historial") {
+        document.getElementById("nav-historial").classList.add("active-nav");
+      } else if (screenId === "medidor") {
+        document.getElementById("nav-medidor").classList.add("active-nav");
+      } else if (screenId.startsWith("ajustes")) {
+        document.getElementById("nav-ajustes").classList.add("active-nav");
+      }
+
+      if (screenId === "inicio") renderInicio();
+      if (screenId === "historial") renderHistorial();
+      if (screenId === "medidor") renderMedidor();
+      if (screenId === "ajustes") renderAjustes();
+      if (screenId === "ajustes-personas") renderPersonas();
+      if (screenId === "ajustes-habitaciones") renderHabitaciones();
+      if (screenId === "ajustes-precio") renderPrecioAjustes();
     }
 
     function renderInicio() {
-      const streak = calculateStreak();
-      const streakInfo = document.getElementById('streak-info');
-      streakInfo.innerText = state.rondas.length === 0 ? "Empieza hoy tu primera noche" : `Llevas ${streak} noche${streak === 1 ? '' : 's'} seguida${streak === 1 ? '' : 's'}`;
-
-      const turnInfo = document.getElementById('turn-info');
-      if (state.personas && state.personas.length > 0) {
-        const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
-        const personIndex = dayOfYear % state.personas.length;
-        turnInfo.innerText = `👤 Le toca coordinar a ${state.personas[personIndex]}`;
-        turnInfo.style.display = 'block';
+      const seguidas = calcularNochesSeguidas();
+      const elNoches = document.getElementById("inicio-noches");
+      if (state.noches.length === 0) {
+        elNoches.textContent = "Empieza hoy tu primera noche";
       } else {
-        turnInfo.style.display = 'none';
+        elNoches.textContent = `Llevas ${seguidas} ${seguidas === 1 ? "noche seguida" : "noches seguidas"}`;
       }
 
-      const baselineNotice = document.getElementById('baseline-notice');
-      if (isObservationMode()) {
-        document.getElementById('baseline-notice-text').innerText = "Primer uso (Diagnóstico): Hoy solo observa y registra sin apagar.";
-        baselineNotice.style.display = 'flex';
+      const elTurno = document.getElementById("inicio-turno");
+      const personaTurno = obtenerPersonaDeTurno();
+      if (personaTurno) {
+        elTurno.textContent = `Hoy le toca revisar la casa a: ${personaTurno}`;
+        elTurno.style.display = "block";
       } else {
-        baselineNotice.style.display = 'none';
+        elTurno.style.display = "none";
       }
+
+      const ahorro = calcularAhorroAcumuladoTotal();
+      document.getElementById("inicio-ahorro").textContent =
+        `Dinero que ya no se va: aprox. ${formatearSoles(ahorro.promedio)}`;
     }
 
-    function startRonda() {
-      let rawQuestions = [];
-      const isObs = isObservationMode();
+    /* ==========================================================================
+       FLUJO DE REVISAR LA CASA (HABITACIÓN POR HABITACIÓN, FIJO)
+       ========================================================================== */
+    function construirListaPreguntas() {
+      const lista = [];
+      state.habitaciones.forEach(hab => {
+        const habLower = hab.toLowerCase();
 
-      state.habitaciones.forEach(room => {
-        const matchingDefs = QUESTIONS_DEF.filter(q => q.room.toLowerCase() === room.toLowerCase());
-        matchingDefs.forEach(q => {
-          if (!state.hiddenQuestions.includes(q.id)) rawQuestions.push(q);
+        PREGUNTAS_BASE.forEach(p => {
+          if (p.habitacion.toLowerCase() === habLower && !state.preguntasOcultas.includes(p.id)) {
+            lista.push({ ...p, habitacion: hab });
+          }
         });
 
-        const matchingCustom = state.customQuestions.filter(q => q.room.toLowerCase() === room.toLowerCase());
-        matchingCustom.forEach(q => {
-          if (!state.hiddenQuestions.includes(q.id)) rawQuestions.push(q);
-        });
-
-        if (matchingDefs.length === 0 && matchingCustom.length === 0) {
-          const customId = `custom_gen_${room.toLowerCase().replace(/\s+/g, '_')}`;
-          if (!state.hiddenQuestions.includes(customId)) {
-            rawQuestions.push({
-              id: customId,
-              room: room,
-              q: `¿Hay luces o aparatos encendidos sin uso en ${room}?`,
-              cat: 'luces'
+        state.preguntasPropias.forEach(pp => {
+          if (pp.habitacion.toLowerCase() === habLower && !state.preguntasOcultas.includes(pp.id)) {
+            lista.push({
+              id: pp.id,
+              habitacion: hab,
+              texto: pp.texto,
+              tipo: pp.tipo,
+              icono: pp.tipo === "refrigeradora" ? "refrigeradora" : (pp.tipo === "terma" ? "terma" : (pp.tipo === "ducha" ? "ducha" : (pp.tipo === "cargador" ? "cargador" : (pp.tipo === "televisor" ? "televisor" : "foco")))),
+              seguridad: pp.tipo === "terma" || pp.tipo === "ducha"
             });
           }
-        }
+        });
       });
+      return lista;
+    }
 
-      if (rawQuestions.length === 0) {
-        alert("No hay preguntas activas para la ronda. Revisa tus habitaciones en Ajustes.");
+    function iniciarRevision() {
+      listaRevisionActual = construirListaPreguntas();
+      if (listaRevisionActual.length === 0) {
+        abrirModalSimple("No hay preguntas activas", "Todas las preguntas están ocultas. Puedes volver a mostrarlas en Cambiar mis datos.");
+        return;
+      }
+      indicePreguntaActual = 0;
+      respuestasSesion = [];
+      hallazgosSesion = [];
+      historialPasos = [];
+      navTo("revision");
+      mostrarPreguntaActual();
+    }
+
+    function mostrarPreguntaActual() {
+      const total = listaRevisionActual.length;
+      const q = listaRevisionActual[indicePreguntaActual];
+
+      document.getElementById("rev-progreso-txt").textContent = `${indicePreguntaActual + 1} de ${total}`;
+      const pct = Math.round((indicePreguntaActual / total) * 100);
+      document.getElementById("rev-progreso-bar").style.width = pct + "%";
+
+      document.getElementById("paso-pregunta").style.display = "flex";
+      document.getElementById("paso-tiempo").style.display = "none";
+
+      document.getElementById("rev-habitacion").textContent = q.habitacion;
+      document.getElementById("rev-texto-pregunta").textContent = q.texto;
+      document.getElementById("rev-icono").innerHTML = ICONOS_SVG[q.icono] || ICONOS_SVG.foco;
+
+      const btnSi = document.getElementById("btn-si-apague");
+      btnSi.textContent = q.tipo === "refrigeradora" ? "Sí, la cerré" : "Sí, lo apagué";
+
+      document.getElementById("rev-seguridad").style.display = q.seguridad ? "block" : "none";
+      document.getElementById("btn-volver-atras").style.display = historialPasos.length > 0 ? "inline-flex" : "none";
+    }
+
+    function responderSi() {
+      const q = listaRevisionActual[indicePreguntaActual];
+      const ref = TABLA_POTENCIAS_REFERENCIAL[q.tipo] || TABLA_POTENCIAS_REFERENCIAL.otro_aparato;
+
+      if (ref.preguntaTiempo) {
+        document.getElementById("paso-pregunta").style.display = "none";
+        document.getElementById("paso-tiempo").style.display = "flex";
+        document.getElementById("tiempo-subtitulo").textContent = q.texto;
+      } else {
+        const hallazgo = {
+          preguntaId: q.id,
+          habitacion: q.habitacion,
+          texto: q.texto,
+          tipo: q.tipo,
+          tiempo: null
+        };
+        historialPasos.push({
+          indice: indicePreguntaActual,
+          accion: "si",
+          preguntaId: q.id,
+          hallazgoAgregado: hallazgo
+        });
+        hallazgosSesion.push(hallazgo);
+        avanzarSiguientePregunta();
+      }
+    }
+
+    function elegirTiempo(opcionTiempo) {
+      const q = listaRevisionActual[indicePreguntaActual];
+      const hallazgo = {
+        preguntaId: q.id,
+        habitacion: q.habitacion,
+        texto: q.texto,
+        tipo: q.tipo,
+        tiempo: opcionTiempo
+      };
+      historialPasos.push({
+        indice: indicePreguntaActual,
+        accion: "si",
+        preguntaId: q.id,
+        hallazgoAgregado: hallazgo
+      });
+      hallazgosSesion.push(hallazgo);
+      avanzarSiguientePregunta();
+    }
+
+    function responderBien() {
+      const q = listaRevisionActual[indicePreguntaActual];
+      historialPasos.push({
+        indice: indicePreguntaActual,
+        accion: "bien",
+        preguntaId: q.id
+      });
+      avanzarSiguientePregunta();
+    }
+
+    function responderNoTengo() {
+      const q = listaRevisionActual[indicePreguntaActual];
+      if (!state.preguntasOcultas.includes(q.id)) {
+        state.preguntasOcultas.push(q.id);
+        guardarEstado();
+      }
+      historialPasos.push({
+        indice: indicePreguntaActual,
+        accion: "no_tengo",
+        preguntaId: q.id
+      });
+      avanzarSiguientePregunta();
+    }
+
+    function volverPreguntaAnterior() {
+      if (historialPasos.length === 0) return;
+
+      if (document.getElementById("paso-tiempo").style.display === "flex") {
+        mostrarPreguntaActual();
         return;
       }
 
-      if (state.personas && state.personas.length > 0) {
-        const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
-        const personIndex = dayOfYear % state.personas.length;
-        assignedPersonName = state.personas[personIndex];
-        activeQuestions = rawQuestions.filter((q, idx) => idx % state.personas.length === personIndex);
-        if (activeQuestions.length === 0) activeQuestions = rawQuestions;
-      } else {
-        assignedPersonName = '';
-        activeQuestions = rawQuestions;
+      const ultimoPaso = historialPasos.pop();
+      if (ultimoPaso.accion === "si" && ultimoPaso.hallazgoAgregado) {
+        hallazgosSesion.pop();
+      } else if (ultimoPaso.accion === "no_tengo") {
+        const idxOculta = state.preguntasOcultas.indexOf(ultimoPaso.preguntaId);
+        if (idxOculta !== -1) {
+          state.preguntasOcultas.splice(idxOculta, 1);
+          guardarEstado();
+        }
       }
-
-      currentQIndex = 0;
-      countApagadosSession = 0;
-      countObservadosSession = 0;
-      answeredHistoryStack = [];
-
-      document.getElementById('observation-mode-badge').style.display = isObs ? 'block' : 'none';
-      
-      const personBadge = document.getElementById('assigned-person-badge');
-      if (assignedPersonName) {
-        document.getElementById('current-person-name').innerText = assignedPersonName;
-        personBadge.style.display = 'block';
-      } else {
-        personBadge.style.display = 'none';
-      }
-
-      document.getElementById('options-normal').style.display = isObs ? 'none' : 'flex';
-      document.getElementById('options-observation').style.display = isObs ? 'flex' : 'none';
-
-      renderQuestion();
-      navTo('ronda');
+      indicePreguntaActual = ultimoPaso.indice;
+      mostrarPreguntaActual();
     }
 
-    function renderQuestion() {
-      const q = activeQuestions[currentQIndex];
-      document.getElementById('ronda-room-title').innerText = q.room;
-
-      const pct = Math.round((currentQIndex / activeQuestions.length) * 100);
-      document.getElementById('ronda-progress-num').innerText = `${pct}%`;
-      document.getElementById('ronda-progress-bar').style.width = `${pct}%`;
-
-      document.getElementById('ronda-question').innerText = q.q;
-
-      const isRefri = q.cat === 'refrigeradora';
-      const isObs = isObservationMode();
-
-      if (isObs) {
-        document.getElementById('btn-obs-found').innerText = isRefri ? '⚠️ La encontré mal cerrada' : '⚠️ Lo encontré encendido';
+    function avanzarSiguientePregunta() {
+      indicePreguntaActual++;
+      if (indicePreguntaActual < listaRevisionActual.length) {
+        mostrarPreguntaActual();
       } else {
-        document.getElementById('btn-norm-action').innerText = isRefri ? '✓ La cerré' : '✓ Ya lo apagué';
+        finalizarRevision();
       }
-
-      const roomKey = q.room.toLowerCase();
-      const iconContainer = document.getElementById('room-icon-container');
-      iconContainer.innerHTML = ROOM_ICONS[roomKey] || ROOM_ICONS['sala'];
-
-      document.getElementById('btn-back-q').style.display = currentQIndex > 0 ? 'inline-flex' : 'none';
-      document.getElementById('safety-warning').style.display = q.safety ? 'flex' : 'none';
     }
 
-    function answerQuestion(action) {
-      const q = activeQuestions[currentQIndex];
-      answeredHistoryStack.push({ index: currentQIndex, action, qId: q.id });
+    function pedirSalirRevision() {
+      abrirModalConfirmacion(
+        "¿Quieres salir de la revisión?",
+        "Si sales ahora, no se guardará lo que marcaste en esta revisión.",
+        "Sí, salir",
+        "No, volver",
+        () => navTo("inicio")
+      );
+    }
 
-      if (action === 'apagado') countApagadosSession++;
-      else if (action === 'obs_encendido') countObservadosSession++;
-      else if (action === 'no_tengo') {
-        if (!state.hiddenQuestions.includes(q.id)) {
-          state.hiddenQuestions.push(q.id);
-          saveState();
+    function finalizarRevision() {
+      const esPrimerUso = state.noches.length === 0;
+      const fechaHoy = obtenerFechaNocheActual();
+      const persona = obtenerPersonaDeTurno();
+
+      const existente = state.noches.find(n => n.fecha === fechaHoy);
+      if (existente) {
+        existente.hallazgos = existente.hallazgos.concat(hallazgosSesion);
+        existente.apagados = existente.hallazgos.length;
+        if (persona) existente.responsable = persona;
+        ultimaNocheGuardadaId = existente.id;
+      } else {
+        const nuevaNoche = {
+          id: "noche_" + Date.now(),
+          fecha: fechaHoy,
+          apagados: hallazgosSesion.length,
+          responsable: persona || "",
+          hallazgos: [...hallazgosSesion]
+        };
+        state.noches.push(nuevaNoche);
+        ultimaNocheGuardadaId = nuevaNoche.id;
+      }
+
+      guardarEstado();
+      mostrarPantallaResultado(esPrimerUso, hallazgosSesion);
+    }
+
+    function mostrarPantallaResultado(esPrimerUso, hallazgosDeEstaVez) {
+      const precio = obtenerPrecioActivo();
+      const usaEjemplo = !(typeof state.precioLuz === "number" && state.precioLuz > 0);
+      const n = hallazgosDeEstaVez.length;
+
+      let mesMin = 0;
+      let mesMax = 0;
+      hallazgosDeEstaVez.forEach(h => {
+        const c = calcularRangoHallazgo(h, precio);
+        mesMin += c.solesMesMin;
+        mesMax += c.solesMesMax;
+      });
+
+      const elMsg = document.getElementById("res-mensaje-principal");
+      const elRango = document.getElementById("res-rango-mensual");
+      const elCalcBtn = document.getElementById("btn-como-calculamos");
+
+      if (n === 0) {
+        elMsg.textContent = "¡Tu casa estaba en orden! Así se ahorra.";
+        elRango.style.display = "none";
+        elCalcBtn.style.display = "none";
+      } else {
+        elMsg.textContent = `Hoy encontraste ${n} ${n === 1 ? "cosa que gasta" : "cosas que gastan"} luz sin necesidad.`;
+        elRango.textContent = `Podrías estar pagando entre ${formatearSoles(mesMin)} y ${formatearSoles(mesMax)} al mes por esto (cálculo aproximado).`;
+        elRango.style.display = "block";
+        elCalcBtn.style.display = "inline-block";
+      }
+
+      const acum = calcularAhorroAcumuladoTotal();
+      document.getElementById("res-acumulado").textContent =
+        `Dinero que ya no se va: aprox. ${formatearSoles(acum.promedio)}`;
+
+      const notaPrecio = document.getElementById("res-nota-precio");
+      if (usaEjemplo) {
+        notaPrecio.style.display = "block";
+        document.getElementById("res-etiqueta-precio").textContent =
+          `Precio de ejemplo usado: ${formatearSoles(PRECIO_EJEMPLO_SOLES)} por unidad de luz (editable)`;
+      } else {
+        notaPrecio.style.display = "none";
+      }
+
+      const cardPrimerUso = document.getElementById("card-precio-primer-uso");
+      if (esPrimerUso && !state.precioYaPedido) {
+        cardPrimerUso.style.display = "flex";
+        document.getElementById("ejemplo-precio-txt").textContent = formatearSoles(PRECIO_EJEMPLO_SOLES);
+        document.getElementById("input-precio-primer-uso").value = "";
+        state.precioYaPedido = true;
+        guardarEstado();
+      } else {
+        cardPrimerUso.style.display = "none";
+      }
+
+      const btnCont = document.getElementById("btn-continuar-resultado");
+      btnCont.textContent = esPrimerUso ? "Quiero hacerlo cada noche" : "Volver al inicio";
+
+      navTo("resultado");
+    }
+
+    function guardarPrecioPrimerUso() {
+      const val = parseFloat(document.getElementById("input-precio-primer-uso").value);
+      if (isNaN(val) || val <= 0) {
+        abrirModalSimple("Revisa el precio", "Escribe un número mayor que cero, por ejemplo 0.85.");
+        return;
+      }
+      state.precioLuz = val;
+      guardarEstado();
+      document.getElementById("card-precio-primer-uso").style.display = "none";
+      mostrarPantallaResultado(true, hallazgosSesion);
+    }
+
+    function abrirModalCalculo() {
+      const precio = obtenerPrecioActivo();
+      const usaEjemplo = !(typeof state.precioLuz === "number" && state.precioLuz > 0);
+      let html = `<p>Fórmula usada: <strong>vatios × horas × 30 días ÷ 1000 × precio de la luz</strong> (cálculo aproximado).</p>`;
+      html += `<p>Precio usado: <strong>${formatearSoles(precio)}</strong> por unidad de luz ${usaEjemplo ? "(precio de ejemplo)" : "(tu precio)"}.</p>`;
+
+      hallazgosSesion.forEach(h => {
+        const c = calcularRangoHallazgo(h, precio);
+        html += `
+          <div class="list-item">
+            <strong>${escapeHTML(c.nombre)} (${escapeHTML(h.habitacion)})</strong>
+            <span>Potencia: ${c.vatiosMin} a ${c.vatiosMax} vatios (${c.fuente})</span>
+            <span>Tiempo: ${escapeHTML(c.etiquetaTiempo)}</span>
+            <span>Gasto mensual aproximado: ${formatearSoles(c.solesMesMin)} a ${formatearSoles(c.solesMesMax)}</span>
+          </div>
+        `;
+      });
+
+      abrirModalSimple("¿Cómo lo calculamos?", html, true);
+    }
+
+    function abrirModalCalculoHistorial() {
+      const precio = obtenerPrecioActivo();
+      const usaEjemplo = !(typeof state.precioLuz === "number" && state.precioLuz > 0);
+      let html = `<p>Cada aparato apagado evita un gasto aproximado según su potencia en vatios, el tiempo elegido y tu precio de luz (${formatearSoles(precio)} ${usaEjemplo ? "de ejemplo" : ""}).</p>`;
+      html += `<p>Todas las potencias de la tabla son valores referenciales y se muestran siempre como un rango aproximado.</p>`;
+      abrirModalSimple("¿Cómo lo calculamos?", html, true);
+    }
+
+    /* ==========================================================================
+       LO QUE HAS HECHO (HISTORIAL Y BORRADO)
+       ========================================================================== */
+    function renderHistorial() {
+      const acum = calcularAhorroAcumuladoTotal();
+      document.getElementById("hist-resumen-ahorro").textContent =
+        `Dinero que ya no se va: aprox. ${formatearSoles(acum.promedio)}`;
+
+      const cont = document.getElementById("lista-noches");
+      const btnBorrarTodo = document.getElementById("btn-borrar-todo");
+
+      if (state.noches.length === 0) {
+        cont.innerHTML = `<p class="muted-text">Aún no has revisado la casa ninguna noche.</p>`;
+        btnBorrarTodo.style.display = "none";
+        return;
+      }
+
+      btnBorrarTodo.style.display = "inline-flex";
+      const precio = obtenerPrecioActivo();
+      cont.innerHTML = [...state.noches].reverse().map(noche => {
+        let nocheMin = 0;
+        let nocheMax = 0;
+        (noche.hallazgos || []).forEach(h => {
+          const c = calcularRangoHallazgo(h, precio);
+          nocheMin += c.solesNocheMin;
+          nocheMax += c.solesNocheMax;
+        });
+
+        const ahorroTxt = noche.apagados === 0
+          ? "Todo en orden"
+          : `Ahorro aproximado: ${formatearSoles(nocheMin)} a ${formatearSoles(nocheMax)}`;
+
+        const turnoTxt = noche.responsable ? ` • Revisó: ${escapeHTML(noche.responsable)}` : "";
+
+        return `
+          <div class="list-item">
+            <div class="row-between">
+              <strong>Fecha: ${escapeHTML(noche.fecha)}</strong>
+              <button class="btn btn-danger-outline" style="width: auto; min-height: 44px; padding: 0.4rem 0.75rem;" onclick="confirmarBorrarNoche('${escapeHTML(noche.id)}')">Borrar</button>
+            </div>
+            <span>Apagaste ${noche.apagados} ${noche.apagados === 1 ? "cosa" : "cosas"}${turnoTxt}</span>
+            <span style="color: var(--primary-btn); font-weight: 700;">${ahorroTxt}</span>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function confirmarBorrarNoche(nocheId) {
+      abrirModalConfirmacion(
+        "¿Quieres borrar esta noche?",
+        "Se eliminará el registro de esa noche y se volverá a calcular tu ahorro acumulado.",
+        "Sí, borrar",
+        "No, volver",
+        () => {
+          state.noches = state.noches.filter(n => n.id !== nocheId);
+          guardarEstado();
+          renderHistorial();
+        }
+      );
+    }
+
+    function confirmarBorrarTodo() {
+      abrirModalConfirmacion(
+        "¿Quieres borrar todo?",
+        "Se borrarán todas tus noches revisadas, tus lecturas del medidor y tus datos guardados.",
+        "Sí, borrar",
+        "No, volver",
+        () => {
+          try {
+            localStorage.removeItem(STORAGE_KEY);
+          } catch (e) {}
+          state = JSON.parse(JSON.stringify(ESTADO_INICIAL));
+          guardarEstado();
+          navTo("inicio");
+        }
+      );
+    }
+
+    /* ==========================================================================
+       COMPROBAR CON MI MEDIDOR
+       ========================================================================== */
+    function renderMedidor() {
+      const hoy = obtenerFechaHoyCalendario();
+      const inpFecha = document.getElementById("med-fecha");
+      inpFecha.value = hoy;
+      inpFecha.max = hoy;
+      document.getElementById("med-valor").value = "";
+      actualizarVistaMedidor();
+    }
+
+    function guardarLecturaMedidor() {
+      const fecha = document.getElementById("med-fecha").value;
+      const valor = parseFloat(document.getElementById("med-valor").value);
+      const hoy = obtenerFechaHoyCalendario();
+
+      if (!fecha) {
+        abrirModalSimple("Falta la fecha", "Elige el día en que miraste el medidor.");
+        return;
+      }
+      if (fecha > hoy) {
+        abrirModalSimple("Fecha incorrecta", "No puedes anotar una lectura con fecha de mañana o de un día futuro.");
+        return;
+      }
+      if (isNaN(valor) || valor < 0) {
+        abrirModalSimple("Revisa el número", "Escribe el número que marca tu medidor de luz.");
+        return;
+      }
+
+      if (state.lecturas.length > 0) {
+        const ultima = state.lecturas[state.lecturas.length - 1];
+        if (fecha <= ultima.fecha) {
+          abrirModalSimple("Fecha anterior o repetida", "La fecha debe ser posterior a la última lectura que anotaste.");
+          return;
+        }
+        if (valor < ultima.valor) {
+          abrirModalSimple("Lectura menor a la anterior", "El número del medidor siempre sube, no puede ser menor que la lectura anterior.");
+          return;
+        }
+        const dias = calcularDiasEntreFechas(ultima.fecha, fecha);
+        if (dias < 5) {
+          abrirModalConfirmacion(
+            "Han pasado menos de 5 días",
+            `Solo pasaron ${dias} ${dias === 1 ? "día" : "días"} desde tu última lectura. Lo ideal es esperar 7 días. ¿Quieres guardarla igual?`,
+            "Sí, guardar",
+            "No, volver",
+            () => {
+              state.lecturas.push({ fecha, valor });
+              guardarEstado();
+              document.getElementById("med-valor").value = "";
+              actualizarVistaMedidor();
+            }
+          );
+          return;
         }
       }
 
-      currentQIndex++;
-      if (currentQIndex < activeQuestions.length) {
-        renderQuestion();
-      } else {
-        finishRonda();
-      }
+      state.lecturas.push({ fecha, valor });
+      guardarEstado();
+      document.getElementById("med-valor").value = "";
+      actualizarVistaMedidor();
     }
 
-    function prevQuestion() {
-      if (answeredHistoryStack.length > 0 && currentQIndex > 0) {
-        const lastAnswer = answeredHistoryStack.pop();
-        if (lastAnswer.action === 'apagado') countApagadosSession--;
-        if (lastAnswer.action === 'obs_encendido') countObservadosSession--;
-        
-        if (lastAnswer.action === 'no_tengo') {
-          const hIdx = state.hiddenQuestions.indexOf(lastAnswer.qId);
-          if (hIdx >= 0) {
-            state.hiddenQuestions.splice(hIdx, 1);
-            saveState();
+    function calcularDiasEntreFechas(f1, f2) {
+      const p1 = f1.split("-");
+      const p2 = f2.split("-");
+      const d1 = new Date(Number(p1[0]), Number(p1[1]) - 1, Number(p1[2]));
+      const d2 = new Date(Number(p2[0]), Number(p2[1]) - 1, Number(p2[2]));
+      return Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
+    }
+
+    function actualizarVistaMedidor() {
+      const lista = document.getElementById("med-lista");
+      const resCard = document.getElementById("med-resultado-card");
+      const grafCard = document.getElementById("med-grafico-card");
+
+      if (state.lecturas.length === 0) {
+        lista.innerHTML = `<p class="muted-text">Todavía no has anotado ninguna lectura.</p>`;
+        resCard.style.display = "none";
+        grafCard.style.display = "none";
+        return;
+      }
+
+      lista.innerHTML = [...state.lecturas].reverse().map((l, revIdx) => {
+        const idxReal = state.lecturas.length - 1 - revIdx;
+        const etiqueta = idxReal === 0 ? "Lectura inicial" : (idxReal === 1 ? "Semana base" : `Semana ${idxReal}`);
+        return `
+          <div class="list-item">
+            <div class="row-between">
+              <strong>${escapeHTML(l.fecha)} (${etiqueta})</strong>
+              <span>${l.valor} unidades</span>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      if (state.lecturas.length === 1) {
+        resCard.style.display = "flex";
+        document.getElementById("med-resultado-texto").textContent =
+          "Anotaste tu primera lectura. Vuelve a anotar otra dentro de 7 días para tener tu consumo base.";
+        grafCard.style.display = "none";
+        return;
+      }
+
+      if (state.lecturas.length === 2) {
+        const diasBase = calcularDiasEntreFechas(state.lecturas[0].fecha, state.lecturas[1].fecha);
+        const consumoBase = state.lecturas[1].valor - state.lecturas[0].valor;
+        const diarioBase = diasBase > 0 ? consumoBase / diasBase : 0;
+
+        resCard.style.display = "flex";
+        if (diarioBase <= 0) {
+          document.getElementById("med-resultado-texto").textContent =
+            "Tu lectura base dio cero. Por favor revisa los números anotados en el medidor.";
+        } else {
+          document.getElementById("med-resultado-texto").textContent =
+            `Tu consumo base es de ${diarioBase.toFixed(1)} unidades de luz por día. En 7 días más podrás comparar tu ahorro real.`;
+        }
+        renderGraficoMedidor();
+        return;
+      }
+
+      const l0 = state.lecturas[0];
+      const l1 = state.lecturas[1];
+      const diasBase = calcularDiasEntreFechas(l0.fecha, l1.fecha);
+      const diarioBase = diasBase > 0 ? (l1.valor - l0.valor) / diasBase : 0;
+
+      const lPenultima = state.lecturas[state.lecturas.length - 2];
+      const lUltima = state.lecturas[state.lecturas.length - 1];
+      const diasActual = calcularDiasEntreFechas(lPenultima.fecha, lUltima.fecha);
+      const diarioActual = diasActual > 0 ? (lUltima.valor - lPenultima.valor) / diasActual : 0;
+
+      resCard.style.display = "flex";
+      const textoEl = document.getElementById("med-resultado-texto");
+
+      if (diarioBase <= 0) {
+        textoEl.textContent = "Tu lectura base dio cero. Por favor revisa los números anotados en el medidor.";
+      } else {
+        const diffPct = ((diarioActual - diarioBase) / diarioBase) * 100;
+        const precio = obtenerPrecioActivo();
+        let solesAhorradosTotal = 0;
+
+        for (let i = 2; i < state.lecturas.length; i++) {
+          const d = calcularDiasEntreFechas(state.lecturas[i - 1].fecha, state.lecturas[i].fecha);
+          const tasa = d > 0 ? (state.lecturas[i].valor - state.lecturas[i - 1].valor) / d : 0;
+          const unidadesAhorradas = (diarioBase - tasa) * d;
+          if (unidadesAhorradas > 0) {
+            solesAhorradosTotal += unidadesAhorradas * precio;
           }
         }
 
-        currentQIndex = lastAnswer.index;
-        renderQuestion();
+        const textoSoles = solesAhorradosTotal > 0
+          ? ` Ahorro medido acumulado: ${formatearSoles(solesAhorradosTotal)}.`
+          : "";
+
+        if (diffPct < 0) {
+          textoEl.textContent = `Esta semana usaste ${diarioActual.toFixed(1)} unidades de luz por día frente a ${diarioBase.toFixed(1)} en tu base. Bajaste ${Math.abs(diffPct).toFixed(1)} %.${textoSoles}`;
+        } else if (diffPct > 0) {
+          textoEl.textContent = `Esta semana usaste ${diarioActual.toFixed(1)} unidades de luz por día frente a ${diarioBase.toFixed(1)} en tu base. Subió ${diffPct.toFixed(1)} %.${textoSoles}`;
+        } else {
+          textoEl.textContent = `Esta semana usaste ${diarioActual.toFixed(1)} unidades de luz por día, igual que en tu semana base.`;
+        }
       }
+
+      renderGraficoMedidor();
     }
 
-    function confirmExitRonda() {
-      if (confirm("¿Deseas salir de la ronda? No se guardará el progreso actual.")) {
-        navTo('inicio');
+    function renderGraficoMedidor() {
+      const grafCard = document.getElementById("med-grafico-card");
+      const graf = document.getElementById("med-grafico");
+      grafCard.style.display = "flex";
+      graf.innerHTML = "";
+
+      const barras = [];
+      for (let i = 1; i < state.lecturas.length; i++) {
+        const d = calcularDiasEntreFechas(state.lecturas[i - 1].fecha, state.lecturas[i].fecha);
+        const tasa = d > 0 ? (state.lecturas[i].valor - state.lecturas[i - 1].valor) / d : 0;
+        barras.push({
+          etiqueta: i === 1 ? "Base" : `Sem ${i - 1}`,
+          valor: tasa,
+          esBase: i === 1
+        });
       }
-    }
 
-    function finishRonda() {
-      const todayStr = getLocalTodayString();
-      const isObs = isObservationMode();
-
-      state.rondas.push({
-        fecha: todayStr,
-        apagados: isObs ? countObservadosSession : countApagadosSession,
-        responsable: assignedPersonName,
-        practica: isObs
+      const maxVal = Math.max(...barras.map(b => b.valor), 1);
+      barras.forEach(b => {
+        const pct = Math.min(Math.round((b.valor / maxVal) * 100), 100);
+        const col = document.createElement("div");
+        col.className = "bar-col";
+        col.innerHTML = `
+          <span>${b.valor.toFixed(1)}</span>
+          <div class="bar ${b.esBase ? "base" : ""}" style="height: ${pct}%;"></div>
+          <span>${escapeHTML(b.etiqueta)}</span>
+        `;
+        graf.appendChild(col);
       });
-      saveState();
-
-      const finCountText = document.getElementById('fin-count-text');
-      const totalCount = isObs ? countObservadosSession : countApagadosSession;
-      
-      if (isObs) {
-        finCountText.innerText = totalCount === 0 ? "Diagnóstico completado: Todo estaba en orden." : `Diagnóstico completado: Encontraste ${totalCount} cosa(s) encendida(s).`;
-      } else {
-        finCountText.innerText = totalCount === 0 ? "Todo estaba en orden. Así se ahorra." : `Hoy apagaste ${totalCount} equipo(s). ¡Buen trabajo!`;
-      }
-
-      navTo('fin-ronda');
     }
 
-    function renderHistorial() {
-      const rondasContainer = document.getElementById('list-rondas');
-      if (state.rondas.length === 0) {
-        rondasContainer.innerHTML = '<p style="font-size: 0.875rem;">No hay rondas registradas.</p>';
-      } else {
-        rondasContainer.innerHTML = [...state.rondas].reverse().map((r, revIdx) => {
-          const originalIdx = state.rondas.length - 1 - revIdx;
-          const practicaBadge = r.practica ? ' <span style="color:var(--baseline-color); font-size:0.8rem;">(diagnóstico)</span>' : '';
-          return `
-            <div class="data-item">
-              <div>
-                <strong>📅 ${escapeHTML(r.fecha)}</strong>${practicaBadge}
-                ${r.responsable ? `<br><small>A cargo de: ${escapeHTML(r.responsable)}</small>` : ''}
-              </div>
-              <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <span style="font-weight:700; color:var(--primary-dark);">${r.apagados} ${r.practica ? 'encontrados' : 'apagados'}</span>
-                <button class="btn btn-outline" style="padding: 0.2rem 0.5rem; font-size: 0.75rem; color: var(--danger); border-color: rgba(239, 68, 68, 0.3); min-height: auto;" onclick="deleteRonda(${originalIdx})">Borrar</button>
-              </div>
-            </div>
-          `;
-        }).join('');
-      }
+    /* ==========================================================================
+       CAMBIAR MIS DATOS (PERSONAS, HABITACIONES, PREGUNTAS PROPIAS, PRECIO)
+       ========================================================================== */
+    function renderAjustes() {
+      const cardOcultas = document.getElementById("ajustes-ocultas-card");
+      cardOcultas.style.display = state.preguntasOcultas.length > 0 ? "flex" : "none";
     }
 
-    function deleteRonda(index) {
-      if (confirm("¿Estás seguro de que deseas borrar esta ronda?")) {
-        state.rondas.splice(index, 1);
-        saveState();
-        renderHistorial();
-      }
+    function volverAMostrarTodas() {
+      state.preguntasOcultas = [];
+      guardarEstado();
+      renderAjustes();
+      abrirModalSimple("Listo", "Se volvieron a mostrar todas las cosas de la casa.");
     }
 
-    function clearAllHistory() {
-      if (confirm("¿Estás seguro de que deseas borrar todo el historial de rondas? Tus integrantes y habitaciones se mantendrán.")) {
-        state.rondas = [];
-        saveState();
-        renderHistorial();
-        alert("Historial limpiado correctamente.");
-      }
-    }
-
-    function exportCSV() {
-      let csv = "\ufeffTipo;Fecha;Detalle;Responsable/Nota\n";
-      state.rondas.forEach(r => {
-        const nota = r.practica ? 'Ronda de diagnóstico' : (r.responsable ? `A cargo de ${r.responsable}` : '');
-        csv += `"Ronda";"${r.fecha}";"${r.apagados} ${r.practica ? 'encontrados' : 'apagados'}";"${nota}"\n`;
-      });
-
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `luz_a_cargo_${getLocalTodayString()}.csv`;
-      link.click();
-    }
-
-    function setDemoMode(mode) {
-      if (mode === 1) {
-        state.rondas = [];
-        alert("Modo cambiado a: OBSERVACIÓN (0 rondas guardadas)");
-      } else {
-        state.rondas = [{ fecha: getLocalTodayString(), apagados: 2, practica: true }];
-        alert("Modo cambiado a: ACCIÓN (1+ rondas guardadas)");
-      }
-      saveState();
-      navTo('inicio');
-    }
-
-    function renderAjustesMenu() {
-      const hiddenCard = document.getElementById('hidden-questions-card');
-      hiddenCard.style.display = state.hiddenQuestions.length > 0 ? 'block' : 'none';
-    }
-
-    function renderPersonasAjustes() {
-      tempPersonas = [...state.personas];
-      renderPersonasTempList();
-    }
-
-    function renderPersonasTempList() {
-      const container = document.getElementById('list-integrantes');
-      if (tempPersonas.length === 0) {
-        container.innerHTML = '<p style="font-size:0.85rem; color:var(--text-muted);">No hay integrantes registrados.</p>';
+    function renderPersonas() {
+      const cont = document.getElementById("lista-personas");
+      if (state.personas.length === 0) {
+        cont.innerHTML = `<p class="muted-text">No hay personas anotadas todavía.</p>`;
         return;
       }
-      container.innerHTML = tempPersonas.map((p, idx) => `
-        <div style="display:flex; justify-content:space-between; align-items:center; background:#f8fafc; padding:0.6rem 0.8rem; border-radius:8px; border:1px solid #e2e8f0;">
-          <strong>👤 ${escapeHTML(p)}</strong>
-          <button class="btn btn-outline" style="padding:0.2rem 0.5rem; font-size:0.75rem; color:var(--danger); border-color:var(--danger); min-height:auto; width:auto;" onclick="removeIntegrante(${idx})">✕</button>
-        </div>
-      `).join('');
-    }
-
-    function addIntegrante() {
-      const inp = document.getElementById('input-nuevo-integrante');
-      const val = inp.value.trim();
-      if (val && !tempPersonas.some(p => p.toLowerCase() === val.toLowerCase())) {
-        tempPersonas.push(val);
-        inp.value = '';
-        renderPersonasTempList();
-      }
-    }
-
-    function removeIntegrante(idx) {
-      tempPersonas.splice(idx, 1);
-      renderPersonasTempList();
-    }
-
-    function savePersonasAjustes() {
-      state.personas = [...tempPersonas];
-      if (saveState()) {
-        alert("Integrantes guardados correctamente.");
-        navTo('ajustes');
-      }
-    }
-
-    function renderHabitacionesAjustes() {
-      tempHabitaciones = [...state.habitaciones];
-      tempCustomQuestions = [...state.customQuestions];
-      renderHabitacionesList();
-      renderHabitacionesSelect();
-    }
-
-    function renderHabitacionesList() {
-      const container = document.getElementById('list-habitaciones');
-      container.innerHTML = tempHabitaciones.map((hab, idx) => {
-        const habCustoms = tempCustomQuestions.filter(q => q.room.toLowerCase() === hab.toLowerCase());
-        const customsHtml = habCustoms.map(qc => `
-          <div style="font-size:0.85rem; color:var(--text-muted); display:flex; justify-content:space-between; align-items:center; margin-top:0.25rem; padding-left:0.5rem;">
-            <span>• ${escapeHTML(qc.q)}</span>
-            <button class="btn btn-outline" style="padding:0.1rem 0.4rem; font-size:0.75rem; color:var(--danger); border-color:var(--danger); min-height:auto; width:auto;" onclick="removeCustomQuestion('${qc.id}')">✕</button>
+      cont.innerHTML = state.personas.map((p, idx) => `
+        <div class="list-item">
+          <div class="row-between">
+            <span>${escapeHTML(p)}</span>
+            <button class="btn btn-danger-outline" style="width: auto; min-height: 44px; padding: 0.4rem 0.75rem;" onclick="quitarPersona(${idx})">Quitar</button>
           </div>
-        `).join('');
+        </div>
+      `).join("");
+    }
+
+    function agregarPersona() {
+      const inp = document.getElementById("input-persona");
+      const nombre = inp.value.trim();
+      if (!nombre) return;
+      if (state.personas.some(p => p.toLowerCase() === nombre.toLowerCase())) {
+        abrirModalSimple("Nombre repetido", "Esa persona ya está en la lista.");
+        return;
+      }
+      state.personas.push(nombre);
+      guardarEstado();
+      inp.value = "";
+      renderPersonas();
+    }
+
+    function quitarPersona(idx) {
+      state.personas.splice(idx, 1);
+      guardarEstado();
+      renderPersonas();
+    }
+
+    function renderHabitaciones() {
+      const sel = document.getElementById("select-hab-propia");
+      sel.innerHTML = state.habitaciones
+        .map(h => `<option value="${escapeHTML(h)}">${escapeHTML(h)}</option>`)
+        .join("");
+
+      const cont = document.getElementById("lista-habitaciones-ajustes");
+      cont.innerHTML = state.habitaciones.map((hab, idx) => {
+        const propiasDeHab = state.preguntasPropias.filter(pp => pp.habitacion.toLowerCase() === hab.toLowerCase());
+        const htmlPropias = propiasDeHab.map(pp => `
+          <div class="row-between" style="padding-left: 0.5rem;">
+            <span>• ${escapeHTML(pp.texto)}</span>
+            <button class="btn btn-danger-outline" style="width: auto; min-height: 40px; padding: 0.3rem 0.65rem;" onclick="borrarPreguntaPropia('${escapeHTML(pp.id)}')">Borrar</button>
+          </div>
+        `).join("");
 
         return `
-          <div class="room-tag">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div class="list-item">
+            <div class="row-between">
               <strong>${escapeHTML(hab)}</strong>
-              ${tempHabitaciones.length > 1 ? `<button onclick="removeHabitacionTemp(${idx})">✕</button>` : ''}
+              ${state.habitaciones.length > 1
+                ? `<button class="btn btn-danger-outline" style="width: auto; min-height: 40px; padding: 0.3rem 0.65rem;" onclick="quitarHabitacion(${idx})">Quitar</button>`
+                : ""}
             </div>
-            ${customsHtml}
+            ${htmlPropias}
           </div>
         `;
-      }).join('');
+      }).join("");
     }
 
-    function renderHabitacionesSelect() {
-      const select = document.getElementById('select-hab-pregunta');
-      select.innerHTML = tempHabitaciones.map(hab => `<option value="${escapeHTML(hab)}">${escapeHTML(hab)}</option>`).join('');
+    function agregarHabitacion() {
+      const inp = document.getElementById("input-habitacion");
+      const nombre = inp.value.trim();
+      if (!nombre) return;
+      if (state.habitaciones.some(h => h.toLowerCase() === nombre.toLowerCase())) {
+        abrirModalSimple("Habitación repetida", "Esa habitación ya existe en tu lista.");
+        return;
+      }
+      state.habitaciones.push(nombre);
+      guardarEstado();
+      inp.value = "";
+      renderHabitaciones();
     }
 
-    function addHabitacionTemp() {
-      const inp = document.getElementById('input-nueva-hab');
-      const val = inp.value.trim();
-      if (val && !tempHabitaciones.some(h => h.toLowerCase() === val.toLowerCase())) {
-        tempHabitaciones.push(val);
-        inp.value = '';
-        renderHabitacionesList();
-        renderHabitacionesSelect();
+    function quitarHabitacion(idx) {
+      if (state.habitaciones.length <= 1) return;
+      const habBorrada = state.habitaciones[idx];
+      state.habitaciones.splice(idx, 1);
+      state.preguntasPropias = state.preguntasPropias.filter(pp => pp.habitacion.toLowerCase() !== habBorrada.toLowerCase());
+      guardarEstado();
+      renderHabitaciones();
+    }
+
+    function agregarPreguntaPropia() {
+      const hab = document.getElementById("select-hab-propia").value;
+      const inp = document.getElementById("input-preg-propia");
+      const texto = inp.value.trim();
+      const tipo = document.getElementById("select-tipo-propia").value;
+
+      if (!hab || !texto) {
+        abrirModalSimple("Falta escribir la pregunta", "Escribe qué quieres revisar en esa habitación.");
+        return;
+      }
+
+      const idNumerico = "propia_" + state.siguienteIdPropio;
+      state.siguienteIdPropio++;
+
+      state.preguntasPropias.push({
+        id: idNumerico,
+        habitacion: hab,
+        texto: texto,
+        tipo: tipo
+      });
+      guardarEstado();
+      inp.value = "";
+      renderHabitaciones();
+    }
+
+    function borrarPreguntaPropia(idPropio) {
+      state.preguntasPropias = state.preguntasPropias.filter(pp => pp.id !== idPropio);
+      state.preguntasOcultas = state.preguntasOcultas.filter(id => id !== idPropio);
+      guardarEstado();
+      renderHabitaciones();
+    }
+
+    function renderPrecioAjustes() {
+      const tienePrecio = typeof state.precioLuz === "number" && state.precioLuz > 0;
+      const elEstado = document.getElementById("ajustes-precio-estado");
+      if (tienePrecio) {
+        elEstado.textContent = `Precio actual guardado: ${formatearSoles(state.precioLuz)} por unidad de luz (kWh).`;
+        document.getElementById("input-precio-ajustes").value = state.precioLuz;
+      } else {
+        elEstado.textContent = `Actualmente usas el precio de ejemplo: ${formatearSoles(PRECIO_EJEMPLO_SOLES)} por unidad de luz (kWh).`;
+        document.getElementById("input-precio-ajustes").value = "";
       }
     }
 
-    function removeHabitacionTemp(idx) {
-      if (tempHabitaciones.length > 1) {
-        const removedHab = tempHabitaciones[idx];
-        tempHabitaciones.splice(idx, 1);
-        tempCustomQuestions = tempCustomQuestions.filter(q => q.room.toLowerCase() !== removedHab.toLowerCase());
-        renderHabitacionesList();
-        renderHabitacionesSelect();
+    function guardarPrecioAjustes() {
+      const val = parseFloat(document.getElementById("input-precio-ajustes").value);
+      if (isNaN(val) || val <= 0) {
+        abrirModalSimple("Revisa el precio", "Escribe un número mayor que cero, por ejemplo 0.85.");
+        return;
       }
+      state.precioLuz = val;
+      guardarEstado();
+      renderPrecioAjustes();
+      abrirModalSimple("Precio guardado", "Se actualizó el precio de la luz y se recalcularon todos tus ahorros aproximados.");
     }
 
-    function addCustomQuestion() {
-      const room = document.getElementById('select-hab-pregunta').value;
-      const qInp = document.getElementById('input-nueva-pregunta');
-      const qText = qInp.value.trim();
+    /* ==========================================================================
+       EXPORTACIÓN CSV COMPLETA Y BIEN ESCAPADA
+       ========================================================================== */
+    function escaparCSV(valor) {
+      const s = String(valor == null ? "" : valor);
+      return '"' + s.replace(/"/g, '""') + '"';
+    }
 
-      if (room && qText) {
-        const customId = `custom_${room.toLowerCase().replace(/\s+/g, '_')}_${Date.now()}`;
-        tempCustomQuestions.push({ id: customId, room: room, q: qText });
-        qInp.value = '';
-        renderHabitacionesList();
+    function exportarCSV() {
+      const precio = obtenerPrecioActivo();
+      const usaEjemplo = !(typeof state.precioLuz === "number" && state.precioLuz > 0);
+      const filas = [];
+
+      filas.push([
+        "Seccion",
+        "Fecha",
+        "Responsable",
+        "Habitacion",
+        "Cosa_encontrada",
+        "Tipo",
+        "Tiempo_elegido",
+        "Gasto_mensual_aprox_soles",
+        "Ahorro_noche_aprox_soles",
+        "Precio_luz_usado_soles",
+        "Lectura_medidor_kWh",
+        "Consumo_por_dia_kWh"
+      ].map(escaparCSV).join(";"));
+
+      state.noches.forEach(noche => {
+        if (!noche.hallazgos || noche.hallazgos.length === 0) {
+          filas.push([
+            "Revision_nocturna",
+            noche.fecha,
+            noche.responsable || "",
+            "",
+            "Todo estaba en orden",
+            "",
+            "",
+            "0.00",
+            "0.00",
+            `${precio.toFixed(2)}${usaEjemplo ? " (ejemplo)" : ""}`,
+            "",
+            ""
+          ].map(escaparCSV).join(";"));
+        } else {
+          noche.hallazgos.forEach(h => {
+            const c = calcularRangoHallazgo(h, precio);
+            filas.push([
+              "Revision_nocturna",
+              noche.fecha,
+              noche.responsable || "",
+              h.habitacion,
+              h.texto,
+              c.nombre,
+              c.etiquetaTiempo,
+              `${c.solesMesMin.toFixed(2)} a ${c.solesMesMax.toFixed(2)}`,
+              `${c.solesNocheMin.toFixed(2)} a ${c.solesNocheMax.toFixed(2)}`,
+              `${precio.toFixed(2)}${usaEjemplo ? " (ejemplo)" : ""}`,
+              "",
+              ""
+            ].map(escaparCSV).join(";"));
+          });
+        }
+      });
+
+      for (let i = 0; i < state.lecturas.length; i++) {
+        const l = state.lecturas[i];
+        let consumoDia = "";
+        if (i > 0) {
+          const d = calcularDiasEntreFechas(state.lecturas[i - 1].fecha, l.fecha);
+          if (d > 0) {
+            consumoDia = ((l.valor - state.lecturas[i - 1].valor) / d).toFixed(2);
+          }
+        } else {
+          consumoDia = "Lectura inicial";
+        }
+
+        filas.push([
+          "Lectura_medidor",
+          l.fecha,
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          `${precio.toFixed(2)}${usaEjemplo ? " (ejemplo)" : ""}`,
+          l.valor.toFixed(1),
+          consumoDia
+        ].map(escaparCSV).join(";"));
       }
+
+      const contenidoCSV = "\ufeff" + filas.join("\n");
+      const blob = new Blob([contenidoCSV], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `luz_a_cargo_${obtenerFechaNocheActual()}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
     }
 
-    function removeCustomQuestion(id) {
-      tempCustomQuestions = tempCustomQuestions.filter(q => q.id !== id);
-      renderHabitacionesList();
+    /* ==========================================================================
+       MODAL ACCESIBLE Y ESCAPE DE TEXTO
+       ========================================================================== */
+    function escapeHTML(str) {
+      return String(str).replace(/[&<>"']/g, m => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      })[m]);
     }
 
-    function saveHabitacionesAjustes() {
-      state.habitaciones = [...tempHabitaciones];
-      state.customQuestions = [...tempCustomQuestions];
-      if (saveState()) {
-        alert("Habitaciones y preguntas guardadas correctamente.");
-        navTo('ajustes');
+    function abrirModalSimple(titulo, contenido, esHtml = false) {
+      document.getElementById("modal-titulo").textContent = titulo;
+      const cuerpo = document.getElementById("modal-cuerpo");
+      if (esHtml) {
+        cuerpo.innerHTML = contenido;
+      } else {
+        cuerpo.innerHTML = `<p>${escapeHTML(contenido)}</p>`;
       }
+      const botones = document.getElementById("modal-botones");
+      botones.innerHTML = `<button class="btn btn-primary" onclick="cerrarModal()">Entendido</button>`;
+      document.getElementById("modal-backdrop").classList.add("open");
     }
 
-    function restoreHiddenQuestions() {
-      state.hiddenQuestions = [];
-      saveState();
-      alert("Se han vuelto a activar todas las preguntas ocultas.");
-      renderAjustesMenu();
+    function abrirModalConfirmacion(titulo, mensaje, textoSi, textoNo, alConfirmar) {
+      document.getElementById("modal-titulo").textContent = titulo;
+      document.getElementById("modal-cuerpo").innerHTML = `<p>${escapeHTML(mensaje)}</p>`;
+      const botones = document.getElementById("modal-botones");
+      botones.innerHTML = "";
+
+      const btnSi = document.createElement("button");
+      btnSi.className = "btn btn-danger";
+      btnSi.textContent = textoSi;
+      btnSi.onclick = () => {
+        cerrarModal();
+        alConfirmar();
+      };
+
+      const btnNo = document.createElement("button");
+      btnNo.className = "btn btn-outline";
+      btnNo.textContent = textoNo;
+      btnNo.onclick = cerrarModal;
+
+      botones.appendChild(btnSi);
+      botones.appendChild(btnNo);
+      document.getElementById("modal-backdrop").classList.add("open");
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-      loadState();
+    function cerrarModal() {
+      document.getElementById("modal-backdrop").classList.remove("open");
+    }
+
+    /* ==========================================================================
+       INICIO DE LA APLICACIÓN
+       ========================================================================== */
+    window.addEventListener("DOMContentLoaded", () => {
+      cargarEstado();
       renderInicio();
     });
   </script>
