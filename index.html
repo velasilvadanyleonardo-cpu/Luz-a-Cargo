@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,19 +7,19 @@
   <title>Luz a Cargo</title>
   <style>
     :root {
-      --bg: #f8fafc;
-      --card: #ffffff;
-      --primary: #14532d;
-      --primary-btn: #15803d;
-      --primary-light: #dcfce7;
-      --text: #0f172a;
-      --muted: #475569;
-      --border: #cbd5e1;
-      --danger: #b91c1c;
+      --bg: #f1f5f9; /* Gris claro */
+      --card: #ffffff; /* Blanco */
+      --blue-gray: #334155; /* Azul grisáceo */
+      --blue-gray-hover: #1e293b;
+      --pale-blue: #e0f2fe; /* Azul pálido */
+      --gold: #f59e0b; /* Dorado suave */
+      --gold-bg: #fef3c7;
+      --danger: #b91c1c; /* Rojo tenue para advertencias */
       --danger-bg: #fef2f2;
-      --warn-bg: #fffbeb;
-      --warn-text: #92400e;
-      --radius: 14px;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #cbd5e1;
+      --radius: 10px; /* Esquinas ligeramente redondeadas */
     }
 
     * {
@@ -57,17 +58,35 @@
       display: flex;
     }
 
-    h1 {
-      font-size: 1.5rem;
+    /* ENCABEZADO Y MARCA */
+    header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.2rem;
+      padding: 0.5rem 0;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 1.65rem;
       font-weight: 800;
-      color: var(--primary);
-      line-height: 1.25;
+      color: var(--blue-gray);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    header p {
+      font-size: 0.95rem;
+      color: var(--muted);
+      font-style: italic;
     }
 
     h2 {
       font-size: 1.25rem;
       font-weight: 700;
-      color: var(--primary);
+      color: var(--blue-gray);
     }
 
     p, span, li, label, small, input, select, button, td, th {
@@ -80,18 +99,19 @@
 
     .card {
       background: var(--card);
-      border: 1.5px solid var(--border);
+      border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 1.25rem;
       display: flex;
       flex-direction: column;
       gap: 0.9rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
     }
 
     .alert-banner {
       background: var(--danger-bg);
       color: var(--danger);
-      border: 1.5px solid #fca5a5;
+      border: 1px solid #fca5a5;
       border-radius: var(--radius);
       padding: 0.9rem 1rem;
       font-weight: 700;
@@ -99,19 +119,20 @@
     }
 
     .safety-box {
-      background: var(--warn-bg);
-      color: var(--warn-text);
-      border: 1.5px solid #fcd34d;
+      background: var(--gold-bg);
+      color: #92400e;
+      border: 1px solid #fcd34d;
       border-radius: var(--radius);
       padding: 0.9rem 1rem;
       font-weight: 600;
     }
 
+    /* REDISEÑO DE BOTONES (Formas rectangulares, sin sombras exageradas, colores suaves) */
     .btn {
-      min-height: 52px;
-      padding: 0.75rem 1.1rem;
+      min-height: 48px;
+      padding: 0.65rem 1rem;
       border-radius: var(--radius);
-      border: 1.5px solid transparent;
+      border: 1px solid var(--border);
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
@@ -120,6 +141,9 @@
       gap: 0.5rem;
       text-align: center;
       width: 100%;
+      background: #ffffff;
+      color: var(--text);
+      transition: background 0.15s ease;
     }
 
     .btn:active {
@@ -127,14 +151,19 @@
     }
 
     .btn-primary {
-      background: var(--primary-btn);
+      background: var(--blue-gray);
       color: #ffffff;
+      border-color: var(--blue-gray);
+    }
+
+    .btn-primary:hover {
+      background: var(--blue-gray-hover);
     }
 
     .btn-secondary {
-      background: var(--primary-light);
-      color: var(--primary);
-      border-color: #86efac;
+      background: var(--pale-blue);
+      color: var(--blue-gray);
+      border-color: #bae6fd;
     }
 
     .btn-outline {
@@ -146,6 +175,7 @@
     .btn-danger {
       background: var(--danger);
       color: #ffffff;
+      border-color: var(--danger);
     }
 
     .btn-danger-outline {
@@ -154,18 +184,19 @@
       border-color: #fca5a5;
     }
 
+    /* BARRA DE NAVEGACIÓN CON EMOJIS */
     .nav-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 0.65rem;
+      gap: 0.5rem;
     }
 
     .nav-btn {
-      min-height: 56px;
-      padding: 0.65rem;
+      min-height: 52px;
+      padding: 0.5rem;
       border-radius: var(--radius);
-      border: 1.5px solid var(--border);
-      background: #ffffff;
+      border: 1px solid var(--border);
+      background: var(--card);
       color: var(--text);
       font-weight: 700;
       cursor: pointer;
@@ -173,16 +204,17 @@
       align-items: center;
       justify-content: center;
       text-align: center;
+      gap: 0.4rem;
     }
 
     .nav-btn.active-nav {
-      background: var(--primary-light);
-      border-color: var(--primary-btn);
-      color: var(--primary);
+      background: var(--pale-blue);
+      border-color: #7dd3fc;
+      color: var(--blue-gray);
     }
 
     .hero-box {
-      background: var(--primary);
+      background: var(--blue-gray);
       color: #ffffff;
       border-radius: var(--radius);
       padding: 1.35rem;
@@ -193,10 +225,11 @@
 
     .hero-box h1 {
       color: #ffffff;
+      font-size: 1.35rem;
     }
 
     .hero-box p {
-      color: #dcfce7;
+      color: #e2e8f0;
     }
 
     .form-group {
@@ -207,7 +240,7 @@
 
     label {
       font-weight: 700;
-      color: var(--primary);
+      color: var(--blue-gray);
     }
 
     input[type="text"],
@@ -215,25 +248,30 @@
     input[type="date"],
     select {
       width: 100%;
-      min-height: 50px;
+      min-height: 48px;
       padding: 0.65rem 0.85rem;
-      border: 1.5px solid var(--border);
+      border: 1px solid var(--border);
       border-radius: var(--radius);
-      background: #ffffff;
+      background: var(--card);
       color: var(--text);
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--blue-gray);
     }
 
     .progress-wrap {
       width: 100%;
-      height: 12px;
-      background: #e2e8f0;
+      height: 10px;
+      background: var(--border);
       border-radius: 999px;
       overflow: hidden;
     }
 
     .progress-fill {
       height: 100%;
-      background: var(--primary-btn);
+      background: var(--blue-gray);
       width: 0%;
       transition: width 0.2s;
     }
@@ -245,11 +283,11 @@
     }
 
     .icon-box {
-      width: 52px;
-      height: 52px;
-      border-radius: 12px;
-      background: var(--primary-light);
-      color: var(--primary);
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius);
+      background: var(--pale-blue);
+      color: var(--blue-gray);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -257,8 +295,8 @@
     }
 
     .icon-box svg {
-      width: 28px;
-      height: 28px;
+      width: 26px;
+      height: 26px;
       stroke: currentColor;
       fill: none;
       stroke-width: 2;
@@ -267,10 +305,10 @@
     }
 
     .list-item {
-      border: 1.5px solid var(--border);
+      border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 0.9rem;
-      background: #ffffff;
+      background: var(--card);
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
@@ -286,7 +324,7 @@
     .link-btn {
       background: none;
       border: none;
-      color: var(--primary-btn);
+      color: var(--blue-gray);
       font-weight: 700;
       text-decoration: underline;
       cursor: pointer;
@@ -297,7 +335,7 @@
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.6);
+      background: rgba(15, 23, 42, 0.5);
       display: none;
       align-items: center;
       justify-content: center;
@@ -310,7 +348,7 @@
     }
 
     .modal-box {
-      background: #ffffff;
+      background: var(--card);
       border-radius: var(--radius);
       padding: 1.35rem;
       width: 100%;
@@ -320,6 +358,7 @@
       gap: 1rem;
       max-height: 85vh;
       overflow-y: auto;
+      border: 1px solid var(--border);
     }
 
     .bar-chart {
@@ -344,14 +383,14 @@
     }
 
     .bar {
-      width: 34px;
-      background: var(--primary-btn);
-      border-radius: 6px 6px 0 0;
+      width: 30px;
+      background: var(--blue-gray);
+      border-radius: 4px 4px 0 0;
       min-height: 4px;
     }
 
     .bar.base {
-      background: #0369a1;
+      background: #0284c7;
     }
 
     .settings-item {
@@ -359,17 +398,17 @@
       justify-content: space-between;
       align-items: center;
       padding: 1rem;
-      border: 1.5px solid var(--border);
+      border: 1px solid var(--border);
       border-radius: var(--radius);
-      background: #ffffff;
+      background: var(--card);
       cursor: pointer;
       font-weight: 700;
     }
 
     .tag-pill {
       display: inline-block;
-      background: var(--warn-bg);
-      color: var(--warn-text);
+      background: var(--gold-bg);
+      color: #92400e;
       border: 1px solid #fcd34d;
       padding: 0.2rem 0.6rem;
       border-radius: 8px;
@@ -379,6 +418,12 @@
 </head>
 <body>
   <div id="app">
+    <!-- ENCABEZADO SOLICITADO -->
+    <header>
+      <h1><span>⚡</span> Luz a Cargo</h1>
+      <p>“Pequeños hábitos, menos consumo”</p>
+    </header>
+
     <div id="alert-storage-locked" class="alert-banner">
       No se pudieron guardar los cambios porque el almacenamiento del navegador está bloqueado.
     </div>
@@ -386,12 +431,12 @@
       Los datos guardados estaban dañados. Se guardó una copia de respaldo en 'luz_a_cargo_backup' y se inició con datos limpios.
     </div>
 
-    <!-- NAVEGACIÓN PRINCIPAL (4 PANTALLAS CLARAS) -->
+    <!-- NAVEGACIÓN PRINCIPAL CON EMOJIS -->
     <nav class="nav-grid" aria-label="Navegación principal">
-      <button class="nav-btn active-nav" id="nav-inicio" onclick="navTo('inicio')">Inicio</button>
-      <button class="nav-btn" id="nav-historial" onclick="navTo('historial')">Lo que has hecho</button>
-      <button class="nav-btn" id="nav-medidor" onclick="navTo('medidor')">Comprobar con mi medidor</button>
-      <button class="nav-btn" id="nav-ajustes" onclick="navTo('ajustes')">Cambiar mis datos</button>
+      <button class="nav-btn active-nav" id="nav-inicio" onclick="navTo('inicio')">🏠 Inicio</button>
+      <button class="nav-btn" id="nav-historial" onclick="navTo('historial')">📊 Lo que has hecho</button>
+      <button class="nav-btn" id="nav-medidor" onclick="navTo('medidor')">⚡ Comprobar con mi medidor</button>
+      <button class="nav-btn" id="nav-ajustes" onclick="navTo('ajustes')">⚙️ Cambiar mis datos</button>
     </nav>
 
     <!-- PANTALLA 1: INICIO -->
@@ -401,15 +446,15 @@
         <p>Revisa tu casa habitación por habitación antes de dormir.</p>
       </div>
 
-      <button class="btn btn-primary" onclick="iniciarRevision()">Revisar la casa</button>
+      <button class="btn btn-primary" onclick="iniciarRevision()">🌙 Revisar la casa</button>
 
       <div class="card">
-        <p id="inicio-noches" style="font-weight: 700; color: var(--primary);">Empieza hoy tu primera noche</p>
+        <p id="inicio-noches" style="font-weight: 700; color: var(--blue-gray);">Empieza hoy tu primera noche</p>
         <p id="inicio-turno" style="display: none; font-weight: 700;"></p>
-        <p id="inicio-ahorro" style="font-weight: 700; color: var(--primary-btn);">Dinero que ya no se va: aprox. S/ 0,00</p>
+        <p id="inicio-ahorro" style="font-weight: 700; color: var(--blue-gray);">Dinero que ya no se va: aprox. S/ 0,00</p>
       </div>
 
-      <button class="btn btn-outline" onclick="navTo('info')">Para qué sirve esta página</button>
+      <button class="btn btn-outline" onclick="navTo('info')">ℹ️ Para qué sirve esta página</button>
     </section>
 
     <!-- PANTALLA: PARA QUÉ SIRVE ESTA PÁGINA -->
@@ -433,8 +478,8 @@
     <section id="screen-revision" class="screen">
       <div>
         <div class="row-between" style="margin-bottom: 0.35rem;">
-          <span style="font-weight: 700; color: var(--primary);">Avance de la revisión</span>
-          <span id="rev-progreso-txt" style="font-weight: 700; color: var(--primary);">0 de 0</span>
+          <span style="font-weight: 700; color: var(--blue-gray);">Avance de la revisión</span>
+          <span id="rev-progreso-txt" style="font-weight: 700; color: var(--blue-gray);">0 de 0</span>
         </div>
         <div class="progress-wrap">
           <div id="rev-progreso-bar" class="progress-fill"></div>
@@ -457,7 +502,7 @@
         </div>
       </div>
 
-      <!-- PASO B: PREGUNTA DE TIEMPO (SOLO SI NO ES CARGADOR/ENCHUFADO) -->
+      <!-- PASO B: PREGUNTA DE TIEMPO -->
       <div id="paso-tiempo" class="card" style="display: none;">
         <h2 id="tiempo-titulo">¿Cuánto tiempo suele quedarse así?</h2>
         <p id="tiempo-subtitulo" class="muted-text"></p>
@@ -469,7 +514,7 @@
       </div>
 
       <div id="rev-seguridad" class="safety-box" style="display: none;">
-        Seguridad: Apaga o desconecta aparatos eléctricos siempre con las manos bien secas y sin tocar cables pelados.
+        ⚠️ Seguridad: Apaga o desconecta aparatos eléctricos siempre con las manos bien secas y sin tocar cables pelados.
       </div>
 
       <div class="row-between">
@@ -483,8 +528,8 @@
       <div class="card">
         <h1 id="res-titulo">Resultado de hoy</h1>
         <p id="res-mensaje-principal" style="font-weight: 700;"></p>
-        <p id="res-rango-mensual" style="display: none; font-weight: 700; color: var(--primary);"></p>
-        <p id="res-acumulado" style="font-weight: 700; color: var(--primary-btn);"></p>
+        <p id="res-rango-mensual" style="display: none; font-weight: 700; color: var(--blue-gray);"></p>
+        <p id="res-acumulado" style="font-weight: 700; color: var(--blue-gray);"></p>
 
         <div id="res-nota-precio" style="display: none;">
           <span class="tag-pill" id="res-etiqueta-precio"></span>
@@ -493,7 +538,6 @@
         <button id="btn-como-calculamos" class="link-btn" style="display: none;" onclick="abrirModalCalculo()">¿Cómo lo calculamos?</button>
       </div>
 
-      <!-- PEDIR PRECIO DE LA LUZ UNA SOLA VEZ AL TERMINAR EL PRIMER USO -->
       <div id="card-precio-primer-uso" class="card" style="display: none;">
         <h2>Precio de tu luz</h2>
         <p>Ahora estamos usando un precio de ejemplo (<span id="ejemplo-precio-txt">S/ 0,85</span> por unidad de luz). Escribe el tuyo para que el cálculo aproximado sea más real (lo ves en tu recibo):</p>
@@ -509,10 +553,10 @@
 
     <!-- PANTALLA 2: LO QUE HAS HECHO (HISTORIAL) -->
     <section id="screen-historial" class="screen">
-      <h2>Lo que has hecho</h2>
+      <h2>📊 Lo que has hecho</h2>
 
       <div class="card">
-        <p id="hist-resumen-ahorro" style="font-weight: 700; color: var(--primary-btn);">Dinero que ya no se va: aprox. S/ 0,00</p>
+        <p id="hist-resumen-ahorro" style="font-weight: 700; color: var(--blue-gray);">Dinero que ya no se va: aprox. S/ 0,00</p>
         <button class="link-btn" onclick="abrirModalCalculoHistorial()">¿Cómo lo calculamos?</button>
       </div>
 
@@ -523,13 +567,13 @@
         </div>
       </div>
 
-      <button class="btn btn-secondary" onclick="exportarCSV()">Descargar mis datos en archivo (CSV)</button>
-      <button id="btn-borrar-todo" class="btn btn-danger-outline" onclick="confirmarBorrarTodo()">Borrar todo</button>
+      <button class="btn btn-secondary" onclick="exportarCSV()">📥 Descargar mis datos en archivo (CSV)</button>
+      <button id="btn-borrar-todo" class="btn btn-danger-outline" onclick="confirmarBorrarTodo()">🗑️ Borrar todo</button>
     </section>
 
     <!-- PANTALLA 3: COMPROBAR CON MI MEDIDOR -->
     <section id="screen-medidor" class="screen">
-      <h2>Comprobar con mi medidor</h2>
+      <h2>⚡ Comprobar con mi medidor</h2>
       <div class="card">
         <p class="muted-text">Anota la lectura de hoy y vuelve a anotarla a los 7 días para medir el cambio real en unidades de luz (kWh).</p>
         <div class="form-group">
@@ -563,20 +607,20 @@
 
     <!-- PANTALLA 4: CAMBIAR MIS DATOS (AJUSTES) -->
     <section id="screen-ajustes" class="screen">
-      <h2>Cambiar mis datos</h2>
+      <h2>⚙️ Cambiar mis datos</h2>
 
       <div class="settings-item" onclick="navTo('ajustes-personas')">
-        <span>Personas que revisan la casa</span>
+        <span>👥 Personas que revisan la casa</span>
         <span>→</span>
       </div>
 
       <div class="settings-item" onclick="navTo('ajustes-habitaciones')">
-        <span>Habitaciones y preguntas propias</span>
+        <span>🏠 Habitaciones y preguntas propias</span>
         <span>→</span>
       </div>
 
       <div class="settings-item" onclick="navTo('ajustes-precio')">
-        <span>Precio de la luz</span>
+        <span>💰 Precio de la luz</span>
         <span>→</span>
       </div>
 
@@ -588,7 +632,7 @@
 
     <!-- SUBPANTALLA AJUSTES: PERSONAS -->
     <section id="screen-ajustes-personas" class="screen">
-      <h2>Personas que revisan la casa</h2>
+      <h2>👥 Personas que revisan la casa</h2>
       <div class="card">
         <p class="muted-text">Si hay dos o más personas, el turno cambia cada noche (con corte a las 4 a. m.) y esa persona revisa toda la casa.</p>
         <div class="form-group">
@@ -603,7 +647,7 @@
 
     <!-- SUBPANTALLA AJUSTES: HABITACIONES Y PREGUNTAS PROPIAS -->
     <section id="screen-ajustes-habitaciones" class="screen">
-      <h2>Habitaciones y preguntas propias</h2>
+      <h2>🏠 Habitaciones y preguntas propias</h2>
       <div class="card">
         <div class="form-group">
           <label for="input-habitacion">Agregar una habitación</label>
@@ -649,7 +693,7 @@
 
     <!-- SUBPANTALLA AJUSTES: PRECIO DE LA LUZ -->
     <section id="screen-ajustes-precio" class="screen">
-      <h2>Precio de la luz</h2>
+      <h2>💰 Precio de la luz</h2>
       <div class="card">
         <p id="ajustes-precio-estado" class="muted-text"></p>
         <div class="form-group">
@@ -663,7 +707,7 @@
     </section>
   </div>
 
-  <!-- MODAL DE CONFIRMACIÓN Y EXPLICACIÓN DE CÁLCULO -->
+  <!-- MODAL -->
   <div id="modal-backdrop" class="modal-backdrop" role="dialog" aria-modal="true">
     <div class="modal-box">
       <h2 id="modal-titulo">Confirmación</h2>
@@ -674,71 +718,15 @@
 
   <script>
     const TABLA_POTENCIAS_REFERENCIAL = {
-      foco: {
-        nombre: "Foco o luz",
-        vatiosMin: 9,
-        vatiosMax: 20,
-        preguntaTiempo: true,
-        fuente: "Valor referencial"
-      },
-      televisor: {
-        nombre: "Televisor o equipo de sonido",
-        vatiosMin: 60,
-        vatiosMax: 150,
-        preguntaTiempo: true,
-        fuente: "Valor referencial"
-      },
-      ventilador: {
-        nombre: "Ventilador",
-        vatiosMin: 45,
-        vatiosMax: 75,
-        preguntaTiempo: true,
-        fuente: "Valor referencial"
-      },
-      estufa: {
-        nombre: "Estufa eléctrica",
-        vatiosMin: 1000,
-        vatiosMax: 1500,
-        preguntaTiempo: true,
-        fuente: "Valor referencial"
-      },
-      refrigeradora: {
-        nombre: "Refrigeradora mal cerrada",
-        vatiosMin: 100,
-        vatiosMax: 200,
-        preguntaTiempo: true,
-        fuente: "Valor referencial"
-      },
-      terma: {
-        nombre: "Terma eléctrica",
-        vatiosMin: 1200,
-        vatiosMax: 1800,
-        preguntaTiempo: true,
-        fuente: "Valor referencial"
-      },
-      ducha: {
-        nombre: "Ducha eléctrica",
-        vatiosMin: 3000,
-        vatiosMax: 4500,
-        preguntaTiempo: true,
-        fuente: "Valor referencial"
-      },
-      otro_aparato: {
-        nombre: "Aparato eléctrico",
-        vatiosMin: 50,
-        vatiosMax: 150,
-        preguntaTiempo: true,
-        fuente: "Valor referencial"
-      },
-      cargador: {
-        nombre: "Cargador o aparato enchufado sin usar",
-        vatiosMin: 1,
-        vatiosMax: 5,
-        preguntaTiempo: false,
-        horasFijasMin: 8,
-        horasFijasMax: 12,
-        fuente: "Valor referencial"
-      }
+      foco: { nombre: "Foco o luz", vatiosMin: 9, vatiosMax: 20, preguntaTiempo: true, fuente: "Valor referencial" },
+      televisor: { nombre: "Televisor o equipo de sonido", vatiosMin: 60, vatiosMax: 150, preguntaTiempo: true, fuente: "Valor referencial" },
+      ventilador: { nombre: "Ventilador", vatiosMin: 45, vatiosMax: 75, preguntaTiempo: true, fuente: "Valor referencial" },
+      estufa: { nombre: "Estufa eléctrica", vatiosMin: 1000, vatiosMax: 1500, preguntaTiempo: true, fuente: "Valor referencial" },
+      refrigeradora: { nombre: "Refrigeradora mal cerrada", vatiosMin: 100, vatiosMax: 200, preguntaTiempo: true, fuente: "Valor referencial" },
+      terma: { nombre: "Terma eléctrica", vatiosMin: 1200, vatiosMax: 1800, preguntaTiempo: true, fuente: "Valor referencial" },
+      ducha: { nombre: "Ducha eléctrica", vatiosMin: 3000, vatiosMax: 4500, preguntaTiempo: true, fuente: "Valor referencial" },
+      otro_aparato: { nombre: "Aparato eléctrico", vatiosMin: 50, vatiosMax: 150, preguntaTiempo: true, fuente: "Valor referencial" },
+      cargador: { nombre: "Cargador o aparato enchufado sin usar", vatiosMin: 1, vatiosMax: 5, preguntaTiempo: false, horasFijasMin: 8, horasFijasMax: 12, fuente: "Valor referencial" }
     };
 
     const HORAS_POR_OPCION = {
@@ -1389,11 +1377,11 @@
         return `
           <div class="list-item">
             <div class="row-between">
-              <strong>Fecha: ${escapeHTML(noche.fecha)}</strong>
-              <button class="btn btn-danger-outline" style="width: auto; min-height: 44px; padding: 0.4rem 0.75rem;" onclick="confirmarBorrarNoche('${escapeHTML(noche.id)}')">Borrar</button>
+              <strong>📅 Fecha: ${escapeHTML(noche.fecha)}</strong>
+              <button class="btn btn-danger-outline" style="width: auto; min-height: 40px; padding: 0.3rem 0.6rem;" onclick="confirmarBorrarNoche('${escapeHTML(noche.id)}')">Borrar</button>
             </div>
             <span>Apagaste ${noche.apagados} ${noche.apagados === 1 ? "cosa" : "cosas"}${turnoTxt}</span>
-            <span style="color: var(--primary-btn); font-weight: 700;">${ahorroTxt}</span>
+            <span style="color: var(--blue-gray); font-weight: 700;">${ahorroTxt}</span>
           </div>
         `;
       }).join("");
@@ -1517,7 +1505,7 @@
         return `
           <div class="list-item">
             <div class="row-between">
-              <strong>${escapeHTML(l.fecha)} (${etiqueta})</strong>
+              <strong>📅 ${escapeHTML(l.fecha)} (${etiqueta})</strong>
               <span>${l.valor} unidades</span>
             </div>
           </div>
@@ -1646,8 +1634,8 @@
       cont.innerHTML = state.personas.map((p, idx) => `
         <div class="list-item">
           <div class="row-between">
-            <span>${escapeHTML(p)}</span>
-            <button class="btn btn-danger-outline" style="width: auto; min-height: 44px; padding: 0.4rem 0.75rem;" onclick="quitarPersona(${idx})">Quitar</button>
+            <span>👤 ${escapeHTML(p)}</span>
+            <button class="btn btn-danger-outline" style="width: auto; min-height: 40px; padding: 0.3rem 0.6rem;" onclick="quitarPersona(${idx})">Quitar</button>
           </div>
         </div>
       `).join("");
@@ -1685,16 +1673,16 @@
         const htmlPropias = propiasDeHab.map(pp => `
           <div class="row-between" style="padding-left: 0.5rem;">
             <span>• ${escapeHTML(pp.texto)}</span>
-            <button class="btn btn-danger-outline" style="width: auto; min-height: 40px; padding: 0.3rem 0.65rem;" onclick="borrarPreguntaPropia('${escapeHTML(pp.id)}')">Borrar</button>
+            <button class="btn btn-danger-outline" style="width: auto; min-height: 38px; padding: 0.25rem 0.5rem;" onclick="borrarPreguntaPropia('${escapeHTML(pp.id)}')">Borrar</button>
           </div>
         `).join("");
 
         return `
           <div class="list-item">
             <div class="row-between">
-              <strong>${escapeHTML(hab)}</strong>
+              <strong>🏠 ${escapeHTML(hab)}</strong>
               ${state.habitaciones.length > 1
-                ? `<button class="btn btn-danger-outline" style="width: auto; min-height: 40px; padding: 0.3rem 0.65rem;" onclick="quitarHabitacion(${idx})">Quitar</button>`
+                ? `<button class="btn btn-danger-outline" style="width: auto; min-height: 38px; padding: 0.25rem 0.5rem;" onclick="quitarHabitacion(${idx})">Quitar</button>`
                 : ""}
             </div>
             ${htmlPropias}
