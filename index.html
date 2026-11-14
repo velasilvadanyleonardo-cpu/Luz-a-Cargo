@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,19 +6,19 @@
   <title>Luz a Cargo</title>
   <style>
     :root {
-      --bg: #f1f5f9; /* Gris claro */
-      --card: #ffffff; /* Blanco */
-      --blue-gray: #334155; /* Azul grisáceo */
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --blue-gray: #334155;
       --blue-gray-hover: #1e293b;
-      --pale-blue: #e0f2fe; /* Azul pálido */
-      --gold: #f59e0b; /* Dorado suave */
+      --pale-blue: #e0f2fe;
+      --gold: #f59e0b;
       --gold-bg: #fef3c7;
-      --danger: #b91c1c; /* Rojo tenue para advertencias */
+      --danger: #b91c1c;
       --danger-bg: #fef2f2;
       --text: #1e293b;
       --muted: #64748b;
       --border: #cbd5e1;
-      --radius: 10px; /* Esquinas ligeramente redondeadas */
+      --radius: 10px;
     }
 
     * {
@@ -58,7 +57,6 @@
       display: flex;
     }
 
-    /* ENCABEZADO Y MARCA */
     header {
       display: flex;
       flex-direction: column;
@@ -127,7 +125,6 @@
       font-weight: 600;
     }
 
-    /* REDISEÑO DE BOTONES (Formas rectangulares, sin sombras exageradas, colores suaves) */
     .btn {
       min-height: 48px;
       padding: 0.65rem 1rem;
@@ -184,16 +181,16 @@
       border-color: #fca5a5;
     }
 
-    /* BARRA DE NAVEGACIÓN CON EMOJIS */
+    /* NAVEGACIÓN PRINCIPAL */
     .nav-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
       gap: 0.5rem;
     }
 
     .nav-btn {
       min-height: 52px;
-      padding: 0.5rem;
+      padding: 0.4rem;
       border-radius: var(--radius);
       border: 1px solid var(--border);
       background: var(--card);
@@ -201,10 +198,12 @@
       font-weight: 700;
       cursor: pointer;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      gap: 0.4rem;
+      font-size: 0.85rem;
+      gap: 0.15rem;
     }
 
     .nav-btn.active-nav {
@@ -361,38 +360,6 @@
       border: 1px solid var(--border);
     }
 
-    .bar-chart {
-      display: flex;
-      align-items: flex-end;
-      gap: 0.6rem;
-      height: 170px;
-      padding-top: 1.5rem;
-      border-bottom: 2px solid var(--border);
-      overflow-x: auto;
-    }
-
-    .bar-col {
-      flex: 1;
-      min-width: 56px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-end;
-      height: 100%;
-      gap: 0.25rem;
-    }
-
-    .bar {
-      width: 30px;
-      background: var(--blue-gray);
-      border-radius: 4px 4px 0 0;
-      min-height: 4px;
-    }
-
-    .bar.base {
-      background: #0284c7;
-    }
-
     .settings-item {
       display: flex;
       justify-content: space-between;
@@ -418,8 +385,7 @@
 </head>
 <body>
   <div id="app">
-    <!-- ENCABEZADO SOLICITADO -->
-    <header>
+    <header onclick="navTo('inicio')" style="cursor: pointer;">
       <h1><span>⚡</span> Luz a Cargo</h1>
       <p>“Pequeños hábitos, menos consumo”</p>
     </header>
@@ -431,12 +397,11 @@
       Los datos guardados estaban dañados. Se guardó una copia de respaldo en 'luz_a_cargo_backup' y se inició con datos limpios.
     </div>
 
-    <!-- NAVEGACIÓN PRINCIPAL CON EMOJIS -->
+    <!-- NAVEGACIÓN PRINCIPAL -->
     <nav class="nav-grid" aria-label="Navegación principal">
-      <button class="nav-btn active-nav" id="nav-inicio" onclick="navTo('inicio')">🏠 Inicio</button>
-      <button class="nav-btn" id="nav-historial" onclick="navTo('historial')">📊 Lo que has hecho</button>
-      <button class="nav-btn" id="nav-medidor" onclick="navTo('medidor')">⚡ Comprobar con mi medidor</button>
-      <button class="nav-btn" id="nav-ajustes" onclick="navTo('ajustes')">⚙️ Cambiar mis datos</button>
+      <button class="nav-btn" id="nav-historial" onclick="navTo('historial')"><span>📊</span> Lo que has hecho</button>
+      <button class="nav-btn" id="nav-ajustes" onclick="navTo('ajustes')"><span>⚙️</span> Cambiar mis datos</button>
+      <button class="nav-btn" id="nav-revision" onclick="iniciarRevision()"><span>🌙</span> Revisar la casa</button>
     </nav>
 
     <!-- PANTALLA 1: INICIO -->
@@ -463,7 +428,6 @@
       <div class="card">
         <p><strong>Pregunta base:</strong> ¿Cómo podemos evitar el consumo de energía eléctrica de forma irresponsable en el hogar?</p>
         <p><strong>Qué es cálculo aproximado:</strong> Es una estimación en soles calculada con la potencia referencial de cada aparato (en vatios), las horas que suele quedarse prendido, 30 días al mes y el precio de la luz. Sirve para darte una idea clara, pero no reemplaza al recibo.</p>
-        <p><strong>Qué es medido:</strong> Es la lectura real que anotas directamente de tu medidor de luz en unidades de luz (kWh) cada 7 días para comprobar si tu consumo bajó.</p>
         <p><strong>Objetivos de Desarrollo Sostenible (ODS):</strong></p>
         <ul style="padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.4rem;">
           <li><strong>ODS 7:</strong> Energía asequible y no contaminante.</li>
@@ -471,7 +435,8 @@
           <li><strong>ODS 13:</strong> Acción por el clima.</li>
         </ul>
       </div>
-      <button class="btn btn-outline" onclick="navTo('inicio')">Volver al inicio</button>
+      <!-- Botón de retroceso para celular -->
+      <button class="btn btn-outline" onclick="navTo('inicio')">⬅️ Volver al inicio</button>
     </section>
 
     <!-- PANTALLA: REVISAR LA CASA -->
@@ -569,40 +534,9 @@
 
       <button class="btn btn-secondary" onclick="exportarCSV()">📥 Descargar mis datos en archivo (CSV)</button>
       <button id="btn-borrar-todo" class="btn btn-danger-outline" onclick="confirmarBorrarTodo()">🗑️ Borrar todo</button>
-    </section>
-
-    <!-- PANTALLA 3: COMPROBAR CON MI MEDIDOR -->
-    <section id="screen-medidor" class="screen">
-      <h2>⚡ Comprobar con mi medidor</h2>
-      <div class="card">
-        <p class="muted-text">Anota la lectura de hoy y vuelve a anotarla a los 7 días para medir el cambio real en unidades de luz (kWh).</p>
-        <div class="form-group">
-          <label for="med-fecha">Fecha de la lectura</label>
-          <input type="date" id="med-fecha">
-        </div>
-        <div class="form-group">
-          <label for="med-valor">Número del medidor (unidades de luz / kWh)</label>
-          <input type="number" id="med-valor" step="0.1" min="0" placeholder="Ejemplo: 1450.5" inputmode="decimal">
-        </div>
-        <button class="btn btn-primary" onclick="guardarLecturaMedidor()">Guardar lectura</button>
-      </div>
-
-      <div id="med-resultado-card" class="card" style="display: none;">
-        <h2>Resultado medido</h2>
-        <p id="med-resultado-texto" style="font-weight: 700;"></p>
-      </div>
-
-      <div id="med-grafico-card" class="card" style="display: none;">
-        <h2>Unidades de luz por día</h2>
-        <div id="med-grafico" class="bar-chart"></div>
-      </div>
-
-      <div class="card">
-        <h2>Lecturas anotadas</h2>
-        <div id="med-lista" style="display: flex; flex-direction: column; gap: 0.65rem;">
-          <p class="muted-text">Todavía no has anotado ninguna lectura.</p>
-        </div>
-      </div>
+      
+      <!-- Botón de retroceso para celular -->
+      <button class="btn btn-outline" onclick="navTo('inicio')">⬅️ Volver al inicio</button>
     </section>
 
     <!-- PANTALLA 4: CAMBIAR MIS DATOS (AJUSTES) -->
@@ -628,6 +562,9 @@
         <p>Has ocultado algunas cosas porque dijiste “No tengo esto en casa”.</p>
         <button class="btn btn-secondary" onclick="volverAMostrarTodas()">Volver a mostrar todas</button>
       </div>
+
+      <!-- Botón de retroceso para celular -->
+      <button class="btn btn-outline" onclick="navTo('inicio')">⬅️ Volver al inicio</button>
     </section>
 
     <!-- SUBPANTALLA AJUSTES: PERSONAS -->
@@ -642,7 +579,8 @@
         <button class="btn btn-secondary" onclick="agregarPersona()">Agregar persona</button>
         <div id="lista-personas" style="display: flex; flex-direction: column; gap: 0.5rem;"></div>
       </div>
-      <button class="btn btn-outline" onclick="navTo('ajustes')">Volver a cambiar mis datos</button>
+      <!-- Botón de retroceso para celular -->
+      <button class="btn btn-outline" onclick="navTo('ajustes')">⬅️ Volver a Ajustes</button>
     </section>
 
     <!-- SUBPANTALLA AJUSTES: HABITACIONES Y PREGUNTAS PROPIAS -->
@@ -688,7 +626,8 @@
         <div id="lista-habitaciones-ajustes" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
       </div>
 
-      <button class="btn btn-outline" onclick="navTo('ajustes')">Volver a cambiar mis datos</button>
+      <!-- Botón de retroceso para celular -->
+      <button class="btn btn-outline" onclick="navTo('ajustes')">⬅️ Volver a Ajustes</button>
     </section>
 
     <!-- SUBPANTALLA AJUSTES: PRECIO DE LA LUZ -->
@@ -703,7 +642,8 @@
         </div>
         <button class="btn btn-primary" onclick="guardarPrecioAjustes()">Guardar precio</button>
       </div>
-      <button class="btn btn-outline" onclick="navTo('ajustes')">Volver a cambiar mis datos</button>
+      <!-- Botón de retroceso para celular -->
+      <button class="btn btn-outline" onclick="navTo('ajustes')">⬅️ Volver a Ajustes</button>
     </section>
   </div>
 
@@ -777,8 +717,7 @@
       preguntasOcultas: [],
       precioLuz: null,
       precioYaPedido: false,
-      noches: [],
-      lecturas: []
+      noches: []
     };
 
     let state = JSON.parse(JSON.stringify(ESTADO_INICIAL));
@@ -795,10 +734,6 @@
         ahora.setDate(ahora.getDate() - 1);
       }
       return formatearFechaISO(ahora);
-    }
-
-    function obtenerFechaHoyCalendario() {
-      return formatearFechaISO(new Date());
     }
 
     function formatearFechaISO(fechaObj) {
@@ -861,8 +796,7 @@
           preguntasOcultas: Array.isArray(parsed.preguntasOcultas) ? parsed.preguntasOcultas : [],
           precioLuz: typeof parsed.precioLuz === "number" && parsed.precioLuz > 0 ? parsed.precioLuz : null,
           precioYaPedido: Boolean(parsed.precioYaPedido),
-          noches: Array.isArray(parsed.noches) ? parsed.noches : [],
-          lecturas: Array.isArray(parsed.lecturas) ? parsed.lecturas : []
+          noches: Array.isArray(parsed.noches) ? parsed.noches : []
         };
       } catch (err) {
         try {
@@ -1003,19 +937,14 @@
       if (target) target.classList.add("active");
 
       document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active-nav"));
-      if (screenId === "inicio" || screenId === "info") {
-        document.getElementById("nav-inicio").classList.add("active-nav");
-      } else if (screenId === "historial") {
+      if (screenId === "historial") {
         document.getElementById("nav-historial").classList.add("active-nav");
-      } else if (screenId === "medidor") {
-        document.getElementById("nav-medidor").classList.add("active-nav");
       } else if (screenId.startsWith("ajustes")) {
         document.getElementById("nav-ajustes").classList.add("active-nav");
       }
 
       if (screenId === "inicio") renderInicio();
       if (screenId === "historial") renderHistorial();
-      if (screenId === "medidor") renderMedidor();
       if (screenId === "ajustes") renderAjustes();
       if (screenId === "ajustes-personas") renderPersonas();
       if (screenId === "ajustes-habitaciones") renderHabitaciones();
@@ -1198,15 +1127,6 @@
       }
       indicePreguntaActual = ultimoPaso.indice;
       mostrarPreguntaActual();
-    }
-
-    function avanzarSiguientePregunta() {
-      indicePreguntaActual++;
-      if (indicePreguntaActual < listaRevisionActual.length) {
-        mostrarPreguntaActual();
-      } else {
-        finalizarRevision();
-      }
     }
 
     function pedirSalirRevision() {
@@ -1404,7 +1324,7 @@
     function confirmarBorrarTodo() {
       abrirModalConfirmacion(
         "¿Quieres borrar todo?",
-        "Se borrarán todas tus noches revisadas, tus lecturas del medidor y tus datos guardados.",
+        "Se borrarán todas tus noches revisadas y tus datos guardados.",
         "Sí, borrar",
         "No, volver",
         () => {
@@ -1416,201 +1336,6 @@
           navTo("inicio");
         }
       );
-    }
-
-    function renderMedidor() {
-      const hoy = obtenerFechaHoyCalendario();
-      const inpFecha = document.getElementById("med-fecha");
-      inpFecha.value = hoy;
-      inpFecha.max = hoy;
-      document.getElementById("med-valor").value = "";
-      actualizarVistaMedidor();
-    }
-
-    function guardarLecturaMedidor() {
-      const fecha = document.getElementById("med-fecha").value;
-      const valor = parseFloat(document.getElementById("med-valor").value);
-      const hoy = obtenerFechaHoyCalendario();
-
-      if (!fecha) {
-        abrirModalSimple("Falta la fecha", "Elige el día en que miraste el medidor.");
-        return;
-      }
-      if (fecha > hoy) {
-        abrirModalSimple("Fecha incorrecta", "No puedes anotar una lectura con fecha de mañana o de un día futuro.");
-        return;
-      }
-      if (isNaN(valor) || valor < 0) {
-        abrirModalSimple("Revisa el número", "Escribe el número que marca tu medidor de luz.");
-        return;
-      }
-
-      if (state.lecturas.length > 0) {
-        const ultima = state.lecturas[state.lecturas.length - 1];
-        if (fecha <= ultima.fecha) {
-          abrirModalSimple("Fecha anterior o repetida", "La fecha debe ser posterior a la última lectura que anotaste.");
-          return;
-        }
-        if (valor < ultima.valor) {
-          abrirModalSimple("Lectura menor a la anterior", "El número del medidor siempre sube, no puede ser menor que la lectura anterior.");
-          return;
-        }
-        const dias = calcularDiasEntreFechas(ultima.fecha, fecha);
-        if (dias < 5) {
-          abrirModalConfirmacion(
-            "Han pasado menos de 5 días",
-            `Solo pasaron ${dias} ${dias === 1 ? "día" : "días"} desde tu última lectura. Lo ideal es esperar 7 días. ¿Quieres guardarla igual?`,
-            "Sí, guardar",
-            "No, volver",
-            () => {
-              state.lecturas.push({ fecha, valor });
-              guardarEstado();
-              document.getElementById("med-valor").value = "";
-              actualizarVistaMedidor();
-            }
-          );
-          return;
-        }
-      }
-
-      state.lecturas.push({ fecha, valor });
-      guardarEstado();
-      document.getElementById("med-valor").value = "";
-      actualizarVistaMedidor();
-    }
-
-    function calcularDiasEntreFechas(f1, f2) {
-      const p1 = f1.split("-");
-      const p2 = f2.split("-");
-      const d1 = new Date(Number(p1[0]), Number(p1[1]) - 1, Number(p1[2]));
-      const d2 = new Date(Number(p2[0]), Number(p2[1]) - 1, Number(p2[2]));
-      return Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
-    }
-
-    function actualizarVistaMedidor() {
-      const lista = document.getElementById("med-lista");
-      const resCard = document.getElementById("med-resultado-card");
-      const grafCard = document.getElementById("med-grafico-card");
-
-      if (state.lecturas.length === 0) {
-        lista.innerHTML = `<p class="muted-text">Todavía no has anotado ninguna lectura.</p>`;
-        resCard.style.display = "none";
-        grafCard.style.display = "none";
-        return;
-      }
-
-      lista.innerHTML = [...state.lecturas].reverse().map((l, revIdx) => {
-        const idxReal = state.lecturas.length - 1 - revIdx;
-        const etiqueta = idxReal === 0 ? "Lectura inicial" : (idxReal === 1 ? "Semana base" : `Semana ${idxReal}`);
-        return `
-          <div class="list-item">
-            <div class="row-between">
-              <strong>📅 ${escapeHTML(l.fecha)} (${etiqueta})</strong>
-              <span>${l.valor} unidades</span>
-            </div>
-          </div>
-        `;
-      }).join("");
-
-      if (state.lecturas.length === 1) {
-        resCard.style.display = "flex";
-        document.getElementById("med-resultado-texto").textContent =
-          "Anotaste tu primera lectura. Vuelve a anotar otra dentro de 7 días para tener tu consumo base.";
-        grafCard.style.display = "none";
-        return;
-      }
-
-      if (state.lecturas.length === 2) {
-        const diasBase = calcularDiasEntreFechas(state.lecturas[0].fecha, state.lecturas[1].fecha);
-        const consumoBase = state.lecturas[1].valor - state.lecturas[0].valor;
-        const diarioBase = diasBase > 0 ? consumoBase / diasBase : 0;
-
-        resCard.style.display = "flex";
-        if (diarioBase <= 0) {
-          document.getElementById("med-resultado-texto").textContent =
-            "Tu lectura base dio cero. Por favor revisa los números anotados en el medidor.";
-        } else {
-          document.getElementById("med-resultado-texto").textContent =
-            `Tu consumo base es de ${diarioBase.toFixed(1)} unidades de luz por día. En 7 días más podrás comparar tu ahorro real.`;
-        }
-        renderGraficoMedidor();
-        return;
-      }
-
-      const l0 = state.lecturas[0];
-      const l1 = state.lecturas[1];
-      const diasBase = calcularDiasEntreFechas(l0.fecha, l1.fecha);
-      const diarioBase = diasBase > 0 ? (l1.valor - l0.valor) / diasBase : 0;
-
-      const lPenultima = state.lecturas[state.lecturas.length - 2];
-      const lUltima = state.lecturas[state.lecturas.length - 1];
-      const diasActual = calcularDiasEntreFechas(lPenultima.fecha, lUltima.fecha);
-      const diarioActual = diasActual > 0 ? (lUltima.valor - lPenultima.valor) / diasActual : 0;
-
-      resCard.style.display = "flex";
-      const textoEl = document.getElementById("med-resultado-texto");
-
-      if (diarioBase <= 0) {
-        textoEl.textContent = "Tu lectura base dio cero. Por favor revisa los números anotados en el medidor.";
-      } else {
-        const diffPct = ((diarioActual - diarioBase) / diarioBase) * 100;
-        const precio = obtenerPrecioActivo();
-        let solesAhorradosTotal = 0;
-
-        for (let i = 2; i < state.lecturas.length; i++) {
-          const d = calcularDiasEntreFechas(state.lecturas[i - 1].fecha, state.lecturas[i].fecha);
-          const tasa = d > 0 ? (state.lecturas[i].valor - state.lecturas[i - 1].valor) / d : 0;
-          const unidadesAhorradas = (diarioBase - tasa) * d;
-          if (unidadesAhorradas > 0) {
-            solesAhorradosTotal += unidadesAhorradas * precio;
-          }
-        }
-
-        const textoSoles = solesAhorradosTotal > 0
-          ? ` Ahorro medido acumulado: ${formatearSoles(solesAhorradosTotal)}.`
-          : "";
-
-        if (diffPct < 0) {
-          textoEl.textContent = `Esta semana usaste ${diarioActual.toFixed(1)} unidades de luz por día frente a ${diarioBase.toFixed(1)} en tu base. Bajaste ${Math.abs(diffPct).toFixed(1)} %.${textoSoles}`;
-        } else if (diffPct > 0) {
-          textoEl.textContent = `Esta semana usaste ${diarioActual.toFixed(1)} unidades de luz por día frente a ${diarioBase.toFixed(1)} en tu base. Subió ${diffPct.toFixed(1)} %.${textoSoles}`;
-        } else {
-          textoEl.textContent = `Esta semana usaste ${diarioActual.toFixed(1)} unidades de luz por día, igual que en tu semana base.`;
-        }
-      }
-
-      renderGraficoMedidor();
-    }
-
-    function renderGraficoMedidor() {
-      const grafCard = document.getElementById("med-grafico-card");
-      const graf = document.getElementById("med-grafico");
-      grafCard.style.display = "flex";
-      graf.innerHTML = "";
-
-      const barras = [];
-      for (let i = 1; i < state.lecturas.length; i++) {
-        const d = calcularDiasEntreFechas(state.lecturas[i - 1].fecha, state.lecturas[i].fecha);
-        const tasa = d > 0 ? (state.lecturas[i].valor - state.lecturas[i - 1].valor) / d : 0;
-        barras.push({
-          etiqueta: i === 1 ? "Base" : `Sem ${i - 1}`,
-          valor: tasa,
-          esBase: i === 1
-        });
-      }
-
-      const maxVal = Math.max(...barras.map(b => b.valor), 1);
-      barras.forEach(b => {
-        const pct = Math.min(Math.round((b.valor / maxVal) * 100), 100);
-        const col = document.createElement("div");
-        col.className = "bar-col";
-        col.innerHTML = `
-          <span>${b.valor.toFixed(1)}</span>
-          <div class="bar ${b.esBase ? "base" : ""}" style="height: ${pct}%;"></div>
-          <span>${escapeHTML(b.etiqueta)}</span>
-        `;
-        graf.appendChild(col);
-      });
     }
 
     function renderAjustes() {
@@ -1790,9 +1515,7 @@
         "Tiempo_elegido",
         "Gasto_mensual_aprox_soles",
         "Ahorro_noche_aprox_soles",
-        "Precio_luz_usado_soles",
-        "Lectura_medidor_kWh",
-        "Consumo_por_dia_kWh"
+        "Precio_luz_usado_soles"
       ].map(escaparCSV).join(";"));
 
       state.noches.forEach(noche => {
@@ -1807,9 +1530,7 @@
             "",
             "0.00",
             "0.00",
-            `${precio.toFixed(2)}${usaEjemplo ? " (ejemplo)" : ""}`,
-            "",
-            ""
+            `${precio.toFixed(2)}${usaEjemplo ? " (ejemplo)" : ""}`
           ].map(escaparCSV).join(";"));
         } else {
           noche.hallazgos.forEach(h => {
@@ -1824,41 +1545,11 @@
               c.etiquetaTiempo,
               `${c.solesMesMin.toFixed(2)} a ${c.solesMesMax.toFixed(2)}`,
               `${c.solesNocheMin.toFixed(2)} a ${c.solesNocheMax.toFixed(2)}`,
-              `${precio.toFixed(2)}${usaEjemplo ? " (ejemplo)" : ""}`,
-              "",
-              ""
+              `${precio.toFixed(2)}${usaEjemplo ? " (ejemplo)" : ""}`
             ].map(escaparCSV).join(";"));
           });
         }
       });
-
-      for (let i = 0; i < state.lecturas.length; i++) {
-        const l = state.lecturas[i];
-        let consumoDia = "";
-        if (i > 0) {
-          const d = calcularDiasEntreFechas(state.lecturas[i - 1].fecha, l.fecha);
-          if (d > 0) {
-            consumoDia = ((l.valor - state.lecturas[i - 1].valor) / d).toFixed(2);
-          }
-        } else {
-          consumoDia = "Lectura inicial";
-        }
-
-        filas.push([
-          "Lectura_medidor",
-          l.fecha,
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          `${precio.toFixed(2)}${usaEjemplo ? " (ejemplo)" : ""}`,
-          l.valor.toFixed(1),
-          consumoDia
-        ].map(escaparCSV).join(";"));
-      }
 
       const contenidoCSV = "\ufeff" + filas.join("\n");
       const blob = new Blob([contenidoCSV], { type: "text/csv;charset=utf-8;" });
