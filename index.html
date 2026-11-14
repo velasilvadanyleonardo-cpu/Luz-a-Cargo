@@ -673,66 +673,62 @@
   </div>
 
   <script>
-    /* ==========================================================================
-       TABLA DE POTENCIAS Y HORAS POR TIPO DE COSA
-       REFERENCIAL: REEMPLAZAR CON FUENTE (ETIQUETAS DE APARATOS O TABLA OFICIAL)
-       ========================================================================== */
     const TABLA_POTENCIAS_REFERENCIAL = {
       foco: {
         nombre: "Foco o luz",
         vatiosMin: 9,
         vatiosMax: 20,
         preguntaTiempo: true,
-        fuente: "Referencial: reemplazar con fuente"
+        fuente: "Valor referencial"
       },
       televisor: {
         nombre: "Televisor o equipo de sonido",
         vatiosMin: 60,
         vatiosMax: 150,
         preguntaTiempo: true,
-        fuente: "Referencial: reemplazar con fuente"
+        fuente: "Valor referencial"
       },
       ventilador: {
         nombre: "Ventilador",
         vatiosMin: 45,
         vatiosMax: 75,
         preguntaTiempo: true,
-        fuente: "Referencial: reemplazar con fuente"
+        fuente: "Valor referencial"
       },
       estufa: {
         nombre: "Estufa eléctrica",
         vatiosMin: 1000,
         vatiosMax: 1500,
         preguntaTiempo: true,
-        fuente: "Referencial: reemplazar con fuente"
+        fuente: "Valor referencial"
       },
       refrigeradora: {
         nombre: "Refrigeradora mal cerrada",
         vatiosMin: 100,
         vatiosMax: 200,
         preguntaTiempo: true,
-        fuente: "Referencial: reemplazar con fuente"
+        fuente: "Valor referencial"
       },
       terma: {
         nombre: "Terma eléctrica",
         vatiosMin: 1200,
         vatiosMax: 1800,
         preguntaTiempo: true,
-        fuente: "Referencial: reemplazar con fuente"
+        fuente: "Valor referencial"
       },
       ducha: {
         nombre: "Ducha eléctrica",
         vatiosMin: 3000,
         vatiosMax: 4500,
         preguntaTiempo: true,
-        fuente: "Referencial: reemplazar con fuente"
+        fuente: "Valor referencial"
       },
       otro_aparato: {
         nombre: "Aparato eléctrico",
         vatiosMin: 50,
         vatiosMax: 150,
         preguntaTiempo: true,
-        fuente: "Referencial: reemplazar con fuente"
+        fuente: "Valor referencial"
       },
       cargador: {
         nombre: "Cargador o aparato enchufado sin usar",
@@ -741,7 +737,7 @@
         preguntaTiempo: false,
         horasFijasMin: 8,
         horasFijasMax: 12,
-        fuente: "Referencial: reemplazar con fuente"
+        fuente: "Valor referencial"
       }
     };
 
@@ -753,9 +749,6 @@
 
     const PRECIO_EJEMPLO_SOLES = 0.85;
 
-    /* ==========================================================================
-       PREGUNTAS FIJAS POR HABITACIÓN (SIN ORDEN ALEATORIO)
-       ========================================================================== */
     const PREGUNTAS_BASE = [
       { id: "sala_1", habitacion: "Sala", texto: "¿Quedó algún foco o luz prendida en la sala?", tipo: "foco", icono: "foco", seguridad: false },
       { id: "sala_2", habitacion: "Sala", texto: "¿Quedó prendido el televisor, decodificador del cable o equipo de sonido en la sala?", tipo: "televisor", icono: "televisor", seguridad: false },
@@ -802,17 +795,12 @@
 
     let state = JSON.parse(JSON.stringify(ESTADO_INICIAL));
 
-    /* Estado de la sesión de revisión actual */
     let listaRevisionActual = [];
     let indicePreguntaActual = 0;
     let respuestasSesion = [];
     let hallazgosSesion = [];
     let historialPasos = [];
-    let ultimaNocheGuardadaId = null;
 
-    /* ==========================================================================
-       UTILIDADES DE FECHA LOCAL Y CORTE A LAS 4 A. M.
-       ========================================================================== */
     function obtenerFechaNocheActual() {
       const ahora = new Date();
       if (ahora.getHours() < 4) {
@@ -854,9 +842,6 @@
       return state.personas[idx];
     }
 
-    /* ==========================================================================
-       ALMACENAMIENTO SEGURO CON RESPALDO Y AVISOS SEPARADOS
-       ========================================================================== */
     function verificarStorageDisponible() {
       try {
         const k = "__prueba_storage__";
@@ -915,9 +900,6 @@
       }
     }
 
-    /* ==========================================================================
-       CÁLCULO DE CONSUMO Y AHORRO EN SOLES (SIEMPRE RANGO APROXIMADO)
-       ========================================================================== */
     function calcularRangoHallazgo(hallazgo, precioKwh) {
       const ref = TABLA_POTENCIAS_REFERENCIAL[hallazgo.tipo] || TABLA_POTENCIAS_REFERENCIAL.otro_aparato;
       let horasMin, horasMax, etiquetaTiempo;
@@ -978,9 +960,6 @@
       };
     }
 
-    /* ==========================================================================
-       NOCHES SEGUIDAS CON UNA NOCHE DE PERDÓN POR SEMANA
-       ========================================================================== */
     function calcularNochesSeguidas() {
       if (state.noches.length === 0) return 0;
       const fechasUnicas = [...new Set(state.noches.map(n => n.fecha))].sort();
@@ -1030,9 +1009,6 @@
       return seguidas;
     }
 
-    /* ==========================================================================
-       NAVEGACIÓN Y RENDER DE INICIO
-       ========================================================================== */
     function navTo(screenId) {
       document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
       const target = document.getElementById("screen-" + screenId);
@@ -1081,9 +1057,6 @@
         `Dinero que ya no se va: aprox. ${formatearSoles(ahorro.promedio)}`;
     }
 
-    /* ==========================================================================
-       FLUJO DE REVISAR LA CASA (HABITACIÓN POR HABITACIÓN, FIJO)
-       ========================================================================== */
     function construirListaPreguntas() {
       const lista = [];
       state.habitaciones.forEach(hab => {
@@ -1268,7 +1241,6 @@
         existente.hallazgos = existente.hallazgos.concat(hallazgosSesion);
         existente.apagados = existente.hallazgos.length;
         if (persona) existente.responsable = persona;
-        ultimaNocheGuardadaId = existente.id;
       } else {
         const nuevaNoche = {
           id: "noche_" + Date.now(),
@@ -1278,7 +1250,6 @@
           hallazgos: [...hallazgosSesion]
         };
         state.noches.push(nuevaNoche);
-        ultimaNocheGuardadaId = nuevaNoche.id;
       }
 
       guardarEstado();
@@ -1384,9 +1355,6 @@
       abrirModalSimple("¿Cómo lo calculamos?", html, true);
     }
 
-    /* ==========================================================================
-       LO QUE HAS HECHO (HISTORIAL Y BORRADO)
-       ========================================================================== */
     function renderHistorial() {
       const acum = calcularAhorroAcumuladoTotal();
       document.getElementById("hist-resumen-ahorro").textContent =
@@ -1462,9 +1430,6 @@
       );
     }
 
-    /* ==========================================================================
-       COMPROBAR CON MI MEDIDOR
-       ========================================================================== */
     function renderMedidor() {
       const hoy = obtenerFechaHoyCalendario();
       const inpFecha = document.getElementById("med-fecha");
@@ -1660,9 +1625,6 @@
       });
     }
 
-    /* ==========================================================================
-       CAMBIAR MIS DATOS (PERSONAS, HABITACIONES, PREGUNTAS PROPIAS, PRECIO)
-       ========================================================================== */
     function renderAjustes() {
       const cardOcultas = document.getElementById("ajustes-ocultas-card");
       cardOcultas.style.display = state.preguntasOcultas.length > 0 ? "flex" : "none";
@@ -1820,9 +1782,6 @@
       abrirModalSimple("Precio guardado", "Se actualizó el precio de la luz y se recalcularon todos tus ahorros aproximados.");
     }
 
-    /* ==========================================================================
-       EXPORTACIÓN CSV COMPLETA Y BIEN ESCAPADA
-       ========================================================================== */
     function escaparCSV(valor) {
       const s = String(valor == null ? "" : valor);
       return '"' + s.replace(/"/g, '""') + '"';
@@ -1923,9 +1882,6 @@
       URL.revokeObjectURL(url);
     }
 
-    /* ==========================================================================
-       MODAL ACCESIBLE Y ESCAPE DE TEXTO
-       ========================================================================== */
     function escapeHTML(str) {
       return String(str).replace(/[&<>"']/g, m => ({
         "&": "&amp;",
@@ -1977,9 +1933,6 @@
       document.getElementById("modal-backdrop").classList.remove("open");
     }
 
-    /* ==========================================================================
-       INICIO DE LA APLICACIÓN
-       ========================================================================== */
     window.addEventListener("DOMContentLoaded", () => {
       cargarEstado();
       renderInicio();
