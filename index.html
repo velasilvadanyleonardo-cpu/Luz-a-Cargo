@@ -185,9 +185,10 @@
       border-color: #fca5a5;
     }
 
+    /* NAVEGACIÓN PRINCIPAL (2 botones) */
     .nav-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
       gap: 0.5rem;
     }
 
@@ -376,16 +377,6 @@
       cursor: pointer;
       font-weight: 700;
     }
-
-    .tag-pill {
-      display: inline-block;
-      background: var(--gold-bg);
-      color: #92400e;
-      border: 1px solid #fcd34d;
-      padding: 0.2rem 0.6rem;
-      border-radius: 8px;
-      font-weight: 700;
-    }
   </style>
 </head>
 <body>
@@ -402,11 +393,10 @@
       Los datos guardados estaban dañados. Se guardó una copia de respaldo en 'luz_a_cargo_backup' y se inició con datos limpios.
     </div>
 
-    <!-- NAVEGACIÓN PRINCIPAL -->
+    <!-- NAVEGACIÓN PRINCIPAL (2 botones) -->
     <nav class="nav-grid" aria-label="Navegación principal">
       <button class="nav-btn" id="nav-historial" onclick="navTo('historial')"><span>📊</span> Lo que has hecho</button>
       <button class="nav-btn" id="nav-ajustes" onclick="navTo('ajustes')"><span>⚙️</span> Cambiar mis datos</button>
-      <button class="nav-btn" id="nav-revision" onclick="iniciarRevision()"><span>🌙</span> Revisar la casa</button>
     </nav>
 
     <!-- PANTALLA 1: INICIO -->
@@ -500,21 +490,7 @@
         <p id="res-rango-mensual" style="display: none; font-weight: 700; color: var(--blue-gray);"></p>
         <p id="res-acumulado" style="font-weight: 700; color: var(--blue-gray);"></p>
 
-        <div id="res-nota-precio" style="display: none;">
-          <span class="tag-pill" id="res-etiqueta-precio"></span>
-        </div>
-
         <button id="btn-como-calculamos" class="link-btn" type="button" onclick="abrirModalCalculo()">¿Cómo lo calculamos?</button>
-      </div>
-
-      <div id="card-precio-primer-uso" class="card" style="display: none;">
-        <h2>Precio de tu luz</h2>
-        <p>Ahora estamos usando un precio de ejemplo (<span id="ejemplo-precio-txt">S/ 0,85</span> por unidad de luz). Escribe el tuyo para que el cálculo aproximado sea más real (lo ves en tu recibo):</p>
-        <div class="form-group">
-          <label for="input-precio-primer-uso">Precio por unidad de luz (kWh) en soles</label>
-          <input type="number" id="input-precio-primer-uso" step="0.01" min="0.01" placeholder="Ejemplo: 0.85" inputmode="decimal">
-        </div>
-        <button class="btn btn-primary" type="button" onclick="guardarPrecioPrimerUso()">Guardar precio y recalcular</button>
       </div>
 
       <button id="btn-continuar-resultado" class="btn btn-primary" type="button" onclick="navTo('inicio')">Quiero hacerlo cada noche</button>
@@ -553,11 +529,6 @@
 
       <div class="settings-item" onclick="navTo('ajustes-habitaciones')">
         <span>🏠 Habitaciones y preguntas propias</span>
-        <span>→</span>
-      </div>
-
-      <div class="settings-item" onclick="navTo('ajustes-precio')">
-        <span>💰 Precio de la luz</span>
         <span>→</span>
       </div>
 
@@ -627,21 +598,6 @@
         <div id="lista-habitaciones-ajustes" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
       </div>
 
-      <button class="btn btn-outline" type="button" onclick="navTo('ajustes')">⬅️ Volver a Ajustes</button>
-    </section>
-
-    <!-- SUBPANTALLA AJUSTES: PRECIO DE LA LUZ -->
-    <section id="screen-ajustes-precio" class="screen">
-      <h2>💰 Precio de la luz</h2>
-      <div class="card">
-        <p id="ajustes-precio-estado" class="muted-text"></p>
-        <div class="form-group">
-          <label for="input-precio-ajustes">Precio por unidad de luz (kWh) en soles</label>
-          <input type="number" id="input-precio-ajustes" step="0.01" min="0.01" placeholder="Ejemplo: 0.85" inputmode="decimal">
-          <small class="muted-text">Lo ves en tu recibo de luz.</small>
-        </div>
-        <button class="btn btn-primary" type="button" onclick="guardarPrecioAjustes()">Guardar precio</button>
-      </div>
       <button class="btn btn-outline" type="button" onclick="navTo('ajustes')">⬅️ Volver a Ajustes</button>
     </section>
   </div>
@@ -714,8 +670,6 @@
       preguntasPropias: [],
       siguienteIdPropio: 1,
       preguntasOcultas: [],
-      precioLuz: null,
-      precioYaPedido: false,
       noches: []
     };
 
@@ -747,9 +701,7 @@
     }
 
     function obtenerPrecioActivo() {
-      return (typeof state.precioLuz === "number" && state.precioLuz > 0)
-        ? state.precioLuz
-        : PRECIO_EJEMPLO_SOLES;
+      return PRECIO_EJEMPLO_SOLES;
     }
 
     function obtenerPersonaDeTurno() {
@@ -793,8 +745,6 @@
           preguntasPropias: Array.isArray(parsed.preguntasPropias) ? parsed.preguntasPropias : [],
           siguienteIdPropio: typeof parsed.siguienteIdPropio === "number" ? parsed.siguienteIdPropio : 1,
           preguntasOcultas: Array.isArray(parsed.preguntasOcultas) ? parsed.preguntasOcultas : [],
-          precioLuz: typeof parsed.precioLuz === "number" && parsed.precioLuz > 0 ? parsed.precioLuz : null,
-          precioYaPedido: Boolean(parsed.precioYaPedido),
           noches: Array.isArray(parsed.noches) ? parsed.noches : []
         };
       } catch (err) {
@@ -947,7 +897,6 @@
       if (screenId === "ajustes") renderAjustes();
       if (screenId === "ajustes-personas") renderPersonas();
       if (screenId === "ajustes-habitaciones") renderHabitaciones();
-      if (screenId === "ajustes-precio") renderPrecioAjustes();
     }
 
     function renderInicio() {
@@ -1174,7 +1123,6 @@
 
     function mostrarPantallaResultado(esPrimerUso, hallazgosDeEstaVez) {
       const precio = obtenerPrecioActivo();
-      const usaEjemplo = !(typeof state.precioLuz === "number" && state.precioLuz > 0);
       const n = hallazgosDeEstaVez.length;
 
       let mesMin = 0;
@@ -1204,49 +1152,16 @@
       document.getElementById("res-acumulado").textContent =
         `Dinero que ya no se va: aprox. ${formatearSoles(acum.promedio)}`;
 
-      const notaPrecio = document.getElementById("res-nota-precio");
-      if (usaEjemplo) {
-        notaPrecio.style.display = "block";
-        document.getElementById("res-etiqueta-precio").textContent =
-          `Precio de ejemplo usado: ${formatearSoles(PRECIO_EJEMPLO_SOLES)} por unidad de luz (editable)`;
-      } else {
-        notaPrecio.style.display = "none";
-      }
-
-      const cardPrimerUso = document.getElementById("card-precio-primer-uso");
-      if (esPrimerUso && !state.precioYaPedido) {
-        cardPrimerUso.style.display = "flex";
-        document.getElementById("ejemplo-precio-txt").textContent = formatearSoles(PRECIO_EJEMPLO_SOLES);
-        document.getElementById("input-precio-primer-uso").value = "";
-        state.precioYaPedido = true;
-        guardarEstado();
-      } else {
-        cardPrimerUso.style.display = "none";
-      }
-
       const btnCont = document.getElementById("btn-continuar-resultado");
       btnCont.textContent = esPrimerUso ? "Quiero hacerlo cada noche" : "Volver al inicio";
 
       navTo("resultado");
     }
 
-    function guardarPrecioPrimerUso() {
-      const val = parseFloat(document.getElementById("input-precio-primer-uso").value);
-      if (isNaN(val) || val <= 0) {
-        abrirModalSimple("Revisa el precio", "Escribe un número mayor que cero, por ejemplo 0.85.");
-        return;
-      }
-      state.precioLuz = val;
-      guardarEstado();
-      document.getElementById("card-precio-primer-uso").style.display = "none";
-      mostrarPantallaResultado(true, hallazgosSesion);
-    }
-
     function abrirModalCalculo() {
       const precio = obtenerPrecioActivo();
-      const usaEjemplo = !(typeof state.precioLuz === "number" && state.precioLuz > 0);
       let html = `<p>Fórmula usada: <strong>vatios × horas × 30 días ÷ 1000 × precio de la luz</strong> (cálculo aproximado).</p>`;
-      html += `<p>Precio usado: <strong>${formatearSoles(precio)}</strong> por unidad de luz ${usaEjemplo ? "(precio de ejemplo)" : "(tu precio)"}.</p>`;
+      html += `<p>Precio estándar usado: <strong>${formatearSoles(precio)}</strong> por unidad de luz.</p>`;
 
       hallazgosSesion.forEach(h => {
         const c = calcularRangoHallazgo(h, precio);
@@ -1265,8 +1180,7 @@
 
     function abrirModalCalculoHistorial() {
       const precio = obtenerPrecioActivo();
-      const usaEjemplo = !(typeof state.precioLuz === "number" && state.precioLuz > 0);
-      let html = `<p>Cada aparato apagado evita un gasto aproximado según su potencia en vatios, el tiempo elegido y tu precio de luz (${formatearSoles(precio)} ${usaEjemplo ? "de ejemplo" : ""}).</p>`;
+      let html = `<p>Cada aparato apagado evita un gasto aproximado según su potencia en vatios, el tiempo elegido y el precio estándar de luz (${formatearSoles(precio)}).</p>`;
       html += `<p>Todas las potencias de la tabla son valores referenciales y se muestran siempre como un rango aproximado.</p>`;
       abrirModalSimple("¿Cómo lo calculamos?", html, true);
     }
@@ -1479,30 +1393,6 @@
       renderHabitaciones();
     }
 
-    function renderPrecioAjustes() {
-      const tienePrecio = typeof state.precioLuz === "number" && state.precioLuz > 0;
-      const elEstado = document.getElementById("ajustes-precio-estado");
-      if (tienePrecio) {
-        elEstado.textContent = `Precio actual guardado: ${formatearSoles(state.precioLuz)} por unidad de luz (kWh).`;
-        document.getElementById("input-precio-ajustes").value = state.precioLuz;
-      } else {
-        elEstado.textContent = `Actualmente usas el precio de ejemplo: ${formatearSoles(PRECIO_EJEMPLO_SOLES)} por unidad de luz (kWh).`;
-        document.getElementById("input-precio-ajustes").value = "";
-      }
-    }
-
-    function guardarPrecioAjustes() {
-      const val = parseFloat(document.getElementById("input-precio-ajustes").value);
-      if (isNaN(val) || val <= 0) {
-        abrirModalSimple("Revisa el precio", "Escribe un número mayor que cero, por ejemplo 0.85.");
-        return;
-      }
-      state.precioLuz = val;
-      guardarEstado();
-      renderPrecioAjustes();
-      abrirModalSimple("Precio guardado", "Se actualizó el precio de la luz y se recalcularon todos tus ahorros aproximados.");
-    }
-
     function escaparCSV(valor) {
       const s = String(valor == null ? "" : valor);
       return '"' + s.replace(/"/g, '""') + '"';
@@ -1510,7 +1400,6 @@
 
     function exportarCSV() {
       const precio = obtenerPrecioActivo();
-      const usaEjemplo = !(typeof state.precioLuz === "number" && state.precioLuz > 0);
       const filas = [];
 
       filas.push([
@@ -1522,8 +1411,7 @@
         "Tipo",
         "Tiempo_elegido",
         "Gasto_mensual_aprox_soles",
-        "Ahorro_noche_aprox_soles",
-        "Precio_luz_usado_soles"
+        "Ahorro_noche_aprox_soles"
       ].map(escaparCSV).join(";"));
 
       state.noches.forEach(noche => {
@@ -1537,8 +1425,7 @@
             "",
             "",
             "0.00",
-            "0.00",
-            `${precio.toFixed(2)}${usaEjemplo ? " (ejemplo)" : ""}`
+            "0.00"
           ].map(escaparCSV).join(";"));
         } else {
           noche.hallazgos.forEach(h => {
@@ -1552,8 +1439,7 @@
               c.nombre,
               c.etiquetaTiempo,
               `${c.solesMesMin.toFixed(2)} a ${c.solesMesMax.toFixed(2)}`,
-              `${c.solesNocheMin.toFixed(2)} a ${c.solesNocheMax.toFixed(2)}`,
-              `${precio.toFixed(2)}${usaEjemplo ? " (ejemplo)" : ""}`
+              `${c.solesNocheMin.toFixed(2)} a ${c.solesNocheMax.toFixed(2)}`
             ].map(escaparCSV).join(";"));
           });
         }
