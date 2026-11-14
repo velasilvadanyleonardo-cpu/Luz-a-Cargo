@@ -185,7 +185,6 @@
       border-color: #fca5a5;
     }
 
-    /* NAVEGACIÓN PRINCIPAL */
     .nav-grid {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
@@ -466,9 +465,9 @@
         <p id="rev-texto-pregunta" style="font-size: 1.2rem; font-weight: 700;"></p>
 
         <div style="display: flex; flex-direction: column; gap: 0.65rem;">
-          <button id="btn-si-apague" class="btn btn-primary" onclick="responderSi()">Sí, lo apagué</button>
-          <button class="btn btn-secondary" onclick="responderBien()">No, estaba todo bien</button>
-          <button class="btn btn-outline" onclick="responderNoTengo()">No tengo esto en casa</button>
+          <button id="btn-si-apague" class="btn btn-primary" type="button" onclick="responderSi()">Sí, lo apagué</button>
+          <button class="btn btn-secondary" type="button" onclick="responderBien()">No, estaba todo bien</button>
+          <button class="btn btn-outline" type="button" onclick="responderNoTengo()">No tengo esto en casa</button>
         </div>
       </div>
 
@@ -488,8 +487,8 @@
       </div>
 
       <div class="row-between">
-        <button id="btn-volver-atras" class="btn btn-outline" style="display: none;" onclick="volverPreguntaAnterior()">Volver a la pregunta anterior</button>
-        <button class="btn btn-danger-outline" onclick="pedirSalirRevision()">Salir</button>
+        <button id="btn-volver-atras" class="btn btn-outline" style="display: none;" type="button" onclick="volverPreguntaAnterior()">Volver a la pregunta anterior</button>
+        <button class="btn btn-danger-outline" type="button" onclick="pedirSalirRevision()">Salir</button>
       </div>
     </section>
 
@@ -505,7 +504,7 @@
           <span class="tag-pill" id="res-etiqueta-precio"></span>
         </div>
 
-        <button id="btn-como-calculamos" class="link-btn" style="display: none;" onclick="abrirModalCalculo()">¿Cómo lo calculamos?</button>
+        <button id="btn-como-calculamos" class="link-btn" type="button" onclick="abrirModalCalculo()">¿Cómo lo calculamos?</button>
       </div>
 
       <div id="card-precio-primer-uso" class="card" style="display: none;">
@@ -515,10 +514,10 @@
           <label for="input-precio-primer-uso">Precio por unidad de luz (kWh) en soles</label>
           <input type="number" id="input-precio-primer-uso" step="0.01" min="0.01" placeholder="Ejemplo: 0.85" inputmode="decimal">
         </div>
-        <button class="btn btn-primary" onclick="guardarPrecioPrimerUso()">Guardar precio y recalcular</button>
+        <button class="btn btn-primary" type="button" onclick="guardarPrecioPrimerUso()">Guardar precio y recalcular</button>
       </div>
 
-      <button id="btn-continuar-resultado" class="btn btn-primary" onclick="navTo('inicio')">Quiero hacerlo cada noche</button>
+      <button id="btn-continuar-resultado" class="btn btn-primary" type="button" onclick="navTo('inicio')">Quiero hacerlo cada noche</button>
     </section>
 
     <!-- PANTALLA 2: LO QUE HAS HECHO (HISTORIAL) -->
@@ -527,7 +526,7 @@
 
       <div class="card">
         <p id="hist-resumen-ahorro" style="font-weight: 700; color: var(--blue-gray);">Dinero que ya no se va: aprox. S/ 0,00</p>
-        <button class="link-btn" onclick="abrirModalCalculoHistorial()">¿Cómo lo calculamos?</button>
+        <button class="link-btn" type="button" onclick="abrirModalCalculoHistorial()">¿Cómo lo calculamos?</button>
       </div>
 
       <div class="card">
@@ -537,10 +536,10 @@
         </div>
       </div>
 
-      <button class="btn btn-secondary" onclick="exportarCSV()">📥 Descargar mis datos en archivo (CSV)</button>
-      <button id="btn-borrar-todo" class="btn btn-danger-outline" onclick="confirmarBorrarTodo()">🗑️ Borrar todo</button>
+      <button class="btn btn-secondary" type="button" onclick="exportarCSV()">📥 Descargar mis datos en archivo (CSV)</button>
+      <button id="btn-borrar-todo" class="btn btn-danger-outline" type="button" onclick="confirmarBorrarTodo()">🗑️ Borrar todo</button>
       
-      <button class="btn btn-outline" onclick="navTo('inicio')">⬅️ Volver al inicio</button>
+      <button class="btn btn-outline" type="button" onclick="navTo('inicio')">⬅️ Volver al inicio</button>
     </section>
 
     <!-- PANTALLA 4: CAMBIAR MIS DATOS (AJUSTES) -->
@@ -564,10 +563,10 @@
 
       <div id="ajustes-ocultas-card" class="card" style="display: none;">
         <p>Has ocultado algunas cosas porque dijiste “No tengo esto en casa”.</p>
-        <button class="btn btn-secondary" onclick="volverAMostrarTodas()">Volver a mostrar todas</button>
+        <button class="btn btn-secondary" type="button" onclick="volverAMostrarTodas()">Volver a mostrar todas</button>
       </div>
 
-      <button class="btn btn-outline" onclick="navTo('inicio')">⬅️ Volver al inicio</button>
+      <button class="btn btn-outline" type="button" onclick="navTo('inicio')">⬅️ Volver al inicio</button>
     </section>
 
     <!-- SUBPANTALLA AJUSTES: PERSONAS -->
@@ -579,10 +578,10 @@
           <label for="input-persona">Nombre de la persona</label>
           <input type="text" id="input-persona" placeholder="Escribe un nombre">
         </div>
-        <button class="btn btn-secondary" onclick="agregarPersona()">Agregar persona</button>
+        <button class="btn btn-secondary" type="button" onclick="agregarPersona()">Agregar persona</button>
         <div id="lista-personas" style="display: flex; flex-direction: column; gap: 0.5rem;"></div>
       </div>
-      <button class="btn btn-outline" onclick="navTo('ajustes')">⬅️ Volver a Ajustes</button>
+      <button class="btn btn-outline" type="button" onclick="navTo('ajustes')">⬅️ Volver a Ajustes</button>
     </section>
 
     <!-- SUBPANTALLA AJUSTES: HABITACIONES Y PREGUNTAS PROPIAS -->
@@ -593,7 +592,7 @@
           <label for="input-habitacion">Agregar una habitación</label>
           <input type="text" id="input-habitacion" placeholder="Ejemplo: Lavandería">
         </div>
-        <button class="btn btn-secondary" onclick="agregarHabitacion()">Agregar habitación</button>
+        <button class="btn btn-secondary" type="button" onclick="agregarHabitacion()">Agregar habitación</button>
       </div>
 
       <div class="card">
@@ -620,7 +619,7 @@
             <option value="otro_aparato">Otro aparato eléctrico</option>
           </select>
         </div>
-        <button class="btn btn-secondary" onclick="agregarPreguntaPropia()">Guardar pregunta propia</button>
+        <button class="btn btn-secondary" type="button" onclick="agregarPreguntaPropia()">Guardar pregunta propia</button>
       </div>
 
       <div class="card">
@@ -628,7 +627,7 @@
         <div id="lista-habitaciones-ajustes" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
       </div>
 
-      <button class="btn btn-outline" onclick="navTo('ajustes')">⬅️ Volver a Ajustes</button>
+      <button class="btn btn-outline" type="button" onclick="navTo('ajustes')">⬅️ Volver a Ajustes</button>
     </section>
 
     <!-- SUBPANTALLA AJUSTES: PRECIO DE LA LUZ -->
@@ -641,9 +640,9 @@
           <input type="number" id="input-precio-ajustes" step="0.01" min="0.01" placeholder="Ejemplo: 0.85" inputmode="decimal">
           <small class="muted-text">Lo ves en tu recibo de luz.</small>
         </div>
-        <button class="btn btn-primary" onclick="guardarPrecioAjustes()">Guardar precio</button>
+        <button class="btn btn-primary" type="button" onclick="guardarPrecioAjustes()">Guardar precio</button>
       </div>
-      <button class="btn btn-outline" onclick="navTo('ajustes')">⬅️ Volver a Ajustes</button>
+      <button class="btn btn-outline" type="button" onclick="navTo('ajustes')">⬅️ Volver a Ajustes</button>
     </section>
   </div>
 
@@ -1075,7 +1074,7 @@
       };
       historialPasos.push({
         indice: indicePreguntaActual,
-        accion: "si",
+        accion: "si_tiempo",
         preguntaId: q.id,
         hallazgoAgregado: hallazgo
       });
@@ -1116,7 +1115,7 @@
       }
 
       const ultimoPaso = historialPasos.pop();
-      if (ultimoPaso.accion === "si" && ultimoPaso.hallazgoAgregado) {
+      if ((ultimoPaso.accion === "si" || ultimoPaso.accion === "si_tiempo") && ultimoPaso.hallazgoAgregado) {
         hallazgosSesion.pop();
       } else if (ultimoPaso.accion === "no_tengo") {
         const idxOculta = state.preguntasOcultas.indexOf(ultimoPaso.preguntaId);
@@ -1127,6 +1126,15 @@
       }
       indicePreguntaActual = ultimoPaso.indice;
       mostrarPreguntaActual();
+    }
+
+    function avanzarSiguientePregunta() {
+      indicePreguntaActual++;
+      if (indicePreguntaActual < listaRevisionActual.length) {
+        mostrarPreguntaActual();
+      } else {
+        finalizarRevision();
+      }
     }
 
     function pedirSalirRevision() {
@@ -1298,7 +1306,7 @@
           <div class="list-item">
             <div class="row-between">
               <strong>📅 Fecha: ${escapeHTML(noche.fecha)}</strong>
-              <button class="btn btn-danger-outline" style="width: auto; min-height: 40px; padding: 0.3rem 0.6rem;" onclick="confirmarBorrarNoche('${escapeHTML(noche.id)}')">Borrar</button>
+              <button class="btn btn-danger-outline" type="button" style="width: auto; min-height: 40px; padding: 0.3rem 0.6rem;" onclick="confirmarBorrarNoche('${escapeHTML(noche.id)}')">Borrar</button>
             </div>
             <span>Apagaste ${noche.apagados} ${noche.apagados === 1 ? "cosa" : "cosas"}${turnoTxt}</span>
             <span style="color: var(--blue-gray); font-weight: 700;">${ahorroTxt}</span>
@@ -1360,7 +1368,7 @@
         <div class="list-item">
           <div class="row-between">
             <span>👤 ${escapeHTML(p)}</span>
-            <button class="btn btn-danger-outline" style="width: auto; min-height: 40px; padding: 0.3rem 0.6rem;" onclick="quitarPersona(${idx})">Quitar</button>
+            <button class="btn btn-danger-outline" type="button" style="width: auto; min-height: 40px; padding: 0.3rem 0.6rem;" onclick="quitarPersona(${idx})">Quitar</button>
           </div>
         </div>
       `).join("");
@@ -1398,7 +1406,7 @@
         const htmlPropias = propiasDeHab.map(pp => `
           <div class="row-between" style="padding-left: 0.5rem;">
             <span>• ${escapeHTML(pp.texto)}</span>
-            <button class="btn btn-danger-outline" style="width: auto; min-height: 38px; padding: 0.25rem 0.5rem;" onclick="borrarPreguntaPropia('${escapeHTML(pp.id)}')">Borrar</button>
+            <button class="btn btn-danger-outline" type="button" style="width: auto; min-height: 38px; padding: 0.25rem 0.5rem;" onclick="borrarPreguntaPropia('${escapeHTML(pp.id)}')">Borrar</button>
           </div>
         `).join("");
 
@@ -1407,7 +1415,7 @@
             <div class="row-between">
               <strong>🏠 ${escapeHTML(hab)}</strong>
               ${state.habitaciones.length > 1
-                ? `<button class="btn btn-danger-outline" style="width: auto; min-height: 38px; padding: 0.25rem 0.5rem;" onclick="quitarHabitacion(${idx})">Quitar</button>`
+                ? `<button class="btn btn-danger-outline" type="button" style="width: auto; min-height: 38px; padding: 0.25rem 0.5rem;" onclick="quitarHabitacion(${idx})">Quitar</button>`
                 : ""}
             </div>
             ${htmlPropias}
@@ -1580,7 +1588,7 @@
         cuerpo.innerHTML = `<p>${escapeHTML(contenido)}</p>`;
       }
       const botones = document.getElementById("modal-botones");
-      botones.innerHTML = `<button class="btn btn-primary" onclick="cerrarModal()">Entendido</button>`;
+      botones.innerHTML = `<button class="btn btn-primary" type="button" onclick="cerrarModal()">Entendido</button>`;
       document.getElementById("modal-backdrop").classList.add("open");
     }
 
@@ -1592,6 +1600,7 @@
 
       const btnSi = document.createElement("button");
       btnSi.className = "btn btn-danger";
+      btnSi.type = "button";
       btnSi.textContent = textoSi;
       btnSi.onclick = () => {
         cerrarModal();
@@ -1600,6 +1609,7 @@
 
       const btnNo = document.createElement("button");
       btnNo.className = "btn btn-outline";
+      btnNo.type = "button";
       btnNo.textContent = textoNo;
       btnNo.onclick = cerrarModal;
 
