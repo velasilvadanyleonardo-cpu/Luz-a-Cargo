@@ -487,7 +487,6 @@
       <div class="card">
         <h1 id="res-titulo">Resultado de hoy</h1>
         <p id="res-mensaje-principal" style="font-weight: 700;"></p>
-        <p id="res-rango-mensual" style="display: none; font-weight: 700; color: var(--blue-gray);"></p>
         <p id="res-acumulado" style="font-weight: 700; color: var(--blue-gray);"></p>
 
         <button id="btn-como-calculamos" class="link-btn" type="button" onclick="abrirModalCalculo()">¿Cómo lo calculamos?</button>
@@ -1125,27 +1124,12 @@
       const precio = obtenerPrecioActivo();
       const n = hallazgosDeEstaVez.length;
 
-      let mesMin = 0;
-      let mesMax = 0;
-      hallazgosDeEstaVez.forEach(h => {
-        const c = calcularRangoHallazgo(h, precio);
-        mesMin += c.solesMesMin;
-        mesMax += c.solesMesMax;
-      });
-
       const elMsg = document.getElementById("res-mensaje-principal");
-      const elRango = document.getElementById("res-rango-mensual");
-      const elCalcBtn = document.getElementById("btn-como-calculamos");
 
       if (n === 0) {
         elMsg.textContent = "¡Tu casa estaba en orden! Así se ahorra.";
-        elRango.style.display = "none";
-        elCalcBtn.style.display = "none";
       } else {
         elMsg.textContent = `Hoy encontraste ${n} ${n === 1 ? "cosa que gasta" : "cosas que gastan"} luz sin necesidad.`;
-        elRango.textContent = `Podrías estar pagando entre ${formatearSoles(mesMin)} y ${formatearSoles(mesMax)} al mes por esto (cálculo aproximado).`;
-        elRango.style.display = "block";
-        elCalcBtn.style.display = "inline-block";
       }
 
       const acum = calcularAhorroAcumuladoTotal();
