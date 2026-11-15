@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Luz a Cargo</title>
   <style>
-
     :root {
       --bg: #f5f7fb;
       --card: #ffffff;
@@ -27,11 +26,13 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
+    
     body {
       min-height: 100vh;
       display: flex;
       justify-content: center;
-      padding: 28px 18px 48px;
+      align-items: flex-start;
+      padding: 28px 16px 48px;
       background:
         radial-gradient(circle at 12% 2%, rgba(244,185,66,.13), transparent 24rem),
         linear-gradient(180deg, #f8fafc 0%, var(--bg) 100%);
@@ -43,28 +44,44 @@
 
     #app {
       width: 100%;
-      max-width: 760px;
+      max-width: 600px;
+      margin: 0 auto;
       display: flex;
       flex-direction: column;
       gap: 22px;
     }
 
-    .screen { display: none; flex-direction: column; gap: 18px; animation: screenIn .28s ease both; }
+    .screen { 
+      display: none; 
+      flex-direction: column; 
+      gap: 18px; 
+      animation: screenIn .28s ease both; 
+      width: 100%;
+    }
+    
     .screen.active { display: flex; }
-    @keyframes screenIn { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+    
+    @keyframes screenIn { 
+      from { opacity: 0; transform: translateY(7px); } 
+      to { opacity: 1; transform: translateY(0); } 
+    }
 
     header {
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
-      gap: 5px;
-      padding: 4px 2px 0;
-      text-align: left;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 0 0;
+      text-align: center;
       cursor: pointer;
+      width: 100%;
     }
+    
     header h1 {
       display: flex;
       align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
       gap: 11px;
       color: var(--navy);
       font-size: clamp(1.55rem, 4vw, 1.9rem);
@@ -72,6 +89,7 @@
       letter-spacing: -.055em;
       line-height: 1.15;
     }
+    
     header h1 span {
       width: 43px;
       height: 43px;
@@ -84,7 +102,13 @@
       font-size: 1.35rem;
       box-shadow: 0 6px 14px rgba(244,185,66,.28);
     }
-    header p { padding-left: 54px; color: var(--muted); font-size: .9rem; font-style: normal; }
+    
+    header p { 
+      padding-left: 0; 
+      color: var(--muted); 
+      font-size: .9rem; 
+      text-align: center;
+    }
 
     h2 { color: var(--navy); font-size: 1.18rem; font-weight: 800; letter-spacing: -.025em; }
     h1, h2, h3 { line-height: 1.25; }
@@ -102,6 +126,7 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       box-shadow: var(--shadow-soft);
+      width: 100%;
     }
 
     .alert-banner {
@@ -112,7 +137,9 @@
       background: var(--danger-bg);
       color: var(--danger);
       font-weight: 700;
+      width: 100%;
     }
+    
     .safety-box {
       padding: 15px 17px;
       border: 1px solid #f5d889;
@@ -120,6 +147,7 @@
       background: var(--gold-soft);
       color: #805600;
       font-weight: 650;
+      width: 100%;
     }
 
     .btn {
@@ -155,22 +183,23 @@
     .btn-danger-outline { background: #fff; color: var(--danger); border-color: #f2c4c8; }
     .btn-danger-outline:hover { background: var(--danger-bg); }
 
-    .nav-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
+    .nav-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; width: 100%; }
     .nav-btn {
-      min-height: 62px;
+      min-height: 60px;
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: center;
       gap: 9px;
-      padding: 12px;
+      padding: 10px;
       border: 1px solid var(--border);
       border-radius: 15px;
       background: rgba(255,255,255,.85);
       color: var(--navy);
-      font-size: .9rem;
+      font-size: .88rem;
       font-weight: 750;
       cursor: pointer;
+      text-align: center;
       transition: .18s ease;
     }
     .nav-btn span { font-size: 1.15rem; }
@@ -189,6 +218,7 @@
       background: linear-gradient(125deg, #142b4a 0%, #24496e 100%);
       color: #fff;
       box-shadow: 0 16px 32px rgba(20,43,74,.17);
+      width: 100%;
     }
     .hero-box::after {
       content: "⚡";
@@ -203,13 +233,14 @@
     }
     .hero-box h1 { max-width: 490px; color: #fff; font-size: clamp(1.45rem, 4vw, 1.9rem); font-weight: 850; letter-spacing: -.04em; }
     .hero-box p { max-width: 450px; color: #dbe6f2; font-size: 1rem; }
+    
     #screen-inicio > .btn-primary { min-height: 58px; font-size: 1rem; border-radius: 16px; }
-    #screen-inicio > .card { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 12px 18px; }
-    #inicio-noches { grid-column: 1 / -1; color: var(--navy); font-size: 1.05rem; }
-    #inicio-turno { grid-column: 1 / -1; padding: 10px 12px; border-radius: 12px; background: var(--navy-soft); color: var(--navy); }
+    #screen-inicio > .card { display: flex; flex-direction: column; gap: 12px; }
+    #inicio-noches { color: var(--navy); font-size: 1.05rem; }
+    #inicio-turno { padding: 10px 12px; border-radius: 12px; background: var(--navy-soft); color: var(--navy); }
     #inicio-ahorro { padding-top: 12px; border-top: 1px solid var(--border); color: #805600 !important; }
 
-    .form-group { display: flex; flex-direction: column; gap: 7px; }
+    .form-group { display: flex; flex-direction: column; gap: 7px; width: 100%; }
     label { color: var(--navy); font-weight: 750; }
     input[type="text"], input[type="number"], input[type="date"], select {
       width: 100%;
@@ -226,7 +257,8 @@
 
     .progress-wrap { width: 100%; height: 10px; overflow: hidden; border-radius: 99px; background: #e8edf3; }
     .progress-fill { height: 100%; width: 0%; border-radius: inherit; background: linear-gradient(90deg, #e5a927, #f6c85f); transition: width .25s ease; }
-    #screen-revision > div:first-child { padding: 14px 16px; border: 1px solid var(--border); border-radius: 15px; background: #fff; }
+    
+    #screen-revision > div:first-child { padding: 14px 16px; border: 1px solid var(--border); border-radius: 15px; background: #fff; width: 100%; }
     .q-header { display: flex; align-items: center; gap: 13px; }
     .icon-box {
       width: 54px; height: 54px; flex: 0 0 54px;
@@ -234,16 +266,19 @@
       border-radius: 16px; background: var(--gold-soft); color: var(--gold-dark);
     }
     .icon-box svg { width: 27px; height: 27px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    
     #rev-texto-pregunta { color: var(--navy); font-size: 1.15rem !important; line-height: 1.45; }
-    #paso-pregunta, #paso-tiempo { padding: clamp(19px, 4vw, 27px); gap: 18px; }
+    #paso-pregunta, #paso-tiempo { padding: clamp(19px, 4vw, 27px); gap: 18px; width: 100%; }
     #paso-pregunta .btn, #paso-tiempo .btn { min-height: 54px; justify-content: flex-start; padding-left: 17px; text-align: left; }
     #paso-pregunta .btn-primary { justify-content: center; }
+    
     .list-item {
       display: flex; flex-direction: column; gap: 8px;
       padding: 15px 16px; border: 1px solid var(--border);
-      border-radius: 15px; background: #fff;
+      border-radius: 15px; background: #fff; width: 100%;
     }
-    .row-between { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .row-between { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; }
+    
     .link-btn {
       position: relative; z-index: 2; width: fit-content; padding: 3px 0;
       border: 0; background: none; color: #9a6500; font-weight: 750;
@@ -255,7 +290,7 @@
       display: flex; align-items: center; justify-content: space-between; gap: 12px;
       padding: 18px 19px; border: 1px solid var(--border); border-radius: 16px;
       background: #fff; color: var(--navy); font-weight: 750; cursor: pointer;
-      box-shadow: var(--shadow-soft); transition: .18s ease;
+      box-shadow: var(--shadow-soft); transition: .18s ease; width: 100%;
     }
     .settings-item:hover { transform: translateY(-2px); border-color: #e8c66f; background: #fffdf7; }
     .settings-item span:last-child { color: #a16c09; font-size: 1.25rem; }
@@ -274,7 +309,7 @@
       border-radius: 22px; background: #fff; box-shadow: 0 24px 70px rgba(0,0,0,.22);
     }
     #modal-titulo { font-size: 1.3rem; }
-    #modal-botones { display: flex; flex-direction: column; gap: 9px; }
+    #modal-botones { display: flex; flex-direction: column; gap: 9px; width: 100%; }
 
     #screen-resultado .card { padding: clamp(22px, 5vw, 32px); }
     #res-titulo { color: var(--navy); font-size: 1.55rem; }
@@ -283,29 +318,18 @@
     #hist-resumen-ahorro { color: #805600 !important; font-size: 1.05rem; }
     #screen-historial > h2, #screen-ajustes > h2, #screen-ajustes-personas > h2, #screen-ajustes-habitaciones > h2, #screen-info > h2 { font-size: 1.4rem; }
 
-    @media (min-width: 700px) {
-      #app { gap: 24px; }
-      header { padding: 8px 4px 2px; }
-      .nav-grid { gap: 13px; }
-      .screen { gap: 20px; }
-      #screen-inicio > .card { padding: 22px 25px; }
+    @media (max-width: 480px) {
+      body { padding: 12px 10px 24px; }
+      #app { gap: 14px; }
+      .card { padding: 15px; border-radius: 16px; }
+      .nav-btn { min-height: 52px; font-size: .8rem; gap: 6px; padding: 8px; }
+      .row-between { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .row-between .btn { width: 100%; }
     }
-    @media (max-width: 520px) {
-      body { padding: 17px 13px 32px; }
-      #app { gap: 17px; }
-      .card { padding: 17px; border-radius: 16px; }
-      .nav-btn { min-height: 58px; flex-direction: column; gap: 2px; font-size: .78rem; }
-      .hero-box { border-radius: 20px; }
-      #screen-inicio > .card { grid-template-columns: 1fr; }
-      #inicio-noches, #inicio-turno { grid-column: auto; }
-      #inicio-ahorro { padding-top: 10px; }
-      .row-between { align-items: flex-start; }
-      .modal-box { padding: 20px; }
-    }
+    
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
     }
-
   </style>
 </head>
 <body>
