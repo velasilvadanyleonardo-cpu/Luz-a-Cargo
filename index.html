@@ -5,378 +5,307 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Luz a Cargo</title>
   <style>
+
     :root {
-      --bg: #f1f5f9;
+      --bg: #f5f7fb;
       --card: #ffffff;
-      --blue-gray: #334155;
-      --blue-gray-hover: #1e293b;
-      --pale-blue: #e0f2fe;
-      --gold: #f59e0b;
-      --gold-bg: #fef3c7;
-      --danger: #b91c1c;
-      --danger-bg: #fef2f2;
-      --text: #1e293b;
-      --muted: #64748b;
-      --border: #cbd5e1;
-      --radius: 10px;
+      --navy: #142b4a;
+      --navy-2: #1d3b60;
+      --navy-soft: #eaf0f7;
+      --gold: #f4b942;
+      --gold-dark: #9a6500;
+      --gold-soft: #fff5d9;
+      --danger: #b42332;
+      --danger-bg: #fff0f0;
+      --text: #1d2939;
+      --muted: #66758a;
+      --border: #e2e8f0;
+      --radius: 18px;
+      --shadow: 0 12px 32px rgba(20, 43, 74, .07);
+      --shadow-soft: 0 5px 16px rgba(20, 43, 74, .05);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
-      background-color: var(--bg);
-      color: var(--text);
-      font-size: 16px;
-      line-height: 1.5;
+      min-height: 100vh;
       display: flex;
       justify-content: center;
-      min-height: 100vh;
+      padding: 28px 18px 48px;
+      background:
+        radial-gradient(circle at 12% 2%, rgba(244,185,66,.13), transparent 24rem),
+        linear-gradient(180deg, #f8fafc 0%, var(--bg) 100%);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
     }
 
     #app {
       width: 100%;
-      max-width: 500px;
-      padding: 1rem 1rem 3rem 1rem;
+      max-width: 760px;
       display: flex;
       flex-direction: column;
-      gap: 1.1rem;
+      gap: 22px;
     }
 
-    .screen {
-      display: none;
-      flex-direction: column;
-      gap: 1.1rem;
-    }
-
-    .screen.active {
-      display: flex;
-    }
+    .screen { display: none; flex-direction: column; gap: 18px; animation: screenIn .28s ease both; }
+    .screen.active { display: flex; }
+    @keyframes screenIn { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
 
     header {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 0.2rem;
-      padding: 0.5rem 0;
-      text-align: center;
-    }
-
-    header h1 {
-      font-size: 1.65rem;
-      font-weight: 800;
-      color: var(--blue-gray);
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    header p {
-      font-size: 0.95rem;
-      color: var(--muted);
-      font-style: italic;
-    }
-
-    h2 {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--blue-gray);
-    }
-
-    p, span, li, label, small, input, select, button, td, th {
-      font-size: 16px;
-    }
-
-    .muted-text {
-      color: var(--muted);
-    }
-
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.9rem;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-      position: relative;
-      z-index: 1;
-    }
-
-    .alert-banner {
-      background: var(--danger-bg);
-      color: var(--danger);
-      border: 1px solid #fca5a5;
-      border-radius: var(--radius);
-      padding: 0.9rem 1rem;
-      font-weight: 700;
-      display: none;
-    }
-
-    .safety-box {
-      background: var(--gold-bg);
-      color: #92400e;
-      border: 1px solid #fcd34d;
-      border-radius: var(--radius);
-      padding: 0.9rem 1rem;
-      font-weight: 600;
-    }
-
-    .btn {
-      min-height: 48px;
-      padding: 0.65rem 1rem;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      font-weight: 700;
+      align-items: flex-start;
+      gap: 5px;
+      padding: 4px 2px 0;
+      text-align: left;
       cursor: pointer;
+    }
+    header h1 {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--navy);
+      font-size: clamp(1.55rem, 4vw, 1.9rem);
+      font-weight: 850;
+      letter-spacing: -.055em;
+      line-height: 1.15;
+    }
+    header h1 span {
+      width: 43px;
+      height: 43px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 0.5rem;
-      text-align: center;
-      width: 100%;
-      background: #ffffff;
-      color: var(--text);
-      transition: background 0.15s ease;
+      border-radius: 14px;
+      background: var(--gold);
+      color: var(--navy);
+      font-size: 1.35rem;
+      box-shadow: 0 6px 14px rgba(244,185,66,.28);
+    }
+    header p { padding-left: 54px; color: var(--muted); font-size: .9rem; font-style: normal; }
+
+    h2 { color: var(--navy); font-size: 1.18rem; font-weight: 800; letter-spacing: -.025em; }
+    h1, h2, h3 { line-height: 1.25; }
+    p, span, li, label, small, input, select, button, td, th { font-size: 15px; }
+    .muted-text { color: var(--muted); }
+
+    .card {
       position: relative;
-      z-index: 2;
-    }
-
-    .btn:active {
-      transform: scale(0.99);
-    }
-
-    .btn-primary {
-      background: var(--blue-gray);
-      color: #ffffff;
-      border-color: var(--blue-gray);
-    }
-
-    .btn-primary:hover {
-      background: var(--blue-gray-hover);
-    }
-
-    .btn-secondary {
-      background: var(--pale-blue);
-      color: var(--blue-gray);
-      border-color: #bae6fd;
-    }
-
-    .btn-outline {
-      background: #ffffff;
-      color: var(--text);
-      border-color: var(--border);
-    }
-
-    .btn-danger {
-      background: var(--danger);
-      color: #ffffff;
-      border-color: var(--danger);
-    }
-
-    .btn-danger-outline {
-      background: #ffffff;
-      color: var(--danger);
-      border-color: #fca5a5;
-    }
-
-    /* NAVEGACIÓN PRINCIPAL (2 botones) */
-    .nav-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.5rem;
-    }
-
-    .nav-btn {
-      min-height: 52px;
-      padding: 0.4rem;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      background: var(--card);
-      color: var(--text);
-      font-weight: 700;
-      cursor: pointer;
+      z-index: 1;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      font-size: 0.85rem;
-      gap: 0.15rem;
+      gap: 14px;
+      padding: 21px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-soft);
     }
 
-    .nav-btn.active-nav {
-      background: var(--pale-blue);
-      border-color: #7dd3fc;
-      color: var(--blue-gray);
+    .alert-banner {
+      display: none;
+      padding: 13px 16px;
+      border: 1px solid #fecaca;
+      border-radius: 14px;
+      background: var(--danger-bg);
+      color: var(--danger);
+      font-weight: 700;
     }
+    .safety-box {
+      padding: 15px 17px;
+      border: 1px solid #f5d889;
+      border-radius: 15px;
+      background: var(--gold-soft);
+      color: #805600;
+      font-weight: 650;
+    }
+
+    .btn {
+      width: 100%;
+      min-height: 49px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 12px 18px;
+      border: 1px solid transparent;
+      border-radius: 14px;
+      background: #fff;
+      color: var(--navy);
+      font-weight: 750;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(20,43,74,.04);
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(20,43,74,.10); }
+    .btn:active { transform: translateY(0) scale(.99); }
+    .btn:focus-visible, .nav-btn:focus-visible, .link-btn:focus-visible, .settings-item:focus-visible {
+      outline: 3px solid rgba(244,185,66,.65);
+      outline-offset: 3px;
+    }
+    .btn-primary { background: var(--navy); color: #fff; border-color: var(--navy); box-shadow: 0 7px 16px rgba(20,43,74,.16); }
+    .btn-primary:hover { background: var(--navy-2); }
+    .btn-secondary { background: var(--gold-soft); color: #795000; border-color: #f4d98d; }
+    .btn-outline { background: #fff; color: var(--navy); border-color: var(--border); }
+    .btn-outline:hover { background: #f8fafc; border-color: #b9c7d8; }
+    .btn-danger { background: var(--danger); color: #fff; border-color: var(--danger); }
+    .btn-danger-outline { background: #fff; color: var(--danger); border-color: #f2c4c8; }
+    .btn-danger-outline:hover { background: var(--danger-bg); }
+
+    .nav-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
+    .nav-btn {
+      min-height: 62px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: rgba(255,255,255,.85);
+      color: var(--navy);
+      font-size: .9rem;
+      font-weight: 750;
+      cursor: pointer;
+      transition: .18s ease;
+    }
+    .nav-btn span { font-size: 1.15rem; }
+    .nav-btn:hover { border-color: #b9c7d8; background: #fff; transform: translateY(-1px); }
+    .nav-btn.active-nav { border-color: #e8c66f; background: var(--gold-soft); color: #795000; }
 
     .hero-box {
-      background: var(--blue-gray);
-      color: #ffffff;
-      border-radius: var(--radius);
-      padding: 1.35rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .hero-box h1 {
-      color: #ffffff;
-      font-size: 1.35rem;
-    }
-
-    .hero-box p {
-      color: #e2e8f0;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-
-    label {
-      font-weight: 700;
-      color: var(--blue-gray);
-    }
-
-    input[type="text"],
-    input[type="number"],
-    input[type="date"],
-    select {
-      width: 100%;
-      min-height: 48px;
-      padding: 0.65rem 0.85rem;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: var(--card);
-      color: var(--text);
-    }
-
-    input:focus, select:focus {
-      outline: none;
-      border-color: var(--blue-gray);
-    }
-
-    .progress-wrap {
-      width: 100%;
-      height: 10px;
-      background: var(--border);
-      border-radius: 999px;
-      overflow: hidden;
-    }
-
-    .progress-fill {
-      height: 100%;
-      background: var(--blue-gray);
-      width: 0%;
-      transition: width 0.2s;
-    }
-
-    .q-header {
-      display: flex;
-      align-items: center;
-      gap: 0.85rem;
-    }
-
-    .icon-box {
-      width: 48px;
-      height: 48px;
-      border-radius: var(--radius);
-      background: var(--pale-blue);
-      color: var(--blue-gray);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .icon-box svg {
-      width: 26px;
-      height: 26px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .list-item {
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 0.9rem;
-      background: var(--card);
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .row-between {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .link-btn {
-      background: none;
-      border: none;
-      color: var(--blue-gray);
-      font-weight: 700;
-      text-decoration: underline;
-      cursor: pointer;
-      text-align: left;
-      padding: 0.25rem 0;
       position: relative;
-      z-index: 2;
-    }
-
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.5);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      z-index: 100;
-    }
-
-    .modal-backdrop.open {
-      display: flex;
-    }
-
-    .modal-box {
-      background: var(--card);
-      border-radius: var(--radius);
-      padding: 1.35rem;
-      width: 100%;
-      max-width: 440px;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
-      max-height: 85vh;
-      overflow-y: auto;
-      border: 1px solid var(--border);
+      gap: 12px;
+      padding: clamp(24px, 5vw, 34px);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 24px;
+      background: linear-gradient(125deg, #142b4a 0%, #24496e 100%);
+      color: #fff;
+      box-shadow: 0 16px 32px rgba(20,43,74,.17);
     }
+    .hero-box::after {
+      content: "⚡";
+      position: absolute;
+      right: 18px;
+      bottom: -38px;
+      color: rgba(255,255,255,.08);
+      font-size: 9rem;
+      line-height: 1;
+      transform: rotate(-12deg);
+      pointer-events: none;
+    }
+    .hero-box h1 { max-width: 490px; color: #fff; font-size: clamp(1.45rem, 4vw, 1.9rem); font-weight: 850; letter-spacing: -.04em; }
+    .hero-box p { max-width: 450px; color: #dbe6f2; font-size: 1rem; }
+    #screen-inicio > .btn-primary { min-height: 58px; font-size: 1rem; border-radius: 16px; }
+    #screen-inicio > .card { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 12px 18px; }
+    #inicio-noches { grid-column: 1 / -1; color: var(--navy); font-size: 1.05rem; }
+    #inicio-turno { grid-column: 1 / -1; padding: 10px 12px; border-radius: 12px; background: var(--navy-soft); color: var(--navy); }
+    #inicio-ahorro { padding-top: 12px; border-top: 1px solid var(--border); color: #805600 !important; }
+
+    .form-group { display: flex; flex-direction: column; gap: 7px; }
+    label { color: var(--navy); font-weight: 750; }
+    input[type="text"], input[type="number"], input[type="date"], select {
+      width: 100%;
+      min-height: 49px;
+      padding: 11px 14px;
+      border: 1px solid #d6dee8;
+      border-radius: 13px;
+      background: #fff;
+      color: var(--text);
+      font: inherit;
+      transition: border-color .18s ease, box-shadow .18s ease;
+    }
+    input:focus, select:focus { outline: none; border-color: #d6a52f; box-shadow: 0 0 0 4px rgba(244,185,66,.16); }
+
+    .progress-wrap { width: 100%; height: 10px; overflow: hidden; border-radius: 99px; background: #e8edf3; }
+    .progress-fill { height: 100%; width: 0%; border-radius: inherit; background: linear-gradient(90deg, #e5a927, #f6c85f); transition: width .25s ease; }
+    #screen-revision > div:first-child { padding: 14px 16px; border: 1px solid var(--border); border-radius: 15px; background: #fff; }
+    .q-header { display: flex; align-items: center; gap: 13px; }
+    .icon-box {
+      width: 54px; height: 54px; flex: 0 0 54px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 16px; background: var(--gold-soft); color: var(--gold-dark);
+    }
+    .icon-box svg { width: 27px; height: 27px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    #rev-texto-pregunta { color: var(--navy); font-size: 1.15rem !important; line-height: 1.45; }
+    #paso-pregunta, #paso-tiempo { padding: clamp(19px, 4vw, 27px); gap: 18px; }
+    #paso-pregunta .btn, #paso-tiempo .btn { min-height: 54px; justify-content: flex-start; padding-left: 17px; text-align: left; }
+    #paso-pregunta .btn-primary { justify-content: center; }
+    .list-item {
+      display: flex; flex-direction: column; gap: 8px;
+      padding: 15px 16px; border: 1px solid var(--border);
+      border-radius: 15px; background: #fff;
+    }
+    .row-between { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .link-btn {
+      position: relative; z-index: 2; width: fit-content; padding: 3px 0;
+      border: 0; background: none; color: #9a6500; font-weight: 750;
+      text-decoration: none; text-align: left; cursor: pointer;
+    }
+    .link-btn:hover { text-decoration: underline; }
 
     .settings-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: var(--card);
-      cursor: pointer;
-      font-weight: 700;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 18px 19px; border: 1px solid var(--border); border-radius: 16px;
+      background: #fff; color: var(--navy); font-weight: 750; cursor: pointer;
+      box-shadow: var(--shadow-soft); transition: .18s ease;
     }
+    .settings-item:hover { transform: translateY(-2px); border-color: #e8c66f; background: #fffdf7; }
+    .settings-item span:last-child { color: #a16c09; font-size: 1.25rem; }
+
+    .modal-backdrop {
+      position: fixed; inset: 0; z-index: 100;
+      display: none; align-items: center; justify-content: center;
+      padding: 18px; background: rgba(13, 27, 46, .58);
+      backdrop-filter: blur(5px);
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal-box {
+      width: 100%; max-width: 460px; max-height: 85vh; overflow-y: auto;
+      display: flex; flex-direction: column; gap: 16px;
+      padding: 24px; border: 1px solid rgba(255,255,255,.6);
+      border-radius: 22px; background: #fff; box-shadow: 0 24px 70px rgba(0,0,0,.22);
+    }
+    #modal-titulo { font-size: 1.3rem; }
+    #modal-botones { display: flex; flex-direction: column; gap: 9px; }
+
+    #screen-resultado .card { padding: clamp(22px, 5vw, 32px); }
+    #res-titulo { color: var(--navy); font-size: 1.55rem; }
+    #res-mensaje-principal { font-size: 1.05rem; }
+    #res-acumulado { padding: 14px 16px; border-radius: 14px; background: var(--gold-soft); color: #805600 !important; }
+    #hist-resumen-ahorro { color: #805600 !important; font-size: 1.05rem; }
+    #screen-historial > h2, #screen-ajustes > h2, #screen-ajustes-personas > h2, #screen-ajustes-habitaciones > h2, #screen-info > h2 { font-size: 1.4rem; }
+
+    @media (min-width: 700px) {
+      #app { gap: 24px; }
+      header { padding: 8px 4px 2px; }
+      .nav-grid { gap: 13px; }
+      .screen { gap: 20px; }
+      #screen-inicio > .card { padding: 22px 25px; }
+    }
+    @media (max-width: 520px) {
+      body { padding: 17px 13px 32px; }
+      #app { gap: 17px; }
+      .card { padding: 17px; border-radius: 16px; }
+      .nav-btn { min-height: 58px; flex-direction: column; gap: 2px; font-size: .78rem; }
+      .hero-box { border-radius: 20px; }
+      #screen-inicio > .card { grid-template-columns: 1fr; }
+      #inicio-noches, #inicio-turno { grid-column: auto; }
+      #inicio-ahorro { padding-top: 10px; }
+      .row-between { align-items: flex-start; }
+      .modal-box { padding: 20px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+
   </style>
 </head>
 <body>
@@ -1144,17 +1073,23 @@
 
     function abrirModalCalculo() {
       const precio = obtenerPrecioActivo();
-      let html = `<p>Fórmula usada: <strong>vatios × horas × 30 días ÷ 1000 × precio de la luz</strong> (cálculo aproximado).</p>`;
-      html += `<p>Precio estándar usado: <strong>${formatearSoles(precio)}</strong> por unidad de luz.</p>`;
+      let html = `<p>Calculamos el consumo aproximado con esta fórmula: <strong>vatios × horas ÷ 1000 × precio por kWh</strong>.</p>`;
+      html += `<p>Para la proyección mensual multiplicamos el resultado de una noche por 30 días. Precio referencial usado: <strong>${formatearSoles(precio)} por kWh</strong>.</p>`;
+      html += `<p><strong>Importante:</strong> el monto de “Dinero que ya no se va” corresponde al ahorro estimado por las noches registradas. Los montos mensuales de abajo son una proyección si el mismo consumo se repitiera todos los días; no se suman al ahorro acumulado.</p>`;
+
+      if (hallazgosSesion.length === 0) {
+        html += `<p>No se encontraron aparatos o luces encendidos innecesariamente en esta revisión.</p>`;
+      }
 
       hallazgosSesion.forEach(h => {
         const c = calcularRangoHallazgo(h, precio);
         html += `
           <div class="list-item">
             <strong>${escapeHTML(c.nombre)} (${escapeHTML(h.habitacion)})</strong>
-            <span>Potencia: ${c.vatiosMin} a ${c.vatiosMax} vatios (${c.fuente})</span>
-            <span>Tiempo: ${escapeHTML(c.etiquetaTiempo)}</span>
-            <span>Gasto mensual aproximado: ${formatearSoles(c.solesMesMin)} a ${formatearSoles(c.solesMesMax)}</span>
+            <span>Potencia referencial: ${c.vatiosMin} a ${c.vatiosMax} W</span>
+            <span>Tiempo estimado: ${escapeHTML(c.etiquetaTiempo)}</span>
+            <span><strong>Ahorro aproximado por una noche:</strong> ${formatearSoles(c.solesNocheMin)} a ${formatearSoles(c.solesNocheMax)}</span>
+            <span><strong>Proyección mensual (30 días):</strong> ${formatearSoles(c.solesMesMin)} a ${formatearSoles(c.solesMesMax)}</span>
           </div>
         `;
       });
@@ -1164,8 +1099,10 @@
 
     function abrirModalCalculoHistorial() {
       const precio = obtenerPrecioActivo();
-      let html = `<p>Cada aparato apagado evita un gasto aproximado según su potencia en vatios, el tiempo elegido y el precio estándar de luz (${formatearSoles(precio)}).</p>`;
-      html += `<p>Todas las potencias de la tabla son valores referenciales y se muestran siempre como un rango aproximado.</p>`;
+      const acum = calcularAhorroAcumuladoTotal();
+      let html = `<p>El ahorro acumulado suma el ahorro estimado por noche de cada aparato registrado en tus revisiones.</p>`;
+      html += `<p>Con el precio referencial de ${formatearSoles(precio)} por kWh, tu ahorro acumulado estimado está entre <strong>${formatearSoles(acum.min)} y ${formatearSoles(acum.max)}</strong> (promedio: <strong>${formatearSoles(acum.promedio)}</strong>).</p>`;
+      html += `<p>Las proyecciones mensuales que aparecen en el detalle de cada revisión representan 30 días de uso; no son el monto que se suma directamente al historial. Las potencias son valores referenciales, por eso los resultados se muestran como rangos aproximados.</p>`;
       abrirModalSimple("¿Cómo lo calculamos?", html, true);
     }
 
