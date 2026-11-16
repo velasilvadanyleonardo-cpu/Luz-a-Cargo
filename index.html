@@ -711,7 +711,7 @@
       <p id="alarma-modal-texto">Es hora de apagar los aparatos y luces que nadie está usando antes de dormir.</p>
       <div style="display: flex; flex-direction: column; gap: 0.65rem; width: 100%; margin-top: 6px;">
         <button class="btn btn-primary" type="button" onclick="aceptarAlarmaYRevisar()">🌙 Revisar la casa ahora</button>
-        <button class="btn btn-outline" type="button" onclick="detenerAlarma()">Apagar alarma</button>
+        <button class="btn btn-danger-outline" type="button" onclick="apagarAlarmaPorCompleto()">🔕 Apagar alarma</button>
       </div>
     </div>
   </div>
@@ -804,7 +804,6 @@
       relojHoras += delta;
       if (relojHoras > 24) relojHoras = 0;
       if (relojHoras < 0) relojHoras = 24;
-      // Si llega a 24, los minutos se fijan en 00
       if (relojHoras === 24) {
         relojMinutos = 0;
       }
@@ -812,14 +811,12 @@
     }
 
     function cambiarMinutos(delta) {
-      // Si está en 24:00 y sube un minuto, pasa a 00:01
       if (relojHoras === 24 && delta > 0) {
         relojHoras = 0;
         relojMinutos = 1;
         actualizarDisplayReloj();
         return;
       }
-      // Si está en 24:00 y baja un minuto, pasa a 23:59
       if (relojHoras === 24 && delta < 0) {
         relojHoras = 23;
         relojMinutos = 59;
@@ -829,7 +826,6 @@
 
       relojMinutos += delta;
 
-      // Si pasa de 59 minutos, suma +1 a la hora y reinicia minutos a 00
       if (relojMinutos > 59) {
         relojMinutos = 0;
         relojHoras += 1;
@@ -837,7 +833,6 @@
           relojHoras = 0;
         }
       } 
-      // Si baja de 00 minutos, resta -1 a la hora y pone minutos en 59
       else if (relojMinutos < 0) {
         relojMinutos = 59;
         relojHoras -= 1;
@@ -872,7 +867,6 @@
         return;
       }
       let num = parseInt(limpio, 10);
-      // Si escriben 60 o más manualmente, convierte el exceso en horas
       if (num > 59) {
         const horasExtra = Math.floor(num / 60);
         relojMinutos = num % 60;
@@ -915,7 +909,7 @@
       if (!audioCtx) return;
 
       const ahora = audioCtx.currentTime;
-      const notas = [523.25, 659.25, 783.99, 1046.50]; // Do5, Mi5, Sol5, Do6
+      const notas = [523.25, 659.25, 783.99, 1046.50];
 
       notas.forEach((frecuencia, i) => {
         const osc = audioCtx.createOscillator();
@@ -937,14 +931,14 @@
     }
 
     function iniciarBucleAlarma() {
-      detenerAlarma();
+      detenerSonidoAlarma();
       reproducirTonoAlarma();
       intervaloAlarmaSonido = setInterval(() => {
         reproducirTonoAlarma();
       }, 2200);
     }
 
-    function detenerAlarma() {
+    function detenerSonidoAlarma() {
       if (intervaloAlarmaSonido) {
         clearInterval(intervaloAlarmaSonido);
         intervaloAlarmaSonido = null;
@@ -952,8 +946,17 @@
       document.getElementById("modal-alarma-backdrop").classList.remove("open");
     }
 
+    function apagarAlarmaPorCompleto() {
+      detenerSonidoAlarma();
+      if (state.alarma) {
+        state.alarma.activa = false;
+      }
+      guardarEstado();
+      renderInicio();
+    }
+
     function aceptarAlarmaYRevisar() {
-      detenerAlarma();
+      detenerSonidoAlarma();
       iniciarRevision();
     }
 
@@ -971,7 +974,6 @@
       const fechaHoy = formatearFechaISO(ahora);
       const claveDisparo = `${fechaHoy}_${horaActual}`;
 
-      // Si configuró 24:00 equivale a las 00:00 del reloj real
       const horaObjetivo = state.alarma.hora === "24:00" ? "00:00" : state.alarma.hora;
 
       if (horaActual === horaObjetivo && state.alarma.ultimaActivacion !== claveDisparo) {
