@@ -243,7 +243,7 @@
 
     .form-group { display: flex; flex-direction: column; gap: 7px; width: 100%; }
     label { color: var(--navy); font-weight: 750; }
-    input[type="text"], input[type="number"], input[type="date"], input[type="time"], select {
+    input[type="text"], input[type="number"], input[type="date"], select {
       width: 100%;
       min-height: 49px;
       padding: 11px 14px;
@@ -255,6 +255,71 @@
       transition: border-color .18s ease, box-shadow .18s ease;
     }
     input:focus, select:focus { outline: none; border-color: #d6a52f; box-shadow: 0 0 0 4px rgba(244,185,66,.16); }
+
+    /* SELECTOR DE RELOJ 24 HORAS PERSONALIZADO */
+    .clock-picker-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 18px 14px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: #f8fafc;
+      transition: opacity .2s ease;
+    }
+    .clock-picker-box.disabled {
+      opacity: 0.45;
+      pointer-events: none;
+    }
+    .clock-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .clock-unit-label {
+      font-size: .78rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .clock-step-btn {
+      width: 68px;
+      height: 36px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      color: var(--navy);
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .15s ease, transform .1s ease;
+    }
+    .clock-step-btn:hover { background: var(--navy-soft); }
+    .clock-step-btn:active { transform: scale(.95); }
+    .clock-input-num {
+      width: 68px !important;
+      height: 58px;
+      text-align: center;
+      font-size: 1.75rem !important;
+      font-weight: 850 !important;
+      color: var(--navy) !important;
+      padding: 0 !important;
+      border: 2px solid #cbd5e1 !important;
+      border-radius: 13px !important;
+      background: #fff;
+    }
+    .clock-colon {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--navy);
+      padding-top: 18px;
+    }
 
     .switch-row {
       display: flex;
@@ -329,7 +394,6 @@
     #modal-titulo { font-size: 1.3rem; }
     #modal-botones { display: flex; flex-direction: column; gap: 9px; width: 100%; }
 
-    /* ALARMA ACTIVA PULSE */
     @keyframes pulseRing {
       0% { box-shadow: 0 0 0 0 rgba(244, 185, 66, 0.7); }
       70% { box-shadow: 0 0 0 18px rgba(244, 185, 66, 0); }
@@ -528,11 +592,11 @@
       <button class="btn btn-outline" type="button" onclick="navTo('inicio')">⬅️ Volver al inicio</button>
     </section>
 
-    <!-- SUBPANTALLA AJUSTES: RECORDATORIO / ALARMA -->
+    <!-- SUBPANTALLA AJUSTES: RECORDATORIO / ALARMA (24 HORAS) -->
     <section id="screen-ajustes-alarma" class="screen">
       <h2>⏰ Recordatorio nocturno</h2>
       <div class="card">
-        <p class="muted-text">Programa una alarma diaria para acordarte de revisar la casa antes de dormir. Mantén esta pestaña abierta para escuchar el aviso.</p>
+        <p class="muted-text">Programa la hora exacta en formato 24 horas (00 a 24 en horas y 00 a 59 en minutos).</p>
         
         <div class="switch-row">
           <label for="check-alarma-activa" style="cursor: pointer;">Activar recordatorio diario</label>
@@ -540,8 +604,26 @@
         </div>
 
         <div class="form-group">
-          <label for="input-alarma-hora">Hora del recordatorio</label>
-          <input type="time" id="input-alarma-hora" value="22:00">
+          <label>Hora del recordatorio (Formato 24 h)</label>
+          <div id="clock-picker-box" class="clock-picker-box">
+            <!-- HORAS -->
+            <div class="clock-unit">
+              <span class="clock-unit-label">Horas</span>
+              <button type="button" class="clock-step-btn" onclick="cambiarHora(1)" aria-label="Subir hora">▲</button>
+              <input type="text" id="input-reloj-horas" class="clock-input-num" inputmode="numeric" maxlength="2" value="22" oninput="validarEntradaHoras(this)" onblur="formatearRelojBlur()">
+              <button type="button" class="clock-step-btn" onclick="cambiarHora(-1)" aria-label="Bajar hora">▼</button>
+            </div>
+
+            <div class="clock-colon">:</div>
+
+            <!-- MINUTOS -->
+            <div class="clock-unit">
+              <span class="clock-unit-label">Minutos</span>
+              <button type="button" class="clock-step-btn" onclick="cambiarMinutos(1)" aria-label="Subir minuto">▲</button>
+              <input type="text" id="input-reloj-minutos" class="clock-input-num" inputmode="numeric" maxlength="2" value="00" oninput="validarEntradaMinutos(this)" onblur="formatearRelojBlur()">
+              <button type="button" class="clock-step-btn" onclick="cambiarMinutos(-1)" aria-label="Bajar minuto">▼</button>
+            </div>
+          </div>
         </div>
 
         <button class="btn btn-outline" type="button" onclick="probarSonidoAlarma()">🔊 Probar sonido de alarma</button>
@@ -709,6 +791,109 @@
     let hallazgosSesion = [];
     let historialPasos = [];
 
+    // ESTADO DEL RELOJ 24 HORAS
+    let relojHoras = 22;
+    let relojMinutos = 0;
+
+    function actualizarDisplayReloj() {
+      document.getElementById("input-reloj-horas").value = String(relojHoras).padStart(2, "0");
+      document.getElementById("input-reloj-minutos").value = String(relojMinutos).padStart(2, "0");
+    }
+
+    function cambiarHora(delta) {
+      relojHoras += delta;
+      if (relojHoras > 24) relojHoras = 0;
+      if (relojHoras < 0) relojHoras = 24;
+      // Si llega a 24, los minutos se fijan en 00
+      if (relojHoras === 24) {
+        relojMinutos = 0;
+      }
+      actualizarDisplayReloj();
+    }
+
+    function cambiarMinutos(delta) {
+      // Si está en 24:00 y sube un minuto, pasa a 00:01
+      if (relojHoras === 24 && delta > 0) {
+        relojHoras = 0;
+        relojMinutos = 1;
+        actualizarDisplayReloj();
+        return;
+      }
+      // Si está en 24:00 y baja un minuto, pasa a 23:59
+      if (relojHoras === 24 && delta < 0) {
+        relojHoras = 23;
+        relojMinutos = 59;
+        actualizarDisplayReloj();
+        return;
+      }
+
+      relojMinutos += delta;
+
+      // Si pasa de 59 minutos, suma +1 a la hora y reinicia minutos a 00
+      if (relojMinutos > 59) {
+        relojMinutos = 0;
+        relojHoras += 1;
+        if (relojHoras > 24) {
+          relojHoras = 0;
+        }
+      } 
+      // Si baja de 00 minutos, resta -1 a la hora y pone minutos en 59
+      else if (relojMinutos < 0) {
+        relojMinutos = 59;
+        relojHoras -= 1;
+        if (relojHoras < 0) {
+          relojHoras = 23;
+        }
+      }
+
+      actualizarDisplayReloj();
+    }
+
+    function validarEntradaHoras(el) {
+      let limpio = el.value.replace(/\D/g, "");
+      if (limpio === "") {
+        relojHoras = 0;
+        return;
+      }
+      let num = parseInt(limpio, 10);
+      if (num > 24) num = 24;
+      relojHoras = num;
+      if (relojHoras === 24) {
+        relojMinutos = 0;
+        document.getElementById("input-reloj-minutos").value = "00";
+      }
+      el.value = num > 9 ? String(num) : limpio;
+    }
+
+    function validarEntradaMinutos(el) {
+      let limpio = el.value.replace(/\D/g, "");
+      if (limpio === "") {
+        relojMinutos = 0;
+        return;
+      }
+      let num = parseInt(limpio, 10);
+      // Si escriben 60 o más manualmente, convierte el exceso en horas
+      if (num > 59) {
+        const horasExtra = Math.floor(num / 60);
+        relojMinutos = num % 60;
+        relojHoras = Math.min(24, relojHoras + horasExtra);
+        if (relojHoras === 24) relojMinutos = 0;
+        actualizarDisplayReloj();
+        return;
+      }
+      if (relojHoras === 24) {
+        relojMinutos = 0;
+        el.value = "00";
+        return;
+      }
+      relojMinutos = num;
+      el.value = num > 9 ? String(num) : limpio;
+    }
+
+    function formatearRelojBlur() {
+      actualizarDisplayReloj();
+    }
+
     // VARIABLES DE AUDIO Y RELOJ DE ALARMA
     let audioCtx = null;
     let intervaloAlarmaSonido = null;
@@ -786,7 +971,10 @@
       const fechaHoy = formatearFechaISO(ahora);
       const claveDisparo = `${fechaHoy}_${horaActual}`;
 
-      if (horaActual === state.alarma.hora && state.alarma.ultimaActivacion !== claveDisparo) {
+      // Si configuró 24:00 equivale a las 00:00 del reloj real
+      const horaObjetivo = state.alarma.hora === "24:00" ? "00:00" : state.alarma.hora;
+
+      if (horaActual === horaObjetivo && state.alarma.ultimaActivacion !== claveDisparo) {
         state.alarma.ultimaActivacion = claveDisparo;
         guardarEstado();
 
@@ -803,7 +991,6 @@
       }
     }
 
-    // Desbloquear AudioContext en el primer clic del usuario en la página
     document.addEventListener("click", () => {
       inicializarAudio();
     }, { once: true });
@@ -1054,7 +1241,7 @@
 
       const elAlarmaBadge = document.getElementById("inicio-alarma-badge");
       if (state.alarma && state.alarma.activa && state.alarma.hora) {
-        elAlarmaBadge.textContent = `⏰ Recordatorio activo: ${state.alarma.hora}`;
+        elAlarmaBadge.textContent = `⏰ Recordatorio activo: ${state.alarma.hora} h`;
         elAlarmaBadge.style.display = "block";
       } else {
         elAlarmaBadge.style.display = "none";
@@ -1067,34 +1254,39 @@
 
     function renderAlarma() {
       document.getElementById("check-alarma-activa").checked = Boolean(state.alarma && state.alarma.activa);
-      document.getElementById("input-alarma-hora").value = (state.alarma && state.alarma.hora) ? state.alarma.hora : "22:00";
+      const horaGuardada = (state.alarma && state.alarma.hora) ? state.alarma.hora : "22:00";
+      const partes = horaGuardada.split(":");
+      relojHoras = Math.min(24, Math.max(0, parseInt(partes[0], 10) || 22));
+      relojMinutos = relojHoras === 24 ? 0 : Math.min(59, Math.max(0, parseInt(partes[1], 10) || 0));
+      actualizarDisplayReloj();
       toggleAlarmaUI();
     }
 
     function toggleAlarmaUI() {
       const activa = document.getElementById("check-alarma-activa").checked;
-      document.getElementById("input-alarma-hora").disabled = !activa;
+      const box = document.getElementById("clock-picker-box");
+      if (activa) {
+        box.classList.remove("disabled");
+      } else {
+        box.classList.add("disabled");
+      }
     }
 
     function guardarAlarma() {
       inicializarAudio();
+      formatearRelojBlur();
       const activa = document.getElementById("check-alarma-activa").checked;
-      const hora = document.getElementById("input-alarma-hora").value;
-
-      if (activa && !hora) {
-        abrirModalSimple("Falta la hora", "Elige una hora válida para el recordatorio.");
-        return;
-      }
+      const horaFormateada = `${String(relojHoras).padStart(2, "0")}:${String(relojMinutos).padStart(2, "0")}`;
 
       state.alarma = {
         activa: activa,
-        hora: hora || "22:00",
+        hora: horaFormateada,
         ultimaActivacion: ""
       };
       guardarEstado();
 
       if (activa) {
-        abrirModalSimple("Recordatorio guardado", `La alarma sonará todos los días a las ${state.alarma.hora} mientras tengas esta pestaña abierta.`);
+        abrirModalSimple("Recordatorio guardado", `La alarma sonará todos los días a las ${state.alarma.hora} h mientras tengas esta pestaña abierta.`);
       } else {
         abrirModalSimple("Recordatorio desactivado", "Ya no sonará la alarma nocturna.");
       }
@@ -1680,7 +1872,6 @@
     window.addEventListener("DOMContentLoaded", () => {
       cargarEstado();
       renderInicio();
-      // Revisar cada 5 segundos si llegó la hora de la alarma
       setInterval(verificarAlarmaTiempoReal, 5000);
     });
   </script>
