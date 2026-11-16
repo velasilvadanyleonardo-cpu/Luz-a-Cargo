@@ -238,11 +238,12 @@
     #screen-inicio > .card { display: flex; flex-direction: column; gap: 12px; }
     #inicio-noches { color: var(--navy); font-size: 1.05rem; }
     #inicio-turno { padding: 10px 12px; border-radius: 12px; background: var(--navy-soft); color: var(--navy); }
+    #inicio-alarma-badge { padding: 10px 12px; border-radius: 12px; background: #fff9e6; border: 1px solid #f5d889; color: #805600; font-weight: 700; display: none; }
     #inicio-ahorro { padding-top: 12px; border-top: 1px solid var(--border); color: #805600 !important; }
 
     .form-group { display: flex; flex-direction: column; gap: 7px; width: 100%; }
     label { color: var(--navy); font-weight: 750; }
-    input[type="text"], input[type="number"], input[type="date"], select {
+    input[type="text"], input[type="number"], input[type="date"], input[type="time"], select {
       width: 100%;
       min-height: 49px;
       padding: 11px 14px;
@@ -254,6 +255,23 @@
       transition: border-color .18s ease, box-shadow .18s ease;
     }
     input:focus, select:focus { outline: none; border-color: #d6a52f; box-shadow: 0 0 0 4px rgba(244,185,66,.16); }
+
+    .switch-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: #f8fafc;
+    }
+    .switch-row input[type="checkbox"] {
+      width: 22px;
+      height: 22px;
+      accent-color: var(--navy);
+      cursor: pointer;
+    }
 
     .progress-wrap { width: 100%; height: 10px; overflow: hidden; border-radius: 99px; background: #e8edf3; }
     .progress-fill { height: 100%; width: 0%; border-radius: inherit; background: linear-gradient(90deg, #e5a927, #f6c85f); transition: width .25s ease; }
@@ -311,12 +329,24 @@
     #modal-titulo { font-size: 1.3rem; }
     #modal-botones { display: flex; flex-direction: column; gap: 9px; width: 100%; }
 
+    /* ALARMA ACTIVA PULSE */
+    @keyframes pulseRing {
+      0% { box-shadow: 0 0 0 0 rgba(244, 185, 66, 0.7); }
+      70% { box-shadow: 0 0 0 18px rgba(244, 185, 66, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(244, 185, 66, 0); }
+    }
+    .alarm-active-box {
+      border: 2px solid var(--gold) !important;
+      animation: pulseRing 1.5s infinite;
+      text-align: center;
+    }
+
     #screen-resultado .card { padding: clamp(22px, 5vw, 32px); }
     #res-titulo { color: var(--navy); font-size: 1.55rem; }
     #res-mensaje-principal { font-size: 1.05rem; }
     #res-acumulado { padding: 14px 16px; border-radius: 14px; background: var(--gold-soft); color: #805600 !important; }
     #hist-resumen-ahorro { color: #805600 !important; font-size: 1.05rem; }
-    #screen-historial > h2, #screen-ajustes > h2, #screen-ajustes-personas > h2, #screen-ajustes-habitaciones > h2, #screen-info > h2 { font-size: 1.4rem; }
+    #screen-historial > h2, #screen-ajustes > h2, #screen-ajustes-personas > h2, #screen-ajustes-habitaciones > h2, #screen-ajustes-alarma > h2, #screen-info > h2 { font-size: 1.4rem; }
 
     @media (max-width: 480px) {
       body { padding: 12px 10px 24px; }
@@ -362,9 +392,10 @@
       <button class="btn btn-primary" onclick="iniciarRevision()">🌙 Revisar la casa</button>
 
       <div class="card">
-        <p id="inicio-noches" style="font-weight: 700; color: var(--blue-gray);">Empieza hoy tu primera noche</p>
+        <p id="inicio-noches" style="font-weight: 700; color: var(--navy);">Empieza hoy tu primera noche</p>
         <p id="inicio-turno" style="display: none; font-weight: 700;"></p>
-        <p id="inicio-ahorro" style="font-weight: 700; color: var(--blue-gray);">Dinero que ya no se va: aprox. S/ 0,00</p>
+        <p id="inicio-alarma-badge"></p>
+        <p id="inicio-ahorro" style="font-weight: 700; color: var(--navy);">Dinero que ya no se va: aprox. S/ 0,00</p>
       </div>
 
       <button class="btn btn-outline" onclick="navTo('info')">ℹ️ Para qué sirve esta página</button>
@@ -390,8 +421,8 @@
     <section id="screen-revision" class="screen">
       <div>
         <div class="row-between" style="margin-bottom: 0.35rem;">
-          <span style="font-weight: 700; color: var(--blue-gray);">Avance de la revisión</span>
-          <span id="rev-progreso-txt" style="font-weight: 700; color: var(--blue-gray);">0 de 0</span>
+          <span style="font-weight: 700; color: var(--navy);">Avance de la revisión</span>
+          <span id="rev-progreso-txt" style="font-weight: 700; color: var(--navy);">0 de 0</span>
         </div>
         <div class="progress-wrap">
           <div id="rev-progreso-bar" class="progress-fill"></div>
@@ -440,7 +471,7 @@
       <div class="card">
         <h1 id="res-titulo">Resultado de hoy</h1>
         <p id="res-mensaje-principal" style="font-weight: 700;"></p>
-        <p id="res-acumulado" style="font-weight: 700; color: var(--blue-gray);"></p>
+        <p id="res-acumulado" style="font-weight: 700; color: var(--navy);"></p>
 
         <button id="btn-como-calculamos" class="link-btn" type="button" onclick="abrirModalCalculo()">¿Cómo lo calculamos?</button>
       </div>
@@ -453,7 +484,7 @@
       <h2>📊 Lo que has hecho</h2>
 
       <div class="card">
-        <p id="hist-resumen-ahorro" style="font-weight: 700; color: var(--blue-gray);">Dinero que ya no se va: aprox. S/ 0,00</p>
+        <p id="hist-resumen-ahorro" style="font-weight: 700; color: var(--navy);">Dinero que ya no se va: aprox. S/ 0,00</p>
         <button class="link-btn" type="button" onclick="abrirModalCalculoHistorial()">¿Cómo lo calculamos?</button>
       </div>
 
@@ -474,6 +505,11 @@
     <section id="screen-ajustes" class="screen">
       <h2>⚙️ Cambiar mis datos</h2>
 
+      <div class="settings-item" onclick="navTo('ajustes-alarma')">
+        <span>⏰ Recordatorio / Alarma nocturna</span>
+        <span>→</span>
+      </div>
+
       <div class="settings-item" onclick="navTo('ajustes-personas')">
         <span>👥 Personas que revisan la casa</span>
         <span>→</span>
@@ -490,6 +526,28 @@
       </div>
 
       <button class="btn btn-outline" type="button" onclick="navTo('inicio')">⬅️ Volver al inicio</button>
+    </section>
+
+    <!-- SUBPANTALLA AJUSTES: RECORDATORIO / ALARMA -->
+    <section id="screen-ajustes-alarma" class="screen">
+      <h2>⏰ Recordatorio nocturno</h2>
+      <div class="card">
+        <p class="muted-text">Programa una alarma diaria para acordarte de revisar la casa antes de dormir. Mantén esta pestaña abierta para escuchar el aviso.</p>
+        
+        <div class="switch-row">
+          <label for="check-alarma-activa" style="cursor: pointer;">Activar recordatorio diario</label>
+          <input type="checkbox" id="check-alarma-activa" onchange="toggleAlarmaUI()">
+        </div>
+
+        <div class="form-group">
+          <label for="input-alarma-hora">Hora del recordatorio</label>
+          <input type="time" id="input-alarma-hora" value="22:00">
+        </div>
+
+        <button class="btn btn-outline" type="button" onclick="probarSonidoAlarma()">🔊 Probar sonido de alarma</button>
+        <button class="btn btn-primary" type="button" onclick="guardarAlarma()">Guardar recordatorio</button>
+      </div>
+      <button class="btn btn-outline" type="button" onclick="navTo('ajustes')">⬅️ Volver a Ajustes</button>
     </section>
 
     <!-- SUBPANTALLA AJUSTES: PERSONAS -->
@@ -554,12 +612,25 @@
     </section>
   </div>
 
-  <!-- MODAL -->
+  <!-- MODAL GENÉRICO -->
   <div id="modal-backdrop" class="modal-backdrop" role="dialog" aria-modal="true">
     <div class="modal-box">
       <h2 id="modal-titulo">Confirmación</h2>
       <div id="modal-cuerpo" style="display: flex; flex-direction: column; gap: 0.65rem;"></div>
       <div id="modal-botones" style="display: flex; flex-direction: column; gap: 0.5rem;"></div>
+    </div>
+  </div>
+
+  <!-- MODAL DE ALARMA SONANDO -->
+  <div id="modal-alarma-backdrop" class="modal-backdrop" role="alertdialog" aria-modal="true">
+    <div class="modal-box alarm-active-box">
+      <div style="font-size: 3rem; line-height: 1;">⏰⚡</div>
+      <h2 style="font-size: 1.45rem; color: var(--navy);">¡Hora de revisar la casa!</h2>
+      <p id="alarma-modal-texto">Es hora de apagar los aparatos y luces que nadie está usando antes de dormir.</p>
+      <div style="display: flex; flex-direction: column; gap: 0.65rem; width: 100%; margin-top: 6px;">
+        <button class="btn btn-primary" type="button" onclick="aceptarAlarmaYRevisar()">🌙 Revisar la casa ahora</button>
+        <button class="btn btn-outline" type="button" onclick="detenerAlarma()">Apagar alarma</button>
+      </div>
     </div>
   </div>
 
@@ -622,7 +693,12 @@
       preguntasPropias: [],
       siguienteIdPropio: 1,
       preguntasOcultas: [],
-      noches: []
+      noches: [],
+      alarma: {
+        activa: false,
+        hora: "22:00",
+        ultimaActivacion: ""
+      }
     };
 
     let state = JSON.parse(JSON.stringify(ESTADO_INICIAL));
@@ -632,6 +708,105 @@
     let respuestasSesion = [];
     let hallazgosSesion = [];
     let historialPasos = [];
+
+    // VARIABLES DE AUDIO Y RELOJ DE ALARMA
+    let audioCtx = null;
+    let intervaloAlarmaSonido = null;
+
+    function inicializarAudio() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (AudioContext) {
+          audioCtx = new AudioContext();
+        }
+      }
+      if (audioCtx && audioCtx.state === "suspended") {
+        audioCtx.resume();
+      }
+    }
+
+    function reproducirTonoAlarma() {
+      inicializarAudio();
+      if (!audioCtx) return;
+
+      const ahora = audioCtx.currentTime;
+      const notas = [523.25, 659.25, 783.99, 1046.50]; // Do5, Mi5, Sol5, Do6
+
+      notas.forEach((frecuencia, i) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(frecuencia, ahora + i * 0.14);
+        
+        gain.gain.setValueAtTime(0.001, ahora + i * 0.14);
+        gain.gain.exponentialRampToValueAtTime(0.25, ahora + i * 0.14 + 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.001, ahora + i * 0.14 + 0.35);
+        
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        
+        osc.start(ahora + i * 0.14);
+        osc.stop(ahora + i * 0.14 + 0.36);
+      });
+    }
+
+    function iniciarBucleAlarma() {
+      detenerAlarma();
+      reproducirTonoAlarma();
+      intervaloAlarmaSonido = setInterval(() => {
+        reproducirTonoAlarma();
+      }, 2200);
+    }
+
+    function detenerAlarma() {
+      if (intervaloAlarmaSonido) {
+        clearInterval(intervaloAlarmaSonido);
+        intervaloAlarmaSonido = null;
+      }
+      document.getElementById("modal-alarma-backdrop").classList.remove("open");
+    }
+
+    function aceptarAlarmaYRevisar() {
+      detenerAlarma();
+      iniciarRevision();
+    }
+
+    function probarSonidoAlarma() {
+      reproducirTonoAlarma();
+    }
+
+    function verificarAlarmaTiempoReal() {
+      if (!state.alarma || !state.alarma.activa || !state.alarma.hora) return;
+
+      const ahora = new Date();
+      const hh = String(ahora.getHours()).padStart(2, "0");
+      const mm = String(ahora.getMinutes()).padStart(2, "0");
+      const horaActual = `${hh}:${mm}`;
+      const fechaHoy = formatearFechaISO(ahora);
+      const claveDisparo = `${fechaHoy}_${horaActual}`;
+
+      if (horaActual === state.alarma.hora && state.alarma.ultimaActivacion !== claveDisparo) {
+        state.alarma.ultimaActivacion = claveDisparo;
+        guardarEstado();
+
+        const persona = obtenerPersonaDeTurno();
+        const txtModal = document.getElementById("alarma-modal-texto");
+        if (persona) {
+          txtModal.textContent = `Hoy le toca revisar a ${persona}. Apaga lo que nadie usa antes de dormir.`;
+        } else {
+          txtModal.textContent = "Es hora de apagar los aparatos y luces que nadie está usando antes de dormir.";
+        }
+
+        document.getElementById("modal-alarma-backdrop").classList.add("open");
+        iniciarBucleAlarma();
+      }
+    }
+
+    // Desbloquear AudioContext en el primer clic del usuario en la página
+    document.addEventListener("click", () => {
+      inicializarAudio();
+    }, { once: true });
 
     function obtenerFechaNocheActual() {
       const ahora = new Date();
@@ -697,7 +872,14 @@
           preguntasPropias: Array.isArray(parsed.preguntasPropias) ? parsed.preguntasPropias : [],
           siguienteIdPropio: typeof parsed.siguienteIdPropio === "number" ? parsed.siguienteIdPropio : 1,
           preguntasOcultas: Array.isArray(parsed.preguntasOcultas) ? parsed.preguntasOcultas : [],
-          noches: Array.isArray(parsed.noches) ? parsed.noches : []
+          noches: Array.isArray(parsed.noches) ? parsed.noches : [],
+          alarma: parsed.alarma && typeof parsed.alarma === "object"
+            ? {
+                activa: Boolean(parsed.alarma.activa),
+                hora: parsed.alarma.hora || "22:00",
+                ultimaActivacion: parsed.alarma.ultimaActivacion || ""
+              }
+            : { activa: false, hora: "22:00", ultimaActivacion: "" }
         };
       } catch (err) {
         try {
@@ -847,6 +1029,7 @@
       if (screenId === "inicio") renderInicio();
       if (screenId === "historial") renderHistorial();
       if (screenId === "ajustes") renderAjustes();
+      if (screenId === "ajustes-alarma") renderAlarma();
       if (screenId === "ajustes-personas") renderPersonas();
       if (screenId === "ajustes-habitaciones") renderHabitaciones();
     }
@@ -869,9 +1052,52 @@
         elTurno.style.display = "none";
       }
 
+      const elAlarmaBadge = document.getElementById("inicio-alarma-badge");
+      if (state.alarma && state.alarma.activa && state.alarma.hora) {
+        elAlarmaBadge.textContent = `⏰ Recordatorio activo: ${state.alarma.hora}`;
+        elAlarmaBadge.style.display = "block";
+      } else {
+        elAlarmaBadge.style.display = "none";
+      }
+
       const ahorro = calcularAhorroAcumuladoTotal();
       document.getElementById("inicio-ahorro").textContent =
         `Dinero que ya no se va: aprox. ${formatearSoles(ahorro.promedio)}`;
+    }
+
+    function renderAlarma() {
+      document.getElementById("check-alarma-activa").checked = Boolean(state.alarma && state.alarma.activa);
+      document.getElementById("input-alarma-hora").value = (state.alarma && state.alarma.hora) ? state.alarma.hora : "22:00";
+      toggleAlarmaUI();
+    }
+
+    function toggleAlarmaUI() {
+      const activa = document.getElementById("check-alarma-activa").checked;
+      document.getElementById("input-alarma-hora").disabled = !activa;
+    }
+
+    function guardarAlarma() {
+      inicializarAudio();
+      const activa = document.getElementById("check-alarma-activa").checked;
+      const hora = document.getElementById("input-alarma-hora").value;
+
+      if (activa && !hora) {
+        abrirModalSimple("Falta la hora", "Elige una hora válida para el recordatorio.");
+        return;
+      }
+
+      state.alarma = {
+        activa: activa,
+        hora: hora || "22:00",
+        ultimaActivacion: ""
+      };
+      guardarEstado();
+
+      if (activa) {
+        abrirModalSimple("Recordatorio guardado", `La alarma sonará todos los días a las ${state.alarma.hora} mientras tengas esta pestaña abierta.`);
+      } else {
+        abrirModalSimple("Recordatorio desactivado", "Ya no sonará la alarma nocturna.");
+      }
     }
 
     function construirListaPreguntas() {
@@ -1074,9 +1300,7 @@
     }
 
     function mostrarPantallaResultado(esPrimerUso, hallazgosDeEstaVez) {
-      const precio = obtenerPrecioActivo();
       const n = hallazgosDeEstaVez.length;
-
       const elMsg = document.getElementById("res-mensaje-principal");
 
       if (n === 0) {
@@ -1168,7 +1392,7 @@
               <button class="btn btn-danger-outline" type="button" style="width: auto; min-height: 40px; padding: 0.3rem 0.6rem;" onclick="confirmarBorrarNoche('${escapeHTML(noche.id)}')">Borrar</button>
             </div>
             <span>Apagaste ${noche.apagados} ${noche.apagados === 1 ? "cosa" : "cosas"}${turnoTxt}</span>
-            <span style="color: var(--blue-gray); font-weight: 700;">${ahorroTxt}</span>
+            <span style="color: var(--navy); font-weight: 700;">${ahorroTxt}</span>
           </div>
         `;
       }).join("");
@@ -1456,6 +1680,8 @@
     window.addEventListener("DOMContentLoaded", () => {
       cargarEstado();
       renderInicio();
+      // Revisar cada 5 segundos si llegó la hora de la alarma
+      setInterval(verificarAlarmaTiempoReal, 5000);
     });
   </script>
 </body>
